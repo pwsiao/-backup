@@ -1,0 +1,287 @@
+body {
+    background-color:#ECEEE7;
+}
+
+
+/* 導覽列 */
+.menu img{
+    border-radius: 60px;
+    height: 50px;
+    width: 50px;
+    margin-top: 5px;
+}
+
+
+#container {
+    margin: auto;
+    background-color: rgb(253, 250, 250);
+    position: relative;
+    box-sizing: border-box;
+    width: 1200px;
+    height: auto;
+}
+
+#navbar {
+    z-index: 1;
+    background-color:#B1BBA0;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: -10px;
+    overflow: hidden;
+}
+
+.logo {
+    display: inline;
+    padding-left: 30px;
+}
+
+.logo img {
+    /* margin-top: 20px; */
+    height: 75px;
+    vertical-align: text-top;
+}
+
+.menu {
+    float: right;
+    line-height: 50px;
+    padding-left: 0;
+    padding-right: 30px;
+}
+
+.menu li {
+    float: left;
+    list-style-type: none;
+    margin: -15px 0;
+}
+
+.menu li a {
+    display: flex;
+    color: #664c43;
+    text-decoration: none;
+    line-height: 60px;
+    margin-top: -1px;
+    margin-bottom: -1px;
+    padding: 0 1em;
+    font-size: 20px;
+}
+
+.menu li a:hover {
+    background-color: #a1ac8e;
+    color: #ffffff;
+}
+
+
+
+/*  */
+
+#mobileNavbar {
+    display: none;
+}
+
+/*  */
+
+#content-container {
+    padding-top: 1px;
+    border-left: 1px solid #a1ac8e;
+    border-right: 1px solid #a1ac8e;
+}
+
+.pageTitle {
+    padding-top: 50px;
+    margin-top: 0;
+}
+
+.handMadeButton {
+    margin: auto;
+    display: block;
+    text-decoration: none;
+    color: #fbf7f4;
+    line-height: 50px;
+    width: 200px;
+    cursor: default;
+}
+
+.handMadeButton div {
+    background-color: #795548;
+    width: 200px;
+    height: 50px;
+    border: 1px solid #795548;
+    box-sizing: border-box;
+    transition: 0.8s ease-in-out;
+}
+
+.handMadeButton:hover {
+    color: #795548;
+}
+
+.handMadeButton div:hover {
+    width: 200px;
+    background-color: #fbf7f4;
+    border: 1px solid #795548;
+    box-sizing: border-box;
+    transition: 0.8s ease-in-out;
+}
+
+#back-to-top {
+    width: 50px;
+    height: 50px;
+    background-color: #fbf7f4;
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    display: none;
+    align-items: center;
+}
+
+#back-to-top img {
+    width: 20px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#footer {
+    background-color: #B1BBA0;
+    height: 100px;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    margin-bottom: -20px;
+}
+
+#left {
+    text-align: left;
+    color: #664c43;
+}
+
+#rights a {
+    text-decoration: none;
+    color: #fbf7f4;
+}
+
+#links {
+    text-align: right;
+    color: #664c43;
+}
+
+#links a {
+    color: #664c43;
+    text-decoration: none;
+}
+
+#links i {
+    vertical-align: baseline;
+}
+
+@media screen and (max-width: 1199px) {
+    body {
+        margin: 0;
+    }
+    #container {
+        width: 100%;
+    }
+
+    #navbar {
+        width: 100%;
+    }
+
+    #footer {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #container {
+        width: 100%;
+    }
+
+    #navbar {
+        display: none;
+    }
+
+    #mobileNavbar {
+        display: block;
+        position: sticky;
+        top: 0;
+    }
+
+    #mobileNavbar {
+        z-index: 1;
+        position: sticky;
+        background-color: #B1BBA0;
+        height: 50px;
+        box-sizing: border-box;
+    }
+
+    .mobileLogo img {
+        height: 50px;
+        float: left;
+        padding-left: 30px;
+    }
+
+    #hamburgerIcon > i {
+        position: relative;
+        top: -4px;
+        left: 400px;
+        color: #795548;
+        font-size: 40px;
+    }
+
+    #hamburgerIcon:hover {
+        color: #494e40;
+        cursor: pointer;
+    }
+
+
+    #hamburgerInput {
+        display: none;
+    }
+
+    #hamburgerInput:checked~.menuForMobile {
+        max-height: 250px;
+        box-sizing: border-box;
+    }
+
+    .menuForMobile {
+        padding: 0;
+        margin-top: -10px;
+        clear: both;
+        max-height: 0;
+        overflow: hidden;
+        transition: .5s;
+    }
+
+    .menuForMobile li {
+        list-style-type: none;
+        text-align: center;
+        border-bottom: 1px solid #B1BBA0;
+    }
+
+    .menuForMobile li a {
+        display: block;
+        line-height: 50px;
+        text-decoration: none;
+        background-color: #ECEEE7;
+        color: #795548;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .menuForMobile li a:hover {
+        background-color: #D8DDCF;
+    }
+
+    #footer {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+
+}

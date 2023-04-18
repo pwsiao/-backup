@@ -1,0 +1,49 @@
+/* Style the tab content */
+#pageHeader {
+    /* color: #4B3730; */
+    color: #ffffff;
+    /* display: none; */
+    text-align: center;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("../img/04.jpg");
+    background-position-y: 48%;
+}
+
+h2 {
+    text-align: center;
+}
+
+hr {
+    margin: 30px auto;
+    width: 80%;
+}
+
+#feelRecord, #comment {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.article {
+    /* height: 100px; */
+    display: flex;
+    align-items: center;
+    background-color: #D8DDCF;
+    margin: 10px auto;
+    padding: 15px 20px;
+}
+
+.articleDate {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+}
+
+.articleTitle {
+    width: 60%;
+    /* display: flex;
+    justify-content: center; */
+    padding: 0 10px;
+}

@@ -1,0 +1,123 @@
+/* Style the tab content */
+#pageHeader {
+    /* color: #4B3730; */
+    color: #ffffff;
+    /* display: none; */
+    text-align: center;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("../img/02.jpg");
+    background-position-y: 48%;
+}
+
+h2 {
+    text-align: center;
+}
+
+#inProgress,
+#finished {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.accordion {
+    background-color: #D8DDCF;
+    /* color: #444; */
+    cursor: pointer;
+    padding: 10px 20px;
+    width: 100%;
+    height: 90px;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 1rem;
+    transition: 0.4s;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+}
+
+.active,
+.accordion:hover {
+    background-color: #B1BBA0;
+}
+
+.buttons {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+.memberList {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.memberPic {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+.memberName {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+}
+
+.memberState {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+}
+
+.group {
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    background-color: #D8DDCF;
+    margin: 10px auto;
+    padding: 10px 20px;
+}
+
+.groupDate {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+}
+
+.groupName {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.joinMember {
+    width: 40%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.memberIcon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 10px 10px 10px 0;
+}

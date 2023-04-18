@@ -1,0 +1,115 @@
+
+
+h1{
+    text-align: center;
+    margin-top: -10px;
+    color: #664c43;
+  }
+  
+  /* 表單 */
+  #FormContainer {
+    background-color: #d8ddcf;
+    width: 80%;
+    margin-left: 6%;
+    font-size: 25px;
+    padding: 50px;
+    color: #333232;
+  }
+  
+  input[type="text"] {
+    background-color: #d8ddcf;
+    border: transparent;
+    font-size: 25px;
+  }
+  
+  
+  
+  input[type="text"]:focus {
+    outline: none; /* 隱藏預設的focus樣式 */
+    border-color: transparent; /* 設置邊框顏色為透明 */
+  }
+  textarea {
+    width: 90%;
+    height: 300px;
+    font-size: 20px;
+    background-color: #d8ddcf;
+    border: transparent;
+    resize: none;
+  }
+  textarea:focus {
+    outline: transparent;
+  }
+  
+  #bt {
+    margin-left: 80%;
+  }
+  
+  button {
+    margin-top: 30px;
+    border: transparent;
+    font-size: 30px;
+    background-color: #b1bba0;
+    color: #664c43;
+    /* margin-left: 20px; */
+    cursor: pointer;
+  }
+  
+  /* input[type="submit"]{
+    margin-top: 30px;
+    border: transparent;
+    font-size: 30px;
+    background-color: #b1bba0;
+    color: #664c43;
+    cursor: pointer;
+  }
+   */
+  
+  
+  label {
+    cursor: pointer;
+  }
+  label > img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  @media screen and (max-width:1200px){
+    #bt {
+      margin-left: 75%;
+    }
+  }
+  
+  
+  @media screen and (max-width:600px){
+  
+    #FormContainer {
+      background-color: #d8ddcf;
+      width: 70%;
+      margin-left: 6%;
+      font-size: 25px;
+      padding: 50px;
+      color: #333232;
+    }
+  
+    #bt {
+      margin-left: 70%;
+    }
+    
+    button {
+      margin-top: 30px;
+      border: transparent;
+      font-size: 20px;
+      background-color: #b1bba0;
+      color: #664c43;
+      margin-left: 10px;
+    }
+    
+    input[type="submit"]{
+      margin-top: 30px;
+      border: transparent;
+      font-size: 20px;
+      background-color: #b1bba0;
+      color: #664c43;
+    }
+  
+  }

@@ -1,0 +1,66 @@
+/* Style the tab content */
+#pageHeader {
+    /* color: #4B3730; */
+    color: #ffffff;
+    /* display: none; */
+    text-align: center;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("../img/01.jpg");
+    background-position-y: 48%;
+}
+
+h2 {
+    text-align: center;
+}
+
+hr {
+    width: 80%;
+    margin: 30px auto;
+}
+
+#info, #changePwd {
+    line-height: 50px;
+    margin: 0 70px;
+}
+
+#icon {
+    display: flex;
+    align-items: center;
+}
+
+#iconName {
+    min-width: 50px;
+}
+
+#iconImg {
+    object-fit: cover;
+    object-position: center;
+    height:100px;
+    width: 100px;
+    border-radius: 50%;
+}
+
+textarea {
+    width: 90%;
+}
+
+.memberIcon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+@media screen and (max-width: 1199px) {
+}
+
+@media screen and (max-width: 800px) {
+    #info {
+        margin-left: 30px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+}

@@ -1,0 +1,135 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Lato", sans-serif;
+}
+
+h1 {
+    font-size: 48px;
+}
+
+#mainContent {
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding-top: 50px;
+    margin: auto;
+    font-size: 24px;
+}
+
+#leftBar {
+    width: 20%;
+    border: 1px solid #4B3730;
+    height: fit-content;
+    min-width: 200px;
+}
+
+#leftBar ul {
+    padding: 0;
+    margin: 0;
+}
+
+#leftBar li {
+    list-style-type: none;
+    line-height: 50px;
+    padding-left: 20px;
+}
+
+#leftBar li:hover {
+    background-color: #D8DDCF;
+}
+
+#leftBar a {
+    text-decoration: none;
+    display: block;
+    color: #4B3730;
+}
+
+.current {
+    background-color: #D8DDCF;
+}
+
+#mobileLeftBar {
+    display: none;
+    width: 90%;
+    border: 1px solid #4B3730;
+    margin-bottom: 30px;
+}
+
+#mobileLeftBar ul {
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+}
+
+#mobileLeftBar li {
+    float: left;
+    list-style-type: none;
+    width: 20%;
+    line-height: 50px;
+    text-align: center;
+}
+
+#mobileLeftBar li:hover {
+    background-color: #D8DDCF;
+}
+
+#mobileLeftBar a {
+    text-decoration: none;
+    display: block;
+    color: #4B3730;
+}
+
+.mainContent {
+    width: 70%;
+    margin-bottom: 70px;
+    border: 1px solid #4B3730;
+    padding: 30px 0;
+}
+
+.buttons {
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.operate {
+    width: 80px;
+    margin: 0 10px;
+    border: 1px solid #664c43;
+    color: #664c43;
+    background-color: #ECEEE7;
+    font-size: 20px;
+}
+
+@media screen and (max-width: 1199px) {}
+
+@media screen and (max-width: 800px) {
+    #leftBar {
+        display: none;
+    }
+
+    .leftBarSection {
+        /* margin: 0 auto; */
+        width: 100%;
+    }
+
+    #mobileLeftBar {
+        display: block;
+        margin: 0 auto 30px auto;
+    }
+
+    .mainContent {
+        width: 90%;
+        margin-bottom: 70px;
+        border: 1px solid #4B3730;
+        padding: 30px 0;
+    }
+}
+
+@media screen and (max-width: 600px) {}

@@ -1,0 +1,330 @@
+#content-container {
+    height:100%;
+  }
+  
+  .abc {
+    /* background-color: #664c43; */
+    height: 100px;
+    /* width: 100%; */
+    border-right: 1px solid #B1BBA0;
+    border-left: 1px solid #B1BBA0;
+  }
+  
+  
+  .abcc {
+      height: 30px;
+    }
+    
+  
+  
+  .row {
+      display: flex;
+  }
+  
+  .column1 {
+      width: 60%;
+      margin-left: 5%;
+  }
+  
+  .column2 {
+      width: 30%;
+      margin-top: 18%;
+      height: 100%;
+  }
+  
+  /* 標題 */
+  h1 {
+      text-align: center;
+      color: #664c43;
+  }
+  
+  /* 搜索匡 */
+  form {
+      width: 80%;
+      margin-left: 13%;
+  }
+  form.example input[type="text"] {
+      padding: 10px;
+      font-size: 20px;
+      border: 1px solid rgb(170, 164, 164);
+      float: left;
+      width: 60%;
+      background: white;
+  }
+  
+  form.example button {
+      width: 20%;
+      padding: 1%;
+      height: 45px;
+      background: #b1bba0;
+      color: #664c43;
+      font-size: 17px;
+      border: 1px solid grey;
+      border-left: none;
+      cursor: pointer;
+  }
+  
+  form.example button:hover {
+      background: #d8ddcf;
+      color: black;
+  }
+  
+  form.example::after {
+      content: "";
+      clear: both;
+      display: table;
+  }
+  
+  /* 文章列表 */
+  
+  
+  #articles {
+      background-color: #d8ddcf;
+      width: 80%;
+      padding: 30px;
+  }
+  .article {
+      background-color: #f8f6f2;
+      /* margin-bottom: 10px; */
+      font-size: 20px;
+      width: 90%;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: #ccc 1px solid;
+      /* margin-left: 5%; */
+  }
+  
+  #articles {
+      display: flex;
+      flex-wrap: wrap;
+  }
+  
+  .article {
+      width: 100%;
+      margin-bottom: 20px;
+  }
+  
+  .articlePic {
+      flex-basis: 40%; /* 图片占 30% */
+      max-width: 100%; /* 确保图片不超出 */
+      max-height: 100%;
+      overflow: hidden;
+  }
+  
+  .articleCon {
+      flex-basis: 60%; /* 文字内容占 70% */
+      padding-left: 20px; /* 左边距 20px，与图片分隔开 */
+      line-height: 1.5;
+      height: 200px;
+      display: -webkit-box; /* 旧版 Safari、iOS 和 Android */
+      display: -moz-box; /* 旧版 Firefox */
+      display: box; /* W3C 标准语法 */
+      -webkit-box-orient: vertical; /* 旧版 Safari、iOS 和 Android */
+      -moz-box-orient: vertical; /* 旧版 Firefox */
+      box-orient: vertical; /* W3C 标准语法 */
+      overflow: hidden; /* 超出部分隐藏 */
+      text-overflow: ellipsis; /* 超出部分显示省略号 */
+  }
+  
+  .articleCon > h5 {
+    margin: 0;
+  }
+  
+  .articlePic img {
+      width: 100%; /* 图片宽度 100% */
+      height: 100%; /* 图片高度 100% */
+      object-fit: cover; /* 图片缩放以填满容器 */
+  }
+  
+  .pagination{
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      margin-left: 250px;
+      font-size: 19px;
+      border-bottom: #B1BBA0 1px solid;
+      cursor: pointer;
+  }
+  
+  .page-item{
+      margin: 0 10px;
+  }
+  
+  
+  /* 發文按鈕 */
+  #btPublish {
+      font-size: 40px;
+      border: transparent;
+      background-color: #b1bba0;
+      /* margin-left: 90%; */
+      position: absolute;
+      top: 6.5%;
+      left: 0%;
+      color: rgb(80, 78, 78);
+      cursor: pointer;
+  }
+  #btPublish:hover{
+      background-color: #c1cab2;
+  }
+  /* 側邊欄 */
+  aside {
+      /* width: 15%; */
+      background-color: #d8ddcf;
+  }
+  
+  .article2 {
+      background-color: #f8f6f2;
+      margin: 0 5% 5% 5%;
+      height: 160px;
+      display: -webkit-box; /* 旧版 Safari、iOS 和 Android */
+      display: -moz-box; /* 旧版 Firefox */
+      display: box; /* W3C 标准语法 */
+      -webkit-box-orient: vertical; /* 旧版 Safari、iOS 和 Android */
+      -moz-box-orient: vertical; /* 旧版 Firefox */
+      box-orient: vertical; /* W3C 标准语法 */
+      overflow: hidden; /* 超出部分隐藏 */
+      text-overflow: ellipsis; /* 超出部分显示省略号 */
+      padding: 5px;
+  }
+  
+  .article2Con > p:nth-child(1) {
+      font-size: 18px;
+      margin: 0;
+      font-weight: bold;
+  }
+  
+  .unmatched{
+      visibility: hidden;
+      }
+  
+  
+  /* 響應式 */
+  @media screen and (max-width: 1199px) {
+      .article {
+          font-size: 20px;
+      }
+  
+      #articles {
+          background-color: #d8ddcf;
+          width: 70%;
+          margin-left: 16%;
+          padding: 30px;
+      }
+  
+      #btPublish {
+          font-size: 30px;
+          border: transparent;
+          background-color: #b1bba0;
+          color: rgb(80, 78, 78);
+      }
+  
+      form {
+          width: 90%;
+          margin-left: 13%;
+      }
+  
+      #articles {
+          background-color: #d8ddcf;
+          width: 90%;
+          padding: 30px;
+          margin-left: -10px;
+      }
+      .article2Con > p{
+          margin: 0;
+      }
+  
+      .column2 {
+          width: 30%;
+          margin-top: 20%;
+          height: 100%;
+      }
+      
+  }
+  @media screen and (max-width: 600px) {
+      #articles {
+          background-color: #d8ddcf;
+          width: 95%;
+          margin-left: -10%;
+          padding: 30px;
+          margin-bottom: 20px;
+      }
+  
+      form.example button {
+          height: 43px;
+      }
+  
+      #btPublish {
+          font-size: 25px;
+      }
+  
+      form {
+          width: 90%;
+          margin-left: 7%;
+      }
+      form.example input[type="text"] {
+          font-size: 18px;
+      }
+      
+  
+      .column1 > h1 {
+          text-align: start;
+          margin-left: 40%;
+      }
+  
+  
+      .column1 {
+          width: 80%;
+          padding: 5px;
+          text-align: center;
+          margin-left: 14%;
+      }
+  
+      .article {
+          font-size: 13px;
+          width: 100%;
+          height: 150px;
+          /* text-align: center; */
+          /* margin-left: 3%; */
+      }
+  
+      aside {
+          display: none;
+      }
+  
+      form.example button {
+        height: 43px;
+        margin-left: -70px;
+    }
+    
+    #content-container {
+      height: 100%;
+    }
+  
+    .articleCon > h4 {
+      margin: 0;
+      font-size: 15px;
+    }
+    .articleCon > h5 {
+      margin: 0;
+      font-size: 10px;
+      margin-top: 5px;
+    }
+  
+    .articleCon {
+      height: 150px;
+      padding: 5px;
+      text-align: start;
+    }
+  
+    #abc {
+      /* background-color: #664c43; */
+      height: 10px;
+      /* width: 100%; */
+      border-right: 1px solid #B1BBA0;
+      border-left: 1px solid #B1BBA0;
+    }
+  }
