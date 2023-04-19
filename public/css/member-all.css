@@ -20,8 +20,13 @@ h1 {
     font-size: 24px;
 }
 
-#leftBar {
+.leftBarSection {
     width: 20%;
+    min-width: 200px;
+}
+
+#leftBar {
+    width: 100%;
     border: 1px solid #4B3730;
     height: fit-content;
     min-width: 200px;
@@ -39,7 +44,7 @@ h1 {
 }
 
 #leftBar li:hover {
-    background-color: #D8DDCF;
+    background-color: #B1BBA0;
 }
 
 #leftBar a {
@@ -75,7 +80,7 @@ h1 {
 }
 
 #mobileLeftBar li:hover {
-    background-color: #D8DDCF;
+    background-color: #B1BBA0;
 }
 
 #mobileLeftBar a {
@@ -84,7 +89,20 @@ h1 {
     color: #4B3730;
 }
 
-.mainContent {
+#logoutBtn {
+    background-color: #D8DDCF;
+    border: 1px solid #4B3730;
+    color: #4B3730;
+    width: 100%;
+    font-size: 24px;
+    margin: 20px 0;
+}
+
+#logoutBtn:hover {
+    background-color: #B1BBA0;
+}
+
+.pageContent {
     width: 70%;
     margin-bottom: 70px;
     border: 1px solid #4B3730;
@@ -117,14 +135,22 @@ h1 {
     .leftBarSection {
         /* margin: 0 auto; */
         width: 100%;
+        display: block;
+        margin: auto;
     }
 
     #mobileLeftBar {
         display: block;
-        margin: 0 auto 30px auto;
+        margin: 0 auto;
     }
 
-    .mainContent {
+    #logoutBtn {
+        display: block;
+        width: 20%;
+        margin: 20px auto;
+    }
+
+    .pageContent {
         width: 90%;
         margin-bottom: 70px;
         border: 1px solid #4B3730;

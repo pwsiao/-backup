@@ -1,5 +1,5 @@
 @extends('main')
-
+ 
 
 @section('head')
 <title>個人頁面</title>
@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="{{asset('css/member-all.css')}}">
 <link rel="stylesheet" href="{{asset('css/member-info.css')}}">
 <script type="text/javascript" src="{{asset('js/member-all.js')}}"></script>
+
 
 @endsection
 
@@ -21,54 +22,63 @@
 
         @include('member.leftBar')
 
-        <div class="mainContent">
-            <form id="info">
+
+        <div class="pageContent">
+            <form id="info" method="POST" action="{{ route('mbinfo.update') }}" enctype="multipart/form-data">
+            @csrf
                 <h2>個人資料</h2>
                 <p id="icon">
                     <span id="iconName">頭像：</span>
-                    <img src="{{asset('img/1.jpeg')}}" id="iconImg">
-                    <input type="file" name="icon"><br />
+                    @if ($user->image != null)
+                    {{-- <img src="data:image/jpeg;base64,{{ base64_encode($user->image) }}" id="iconImg"> --}}
+                    <img src="{{ $user->upicture }}" id="iconImg">
+                    @else
+                    <img src="{{asset('img/dog1.jpg')}}" id="iconImg">
+                    @endif
+                    <input name="image" type="file"><br />
                 </p>
                 <p>
                     暱稱：
-                    <input type="text" name="userName" value="王小明"><br />
+                    <input type="text" name="name" value="{{ $user->name }}"><br />
                 </p>
                 <p>
                     生日：
-                    <input type="date" name="birthday" value="2019-10-10"><br />
+                    <input type="date" name="birthday" value="{{ $user->birthday }}"><br />
                 </p>
                 <p>
                     性別：
-                    <label for="male"><input type="radio" name="gender" id="male" value="male" checked>男</label>
-                    <label for="female"><input type="radio" name="gender" id="female" value="female">女</label>
-                    <label for="other"><input type="radio" name="gender" id="other" value="other">其他</label><br />
+                    <label for="male"><input type="radio" name="sex" id="male" value="1" <?php echo ($user->sex == "1") ? " checked" : ""; ?>>男</label>
+                    <label for="female"><input type="radio" name="sex" id="female" value="2" <?php echo ($user->sex == "2") ? " checked" : ""; ?>>女</label>
                 </p>
                 <p>
                     電子郵件：
-                    abc123@gmail.com<br />
+                    {{ $user->email }}<br />
                 </p>
                 <p>
                     關於我：<br />
-                    <textarea name="" id="" cols="30" rows="10">早安</textarea><br />
+                    {{-- <input type="text" name="about" id="" value="{{ $user->about }}"> --}}
+                    <textarea name="about" id="" cols="30" rows="10">{{ $user->about }}</textarea><br />
                 </p>
-                <button type="button">儲存修改</button>
+                <button>儲存修改</button>
             </form>
             <hr />
-            <form id="changePwd">
+            <form id="changePwd" method="post" action="{{ route('password.update') }}">
+                @csrf
+                @method('put')
                 <h2>修改密碼</h2>
                 <p>
                     目前密碼：
-                    <input type="password" name="currentPwd"><br />
+                    <input type="password" name="current_password"><br />
                 </p>
                 <p>
                     新密碼：
-                    <input type="password" name="newPwd"><br />
+                    <input type="password" name="password"><br />
                 </p>
                 <p>
                     確認密碼：
-                    <input type="password" name="confirmPwd"><br />
+                    <input type="password" name="password_confirmation"><br />
                 </p>
-                <button type="button">儲存修改</button>
+                <button>儲存修改</button>
             </form>
         </div>
 

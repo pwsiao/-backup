@@ -16,7 +16,8 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
+        // dd ($request);
+        return view('member.member-info', [
             'user' => $request->user(),
         ]);
     }
@@ -26,7 +27,17 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $validated = $request->validated();
+
+        if (isset($request->image)) {
+            $data = $request->image->get();
+            $mime_type = $request->image->getMimeType();
+            $imageData = base64_encode($data);
+            $src = "data:{$mime_type};base64,{$imageData}";
+            $validated["upicture"] = $src;
+        }
+
+        $request->user()->fill($validated);
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
@@ -34,7 +45,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('mbinfo')->with('status', 'profile-updated');
     }
 
     /**

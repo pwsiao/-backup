@@ -99,7 +99,7 @@
                 @if(Auth::check())
                 @if($uid != $id)
                 @if($n1 == 0)
-                <form method="post" action="" data-ajax="true">
+                <form method="post" action="">
                     @csrf
                     <input type="submit" id="joinbutton1" value="加入">
                 </form>
@@ -119,7 +119,22 @@
             </div>
 
             <div id="carpool-comment">
-                @if($comments == null)
+                @if( isset($comments))
+                @foreach($comments as $comment)
+                <div id="mesHis">
+                    <div class="headDiv">
+                        <div class="headDivChi">
+                            <img class="headDivPic" src="{{$comment->upicture}}">
+                            <p>{{$comment->name}}</p>
+                        </div>
+                        <div class="headDivChi2">
+                            <div>{{$comment->content}}</div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                @endforeach
+                @else
                 <div id="mesHis">
                     <div class="headDiv">
                         <div class="headDivChi">
@@ -131,31 +146,19 @@
                     </div>
                     <hr>
                 </div>
-                @else
-                <div id="mesHis">
-                    @foreach($comments as $comment)
-                    <div class="headDiv">
-                        <div class="headDivChi">
-                            <img class="headDivPic" src="data:image/jpeg;base64,{{base64_encode( $comment->upicture)}}">
-                            <p>{{$comment->name}}</p>
-                        </div>
-                        <div class="headDivChi2">
-                            <div>{{$comment->content}}</div>
-                        </div>
-                    </div>
-                    <hr>
-                    @endforeach
-                </div>
                 @endif
+                
+               
+          
 
                 <!-- 留言 -->
                 <div id="mes">
                     @if (Auth::check())
-                    <form method="post" action=" " id="myForm">
+                    <form method="post" action="{{route('cpcomment',['cpid'=> $cpid])}}" id="myForm">
                         @csrf
                         @foreach($userDatas as $userData)
                         <div class="formPic">
-                            <img class="headDivPic" src="data:image/jpeg;base64,{{base64_encode( $userData->upicture)}}">
+                            <img class="headDivPic" src="{{$userData->upicture}}">
                             <p>{{$userData->name}} ></p>
                         </div>
                         @endforeach
@@ -164,32 +167,32 @@
                     </form>
                     <script src="{{ asset('js/formtrim.js') }}"></script>
                     @else
-                    <form method="post" action="#">
-                        @csrf
                         @foreach($userDatas as $userData)
                         <div class="formPic">
-                            <img class="headDivPic" src="data:image/jpeg;base64,{{base64_encode( $userData->upicture)}}">
+                            <img class="headDivPic" src="data:image/jpeg;base64,{{$userData->upicture}}">
                             <p>{{$userData->name}} ></p>
                         </div>
                         @endforeach
                         <textarea name="feelcom" id="" cols="30" rows="10" placeholder="你需要先登入才能留言喔～" disabled></textarea>
                         <input type="button" value="-送出-">
-                    </form>
                     @endif
                 </div>
             </div>
         </div>
         <div class="column2">
             <aside>
-                <h1>-最新文章-</h1>
+                <h1>-最近揪共乘-</h1>
+                @foreach($cplist as $cp)
                 <div class="article2">
                     <div class="article2Con">
-                        <a href="#">
-                            <h4>AAAAAAA</h4>
+                        <a href="{{route('cpinfo',[$cp->cpid])}}">
+                            <h4>{{$cp->cptitle}}</h4>
                         </a>
-                        <p>作者：AAAAAAAA</p>
+                        <p>目的地：{{$cp->arrive}}</p>
+                        <p>出發日期：{{$cp->departdate}}</p>
                     </div>
                 </div>
+                @endforeach
             </aside>
         </div>
     </div>

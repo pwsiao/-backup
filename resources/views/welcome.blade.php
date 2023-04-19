@@ -21,11 +21,11 @@
         <form method="POST" action="{{ route('test') }}">
             @csrf
 
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
-            </div>
+
+   
+                    <input name="upicture" type="file"><br />
+
+                <button type="submit">儲存修改</button>
         </form>
     </div>
 

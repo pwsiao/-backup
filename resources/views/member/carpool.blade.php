@@ -22,7 +22,7 @@
 
         @include('member.leftBar')
 
-        <div class="mainContent">
+        <div class="pageContent">
             <div id="inProgress">
                 <h2>開團中</h2>
                 @foreach($cp as $c)

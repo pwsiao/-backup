@@ -50,7 +50,7 @@
     padding: 40px;
     font-size: 20px;
     display: flex;
-    justify-content: space-evenly
+    justify-content: space-evenly;
 }
 #content > div:nth-child(1) > img:nth-child(1) {
     height: 70px;
@@ -279,13 +279,14 @@ aside > h1 {
 
 #joinbutton1 {
     display: block;
-    width: 100px;
+    /* width: 100px; */
     text-align: center;
     font-size: 24px;
     padding: 20px 80px;
     background-color: #B1BBA0;
     color: black;
     cursor: pointer;
+    left: 0;
 }
 #joinbutton2 {
     display: block;
@@ -296,6 +297,7 @@ aside > h1 {
     background-color: #B1BBA0;
     text-decoration: none;
     color: black;
+    
 }
 
 #carpooldetail-container {

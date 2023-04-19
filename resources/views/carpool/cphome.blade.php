@@ -143,7 +143,7 @@
                         className: 'info'
                     },
                     {
-                        title: 'Meeting',
+                        title: '{{$test}}',
                         start: new Date(y, m, d, 10, 30),
                         allDay: false,
                         className: 'important'
@@ -215,7 +215,11 @@
                             <div class="carpool-list2">
                                 <span>{{$cp->departdate}}</span>
                                 <span>{{$cp->cptitle}}</span>
-                                <img src="{{$cp->upicture}}" alt="">
+                                @if(isset($cp->poster['upicture']))
+                                <img src="{{$cp->poster['upicture']}}" alt="">
+                                @else
+                                <img src="{{asset('pic/admin.png')}}" alt="">
+                                @endif
                                 <span>2/4</span>
                             </div>
                         </a>

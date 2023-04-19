@@ -21,7 +21,7 @@
 
         @include('member.leftBar')
 
-        <div class="mainContent">
+        <div class="pageContent">
             <div id="forumRecord">
                 <h2>我的討論串</h2>
                 <div class="article">

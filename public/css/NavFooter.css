@@ -228,7 +228,7 @@ body {
     #hamburgerIcon > i {
         position: relative;
         top: -4px;
-        left: 400px;
+        left: 60%;
         color: #795548;
         font-size: 40px;
     }

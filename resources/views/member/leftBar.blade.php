@@ -18,4 +18,9 @@
             <li><a href="{{route('mbsave')}}">收藏</a></li>
         </ul>
     </div>
+
+    <form method="post" action="{{ route('logout')}}">
+        @csrf
+        <button id="logoutBtn">登出</button>
+    </form>
 </section>

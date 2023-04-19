@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CpList;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -46,12 +47,14 @@ class CarpoolController extends Controller
 
     //共乘資訊 cpinfo
     public function showinfo($cpid){
+        $cplist = Cplist::orderBy('createtime')->limit(5)->get();
         $cp = CpList::find($cpid);
         $id = Auth::id();
+        $userDatas = DB::table('users')->where('id',$id)->get();
+
         $uid = DB::table('carpool_list1')->where('cpid',$cpid)
                                          ->value('uid');
 
-        $userDatas = DB::table('users')->where('id',$uid)->get();
 
         $comments = DB::table('carpool_comment')
                         ->leftJoin('users','carpool_comment.uid','=','users.id' )
@@ -84,6 +87,8 @@ class CarpoolController extends Controller
             'id'=>$id,
             'userDatas'=>$userDatas,
             'comments'=>$comments,
+            'cpid'=>$cp->cpid,
+            'cplist'=>$cplist,
         ]);
     }
     // $status = DB::select('select status from carpool_join where cpid = ? and uid = ?',[$cpid,$id]);
@@ -96,10 +101,14 @@ class CarpoolController extends Controller
         $cplist = CpList::orderBy('createtime')->get();
         // dd($cplist);
         $cpid = DB::table('carpool_list1');
+        $test = DB::table('carpool_list1')->where('cpid',1)->value('cptitle');
+        
 
-        return view('carpool.cphome', ['cplist'=>$cplist]);
+        return view('carpool.cphome', ['cplist'=>$cplist, 'test'=>$test]);
     }
 
+
+    
     //按下參加，發送email
     public function join($cpid) : RedirectResponse{
 
@@ -118,6 +127,9 @@ class CarpoolController extends Controller
         return redirect("/carpool/info/{$cpid}");
     }
 
+
+
+    //留言
     public function comment(Request $req, $cpid) {
         $uid = Auth::id();
         $content = $req->cpcom;
@@ -125,6 +137,17 @@ class CarpoolController extends Controller
         return redirect("/carpool/info/{$cpid}");
     }
 
+
+    public function test(Request $req){
+        $u = new User();
+        if(isset($req->upicture)){
+        $upicture = $req->file('upicture');
+        $u->upicture = $upicture;
+        $u->save();
+        // DB::update('update users set upicture = ? where id = 1 ',[$upicture]);
+        return "ok";
+    }
+    }
 
 
 
