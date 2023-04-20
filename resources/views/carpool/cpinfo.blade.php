@@ -16,12 +16,14 @@
         <div class="column1">
             <!-- 文章內容 -->
             <div id="content">
-                @foreach($userDatas as $u)
                 <div>
-                    <img src="data:image/jpeg;base64,{{base64_encode( $u->upicture)}}">
-                    <div>{{$u->name}}</div>
+                    @if(isset($posterpicture))
+                    <img src="{{$posterpicture}}" alt="">
+                    @else
+                    <img src="{{asset('pic/admin.png')}}" alt="">
+                    @endif
+                    <div>{{$postername}}</div>
                 </div>
-                @endforeach
                 <div>
                     <h1>{{$title}}</h1>
                     <p>{{$createtime}}</p>
@@ -90,31 +92,30 @@
                         </table>
                     </div>
                     <div style="height: 50px;"></div>
-
                 </div>
 
             </div>
 
             <div id="content2">
                 @if(Auth::check())
-                @if($uid != $id)
-                @if($n1 == 0)
-                <form method="post" action="">
-                    @csrf
-                    <input type="submit" id="joinbutton1" value="加入">
-                </form>
-                @elseif($status == 0)
-                <div id="joinbutton2">確認中</div>
-                @elseif($status == 1)
-                <div id="joinbutton2">已加入</div>
-                @elseif($status == 2)
-                <div id="joinbutton2">被拒絕</div>
-                @endif
-                @else
-                <div style="height: 100px"></div>
-                @endif
-                @else
-                <a href="{{route('login')}}" id="joinbutton2">加入</a>
+                    @if($uid != $id)
+                        @if($n1 == 0)
+                            <form method="post" action="">
+                                @csrf
+                                <input type="submit" id="joinbutton1" value="加入">
+                            </form>
+                            @elseif($status == 0)
+                            <div id="joinbutton2">確認中</div>
+                            @elseif($status == 1)
+                            <div id="joinbutton2">已加入</div>
+                            @elseif($status == 2)
+                            <div id="joinbutton2">被拒絕</div>
+                            @endif
+                            @else
+                            <div style="height: 100px"></div>
+                        @endif
+                    @else
+                    <a href="{{route('login')}}" id="joinbutton2">加入</a>
                 @endif
             </div>
 
@@ -147,34 +148,26 @@
                     <hr>
                 </div>
                 @endif
-                
-               
-          
+
+
+
 
                 <!-- 留言 -->
                 <div id="mes">
                     @if (Auth::check())
                     <form method="post" action="{{route('cpcomment',['cpid'=> $cpid])}}" id="myForm">
                         @csrf
-                        @foreach($userDatas as $userData)
                         <div class="formPic">
-                            <img class="headDivPic" src="{{$userData->upicture}}">
-                            <p>{{$userData->name}} ></p>
+                            <img class="headDivPic" src="{{$posterpicture}}">
+                            <p>{{$postername}} ></p>
                         </div>
-                        @endforeach
                         <textarea name="cpcom" id="feelcom" cols="30" rows="10" placeholder="留言...."></textarea>
                         <input id="submitBtn" type="submit" value="-送出-">
                     </form>
                     <script src="{{ asset('js/formtrim.js') }}"></script>
                     @else
-                        @foreach($userDatas as $userData)
-                        <div class="formPic">
-                            <img class="headDivPic" src="data:image/jpeg;base64,{{$userData->upicture}}">
-                            <p>{{$userData->name}} ></p>
-                        </div>
-                        @endforeach
-                        <textarea name="feelcom" id="" cols="30" rows="10" placeholder="你需要先登入才能留言喔～" disabled></textarea>
-                        <input type="button" value="-送出-">
+                    <textarea name="feelcom" id="" cols="30" rows="10" placeholder="你需要先登入才能留言喔～" disabled></textarea>
+                    <input type="button" value="-送出-">
                     @endif
                 </div>
             </div>

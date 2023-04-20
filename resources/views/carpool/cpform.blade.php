@@ -33,7 +33,8 @@
                     </tr>
                     <tr>
                         <td><label for="departdate1">出發日期 : </label></td>
-                        <td><input type="date" id="departdate1" name="departdate1" required></td>
+                        <td><input type="date" id="departdate1" name="departdate1" required
+                                    max="" min="" ></td>
                     </tr>
                     <tr>
                         <td><label for="returndate1">回程日期 : </label></td>

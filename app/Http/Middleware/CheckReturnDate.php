@@ -15,6 +15,8 @@ class CheckReturnDate
      */
     public function handle(Request $request, Closure $next): Response
     {
+      $departdate = $request->departdate1;
+      $returndate = $request->returndate1;
       
         return $next($request);
     }

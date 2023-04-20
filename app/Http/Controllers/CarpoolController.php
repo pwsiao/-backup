@@ -21,6 +21,13 @@ class CarpoolController extends Controller
     public function __construct()
     {
         $this->model = new CarpoolModel();
+
+    }
+
+    public function gettoday(){
+        $today = date('Y-m-d');
+        // dd($today);
+        return view('/carpool/cpform');
     }
 
 
@@ -47,24 +54,33 @@ class CarpoolController extends Controller
 
     //共乘資訊 cpinfo
     public function showinfo($cpid){
-        $cplist = Cplist::orderBy('createtime')->limit(5)->get();
-        $cp = CpList::find($cpid);
-        $id = Auth::id();
-        $userDatas = DB::table('users')->where('id',$id)->get();
 
+        //側邊欄
+        $cplist = Cplist::orderBy('createtime')->limit(5)->get();
+
+        //共乘內文
+        $cp = CpList::find($cpid);
+        //poster連結發文者 名字照片
+        // dd($cp->poster); 
+
+        //登入者 
+        $id = Auth::id();
+
+        // 發文者id 判斷參加鈕是否顯示用
         $uid = DB::table('carpool_list1')->where('cpid',$cpid)
                                          ->value('uid');
 
-
+        //留言板內容
         $comments = DB::table('carpool_comment')
                         ->leftJoin('users','carpool_comment.uid','=','users.id' )
                         ->where('cpid', $cpid)->get();
         // dd($comments);
 
-
+        //判斷登入者是否有參加了
         $n = DB::select("select count(*) from carpool_join where cpid = ? and uid = ?",[$cpid, $id]);
         $n1 = $n[0]->{'count(*)'} ;
 
+        //參加狀態
         $status = DB::table('carpool_join')->where('cpid',$cpid)
                                            ->where('uid',$id)
                                            ->value('status'); 
@@ -81,11 +97,12 @@ class CarpoolController extends Controller
             'cost'=>$cp->cost,
             'createtime'=>$cp->createtime,
             'note'=>$cp->note,
+            'postername'=>$cp->poster['name'],
+            'posterpicture'=>$cp->poster['upicture'],
             'n1'=> $n1,
             'status'=>$status,
             'uid'=>$uid,
             'id'=>$id,
-            'userDatas'=>$userDatas,
             'comments'=>$comments,
             'cpid'=>$cp->cpid,
             'cplist'=>$cplist,
@@ -96,15 +113,20 @@ class CarpoolController extends Controller
     // array(1) { [0]=> object(stdClass)#337 (1) { ["status"]=> int(0) } }
     
 
+
+
+
     // 共乘首頁列表
     public function cplist(){
         $cplist = CpList::orderBy('createtime')->get();
-        // dd($cplist);
-        $cpid = DB::table('carpool_list1');
-        $test = DB::table('carpool_list1')->where('cpid',1)->value('cptitle');
-        
+        // dd($cplist[0]->cptitle);
 
-        return view('carpool.cphome', ['cplist'=>$cplist, 'test'=>$test]);
+        $cpid = DB::table('carpool_list1');
+
+
+  
+
+        return view('carpool.cphome', ['cplist'=>$cplist]);
     }
 
 

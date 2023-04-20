@@ -29,7 +29,7 @@
                 <h2>個人資料</h2>
                 <p id="icon">
                     <span id="iconName">頭像：</span>
-                    @if ($user->image != null)
+                    @if ($user->upicture != null)
                     {{-- <img src="data:image/jpeg;base64,{{ base64_encode($user->image) }}" id="iconImg"> --}}
                     <img src="{{ $user->upicture }}" id="iconImg">
                     @else
