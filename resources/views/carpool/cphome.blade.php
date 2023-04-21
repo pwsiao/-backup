@@ -205,7 +205,8 @@
                 </div>
 
                 <div id="carpool-list" class="tabcontent" style="text-align: center;">
-                    @foreach($cplist as $cp)
+
+                @foreach($cplist as $cp)
                         <a href="{{route('cpinfo',[ 'cpid'=>$cp->cpid ] )}}">
                             <div class="carpool-list2">
                                 <span>{{$cp->departdate}}</span>
@@ -215,7 +216,7 @@
                                 @else
                                 <img src="{{asset('pic/admin.png')}}" alt="">
                                 @endif
-                                <span>2/4</span>
+                                <span>????</span>
                             </div>
                         </a>
                     @endforeach

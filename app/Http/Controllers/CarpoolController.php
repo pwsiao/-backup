@@ -25,9 +25,13 @@ class CarpoolController extends Controller
     }
 
     public function gettoday(){
-        $today = date('Y-m-d');
-        // dd($today);
-        return view('/carpool/cpform');
+        $min = date('Y-m-d',strtotime("+1 day"));
+        $max = date('Y-m-d',strtotime("+1 year"));
+        // dd($min);
+        return view('/carpool/cpform',[
+            'min'=>$min,
+            'max'=>$max,
+        ]);
     }
 
 
@@ -118,10 +122,12 @@ class CarpoolController extends Controller
 
     // 共乘首頁列表
     public function cplist(){
-        $cplist = CpList::orderBy('createtime')->get();
+        $cplist = CpList::orderBy('createtime','desc')->get();
         // dd($cplist[0]->cptitle);
 
-        $cpid = DB::table('carpool_list1');
+        // $cplist = DB::select("select count(*) from carpool_list1")
+        //             ->leftJoin("carpool_join","carpool_list1","=","carpool_join");
+
 
 
   

@@ -34,11 +34,12 @@
                     <tr>
                         <td><label for="departdate1">出發日期 : </label></td>
                         <td><input type="date" id="departdate1" name="departdate1" required
-                                    max="" min="" ></td>
+                                    max="{{$max}}" min="{{$min}}" ></td>
                     </tr>
                     <tr>
                         <td><label for="returndate1">回程日期 : </label></td>
-                        <td><input type="date" id="returndate1" name="returndate1" required></td>
+                        <td><input type="date" id="returndate1" name="returndate1" required
+                                    max="{{$max}}" min="{{$min}}" > </td>
                     </tr>
                     <tr>
                         <td><label for="depart1">出發地點 : </label></td>
