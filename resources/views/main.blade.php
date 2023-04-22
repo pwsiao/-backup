@@ -29,7 +29,7 @@
                         // $imgData = base64_encode($user->upicture);
                     ?>
                     @if(empty($user->upicture))
-                        <li><a href="{{ route('login') }}"><img src="{{ asset('pic/admin.png') }}" alt=""></a></li>
+                        <li><a href="{{ route('mbinfo') }}"><img src="{{ asset('pic/admin.png') }}" alt=""></a></li>
                     @else
                         {{-- <li><a href="{{ route('mbinfo') }}"><img src="data:image/jpeg;base64,{{ $imgData }}" ></a></li> --}}
                         <li><a href="{{ route('mbinfo') }}"><img src="{{ $user->upicture }}" ></a></li>

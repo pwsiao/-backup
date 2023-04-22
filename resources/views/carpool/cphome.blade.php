@@ -207,19 +207,32 @@
                 <div id="carpool-list" class="tabcontent" style="text-align: center;">
 
                 @foreach($cplist as $cp)
-                        <a href="{{route('cpinfo',[ 'cpid'=>$cp->cpid ] )}}">
-                            <div class="carpool-list2">
-                                <span>{{$cp->departdate}}</span>
-                                <span>{{$cp->cptitle}}</span>
-                                @if(isset($cp->poster['upicture']))
-                                <img src="{{$cp->poster['upicture']}}" alt="">
-                                @else
-                                <img src="{{asset('pic/admin.png')}}" alt="">
+                    <a href="{{route('cpinfo',[ 'cpid'=>$cp->cpid ] )}}">
+                        <div class="carpool-list2">
+                            <span>{{$cp->departdate}}</span>
+                            <span>{{$cp->cptitle}}</span>
+                            @if(isset($cp->poster['upicture']))
+                            <img src="{{$cp->poster['upicture']}}" alt="">
+                            @else
+                            <img src="{{asset('pic/admin.png')}}" alt="">
+                            @endif
+                            
+                            @foreach($cplist2 as $c)
+                                @if($cp->createtime == $c->createtime)
+                                    @if(isset($c->joiner))
+                                        @if($cp->hire > $c->joiner)
+                                        <span>{{$c->joiner}}/{{$cp->hire}}</span>
+                                        @elseif($cp->hire == $c->joiner)
+                                        <span>已徵滿</span>
+                                        @endif
+                                    @else
+                                    <span>0/{{$cp->hire}}</span>
+                                    @endif
                                 @endif
-                                <span>????</span>
-                            </div>
-                        </a>
-                    @endforeach
+                            @endforeach
+                        </div>
+                    </a>
+                @endforeach
                 </div>
 
             </div>

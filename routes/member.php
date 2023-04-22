@@ -5,8 +5,7 @@ use App\Http\Controllers\MemberController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/member/carpool',[MemberController::class, 'getcpinfo'])->name('mbcp');
-Route::post('/member/carpool',[MemberController::class, 'comfirmjoin']);
+
 // Route::view('/member/info','member.member-info')->name('mbinfo');
 Route::view('/member/feel','member.feel')->name('mbfeel');
 Route::view('/member/forum','member.forum')->name('mbforum');

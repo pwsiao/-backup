@@ -11,20 +11,14 @@ use Illuminate\Support\Facades\Redirect;
 
 use Illuminate\Http\RedirectResponse;
 use App\Mail\JoinNotice;
-use App\Models\CarpoolModel;
 use Illuminate\Support\Facades\Mail;
 
 
 class CarpoolController extends Controller
 {
-    private $model;
-    public function __construct()
-    {
-        $this->model = new CarpoolModel();
 
-    }
-
-    public function gettoday(){
+    //表單限制日期
+    public function getdate(){
         $min = date('Y-m-d',strtotime("+1 day"));
         $max = date('Y-m-d',strtotime("+1 year"));
         // dd($min);
@@ -58,6 +52,7 @@ class CarpoolController extends Controller
 
     //共乘資訊 cpinfo
     public function showinfo($cpid){
+        $today = strtotime("now");
 
         //側邊欄
         $cplist = Cplist::orderBy('createtime')->limit(5)->get();
@@ -69,6 +64,7 @@ class CarpoolController extends Controller
 
         //登入者 
         $id = Auth::id();
+        $userDatas = DB::table('users')->where('id',$id)->get();
 
         // 發文者id 判斷參加鈕是否顯示用
         $uid = DB::table('carpool_list1')->where('cpid',$cpid)
@@ -83,6 +79,11 @@ class CarpoolController extends Controller
         //判斷登入者是否有參加了
         $n = DB::select("select count(*) from carpool_join where cpid = ? and uid = ?",[$cpid, $id]);
         $n1 = $n[0]->{'count(*)'} ;
+
+        //幾人已參加
+        $n2 = DB::select("select count(*) from carpool_join where cpid = ? and status = 1",[$cpid]);
+        $joiner = $n2[0]->{'count(*)'} ;
+
 
         //參加狀態
         $status = DB::table('carpool_join')->where('cpid',$cpid)
@@ -104,12 +105,16 @@ class CarpoolController extends Controller
             'postername'=>$cp->poster['name'],
             'posterpicture'=>$cp->poster['upicture'],
             'n1'=> $n1,
+            'joiner'=> $joiner,
             'status'=>$status,
             'uid'=>$uid,
             'id'=>$id,
+            'userDatas'=>$userDatas,
             'comments'=>$comments,
             'cpid'=>$cp->cpid,
             'cplist'=>$cplist,
+            'today'=>$today,
+
         ]);
     }
     // $status = DB::select('select status from carpool_join where cpid = ? and uid = ?',[$cpid,$id]);
@@ -122,17 +127,21 @@ class CarpoolController extends Controller
 
     // 共乘首頁列表
     public function cplist(){
+       
         $cplist = CpList::orderBy('createtime','desc')->get();
         // dd($cplist[0]->cptitle);
 
-        // $cplist = DB::select("select count(*) from carpool_list1")
-        //             ->leftJoin("carpool_join","carpool_list1","=","carpool_join");
+        $cplist2 = DB::select("select  * FROM carpool_list1 left join
+                                ( select cpid, count(*) as joiner  from carpool_join 
+                                where status=1 group by cpid ) as a 
+                                on carpool_list1.cpid = a.cpid");
 
+        // dd($cplist2);
 
-
-  
-
-        return view('carpool.cphome', ['cplist'=>$cplist]);
+        return view('carpool.cphome', [
+            'cplist'=>$cplist, 
+            'cplist2'=> $cplist2,
+        ]);
     }
 
 
@@ -166,6 +175,95 @@ class CarpoolController extends Controller
     }
 
 
+    //編輯
+    public function cpedit($cpid){
+        $cp = CpList::find($cpid);
+        // dd($cp->cptitle);
+        $min = date('Y-m-d',strtotime("+1 day"));
+        $max = date('Y-m-d',strtotime("+1 year"));
+        // dd($min);
+        return view('/carpool/cpform',[
+            'min'=>$min,
+            'max'=>$max,
+        ]);
+
+        return view('carpool.cpedit', ['cp'=> $cp]);
+    }
+    
+
+    //會員頁cp
+    public function getcpinfo()
+    {
+
+        $today = strtotime("now");
+        // dd($today);
+        $uid = Auth::id();
+
+        //開團中
+        $cp = DB::table('carpool_list1')->where('uid', $uid)->orderby('departdate')->get();
+        // dd($cp);
+
+        $joiner = DB::table('carpool_list1')
+                    ->leftJoin('carpool_join', 'carpool_list1.cpid', '=', 'carpool_join.cpid')
+                    ->leftJoin('users', 'carpool_join.uid', '=', 'users.id')
+                    ->where('carpool_list1.uid',$uid)
+                    ->get();
+        // dd($joiner);
+        // $joiner = DB::table('carpool_join')
+        //             ->leftJoin('users', 'carpool_join.uid', '=', 'users.id')
+        //             ->leftJoin('carpool_list1', 'carpool_join.cpid', '=', 'carpool_list1.cpid')
+        //             ->where('carpool_list1.uid',$uid)
+        //             ->get();
+                
+       
+        //參加中
+        $cp2 = DB::select('select * from carpool_join left join carpool_list1 
+                            on carpool_join.cpid = carpool_list1.cpid where carpool_join.status = 1
+                            and carpool_join.uid = ? and carpool_list1.departdate > now()',[$uid]);
+
+        $joiner2 = DB::table('carpool_join')
+                        ->leftJoin('users', 'carpool_join.uid', '=', 'users.id')->get();
+
+        //確認中
+        $cp3 = DB::select('select * from carpool_join left join carpool_list1 
+                            on carpool_join.cpid = carpool_list1.cpid where carpool_join.status = 0
+                            and carpool_join.uid = ? and carpool_list1.departdate > now()',[$uid]);  
+                            
+                            
+        //歷史紀錄
+        $cp4 = DB::select('select carpool_join.cpid, carpool_join.uid, status, cptitle, departdate from carpool_join 
+                            left join carpool_list1 on carpool_join.cpid = carpool_list1.cpid where status = 1 
+                            and carpool_join.uid = ? and departdate < now() 
+                            union all
+                            select cpid, uid, 4, cptitle, departdate from carpool_list1 where uid = ? and departdate < now() 
+                            order by departdate desc',[$uid, $uid]); 
+        
+        // dd(json_decode($cp2));
+        // dd($joiner2);
+        return view('member.carpool', [
+            'cp'=> $cp,
+            'joiner' => $joiner,
+            'today'=>$today,
+            'cp2'=>$cp2,
+            'joiner2'=>$joiner2,
+            'cp3'=>$cp3,
+            'cp4'=>$cp4,
+        ]);
+    }
+
+   
+    //會員頁確認鍵
+    public function comfirmjoin(Request $req)
+    {
+        $value = $req->input('cpconfirm');
+        $joiner = $req->input('joiner');
+        $cpid = $req->input('cpid');
+        DB::update('update carpool_join set status = ? where uid = ? and cpid = ?',[$value, $joiner, $cpid]);
+
+        return redirect('/member/carpool');
+    }
+
+
     public function test(Request $req){
         $u = new User();
         if(isset($req->upicture)){
@@ -174,7 +272,7 @@ class CarpoolController extends Controller
         $u->save();
         // DB::update('update users set upicture = ? where id = 1 ',[$upicture]);
         return "ok";
-    }
+        }
     }
 
 

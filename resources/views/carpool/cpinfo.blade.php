@@ -97,26 +97,34 @@
             </div>
 
             <div id="content2">
-                @if(Auth::check())
-                    @if($uid != $id)
-                        @if($n1 == 0)
-                            <form method="post" action="">
-                                @csrf
-                                <input type="submit" id="joinbutton1" value="加入">
-                            </form>
-                            @elseif($status == 0)
-                            <div id="joinbutton2">確認中</div>
-                            @elseif($status == 1)
-                            <div id="joinbutton2">已加入</div>
-                            @elseif($status == 2)
-                            <div id="joinbutton2">被拒絕</div>
-                            @endif
+                @if(strtotime($departdate) > $today)
+                    @if($joiner < $hire)
+                        @if(Auth::check())
+                            @if($uid != $id)
+                                @if($n1 == 0)
+                                    <form method="post" action="">
+                                        @csrf
+                                        <input type="submit" id="joinbutton1" value="加入">
+                                    </form>
+                                    @elseif($status == 0)
+                                    <div id="joinbutton2">確認中</div>
+                                    @elseif($status == 1)
+                                    <div id="joinbutton2">已加入</div>
+                                    @elseif($status == 2)
+                                    <div id="joinbutton2">被拒絕</div>
+                                    @endif
+                                    @else
+                                    <div style="height: 100px"></div>
+                                @endif
                             @else
-                            <div style="height: 100px"></div>
+                            <a href="{{route('login')}}" id="joinbutton2">加入</a>
                         @endif
                     @else
-                    <a href="{{route('login')}}" id="joinbutton2">加入</a>
-                @endif
+                    <div id="joinbutton2">已徵滿</div>
+                    @endif    
+                @else
+                <div id="joinbutton2">已過期</div>
+                @endif    
             </div>
 
             <div id="carpool-comment">
@@ -157,10 +165,16 @@
                     @if (Auth::check())
                     <form method="post" action="{{route('cpcomment',['cpid'=> $cpid])}}" id="myForm">
                         @csrf
+                        @foreach($userDatas as $userData)
                         <div class="formPic">
-                            <img class="headDivPic" src="{{$posterpicture}}">
-                            <p>{{$postername}} ></p>
+                            @if(empty($userData->upicture) == false)
+                            <img class="headDivPic" src="{{$userData->upicture}}">
+                            @else
+                            <img class="headDivPic" src="{{asset('pic/admin.png')}}" >
+                            @endif
+                            <p>{{$userData->name}} ></p>
                         </div>
+                        @endforeach
                         <textarea name="cpcom" id="feelcom" cols="30" rows="10" placeholder="留言...."></textarea>
                         <input id="submitBtn" type="submit" value="-送出-">
                     </form>
