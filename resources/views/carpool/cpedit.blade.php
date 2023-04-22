@@ -15,58 +15,58 @@
     <h1 id="carpool-title">我要揪共乘</h1>
     <div id="carpoolform-container">
         <img src="{{asset('img/carpool.jpg')}}" alt="">
-        <form action="" method="post">
+        <form action="{{route('cpupdate')}}" method="post">
             @csrf
             <div style="display: flex; justify-content: center;">
                 <table>
                     <tr>
                         <td><label for="title1">標題名稱 : </label></td>
-                        <td><input type="text" id="title1" name="title1" value="{{$c->cptitle}}" required></td>
+                        <td><input type="text" id="title1" name="title1" value="{{$cp->cptitle}}" required></td>
                     </tr>
                     <tr>
-                        <td><input type="radio" id="radio1" name="radio1" value="1" <?php echo ($c->value == "1") ? " checked" : ""; ?>>我有車</td>
-                        <td><input type="radio" id="radio2" name="radio1" value="2" <?php echo ($c->value == "2") ? " checked" : ""; ?>>找包車</td>
+                        <td><input type="radio" id="radio1" name="radio1" value="1" <?php echo ($cp->value == "1") ? " checked" : ""; ?>>我有車</td>
+                        <td><input type="radio" id="radio2" name="radio1" value="2" <?php echo ($cp->value == "2") ? " checked" : ""; ?>>找包車</td>
                     </tr>
                     <tr>
                         <td><label for="arrive1">目的地 : </label></td>
-                        <td><input type="text" id="arrive1" name="arrive1" value="{{$c->arrive}}" required></td>
+                        <td><input type="text" id="arrive1" name="arrive1" value="{{$cp->arrive}}" required></td>
                     </tr>
                     <tr>
                         <td><label for="departdate1">出發日期 : </label></td>
-                        <td><input type="date" id="departdate1" name="departdate1" value="{{$c->departdate}}" required
+                        <td><input type="date" id="departdate1" name="departdate1" value="{{$cp->departdate}}" required
                                     max="{{$max}}" min="{{$min}}" ></td>
                     </tr>
                     <tr>
                         <td><label for="returndate1">回程日期 : </label></td>
-                        <td><input type="date" id="returndate1" name="returndate1" value="{{$c->returndate}}" required
+                        <td><input type="date" id="returndate1" name="returndate1" value="{{$cp->returndate}}" required
                                     max="{{$max}}" min="{{$min}}" > </td>
                     </tr>
                     <tr>
                         <td><label for="depart1">出發地點 : </label></td>
-                        <td><input type="text" id="depart1" name="depart1" value="{{$c->depart}}" required></td>
+                        <td><input type="text" id="depart1" name="depart1" value="{{$cp->depart}}" required></td>
                     </tr>
                     <tr>
                         <td><label for="original1">內建人數 : </label></td>
-                        <td><input type="number" min=1 max=6 id="original1" name="original1" value="{{$c->original}}" required></td>
+                        <td><input type="number" min=1 max=6 id="original1" name="original1" value="{{$cp->original}}" required></td>
                     </tr>
                     <tr>
                         <td><label for="hire1">欲徵人數 : </label></td>
-                        <td><input type="number" min=1 max=6 id="hire1" name="hire1" value="{{$c->hire}}" required></td>
+                        <td><input type="number" min=1 max=6 id="hire1" name="hire1" value="{{$cp->hire}}" required></td>
                     </tr>
                     <tr>
                         <td><label for="cost1">費用 : </label></td>
-                        <td><input type="text" id="cost1" name="cost1" value="{{$c->cost}}" required></td>
+                        <td><input type="text" id="cost1" name="cost1" value="{{$cp->cost}}" required></td>
                     </tr>
                     <tr>
                         <td><label for="note1">備註 : </label></td>
-                        <td><textarea id="note1" name="note1" style="width: 200px;height: 100px;">{{$c->note}}</textarea>
+                        <td><textarea id="note1" name="note1" style="width: 200px;height: 100px;">{{$cp->note}}</textarea>
                         </td>
                     </tr>
                 </table>
             </div>
-            <td><a href="{{route('cpedit',[ 'cpid'=>$c->cpid ] )}}"><input type="button" value="取消"></a> </td>
+            <input type="hidden" name="cpid" value="{{$cp->cpid}}">
+            <td><a href="{{route('cpinfo',[ 'cpid'=>$cp->cpid ] )}}"><input type="button" value="取消"></a> </td>
             <td><input type="submit" value="儲存"></td>
-
         </form>
     </div>
 </div>

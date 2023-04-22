@@ -55,7 +55,7 @@ class CarpoolController extends Controller
         $today = strtotime("now");
 
         //側邊欄
-        $cplist = Cplist::orderBy('createtime')->limit(5)->get();
+        $cplist = DB::select('select * from carpool_list1 where departdate > now() order by departdate limit 6');
 
         //共乘內文
         $cp = CpList::find($cpid);
@@ -91,19 +91,7 @@ class CarpoolController extends Controller
                                            ->value('status'); 
 
         return view('carpool.cpinfo',[
-            'title'=> $cp->cptitle,
-            'value'=> $cp->value,
-            'arrive'=>$cp->arrive,
-            'departdate'=>$cp->departdate,
-            'returndate'=>$cp->returndate,
-            'depart'=>$cp->depart,
-            'original'=>$cp->original,
-            'hire'=>$cp->hire,
-            'cost'=>$cp->cost,
-            'createtime'=>$cp->createtime,
-            'note'=>$cp->note,
-            'postername'=>$cp->poster['name'],
-            'posterpicture'=>$cp->poster['upicture'],
+            'cp'=>$cp,
             'n1'=> $n1,
             'joiner'=> $joiner,
             'status'=>$status,
@@ -111,7 +99,6 @@ class CarpoolController extends Controller
             'id'=>$id,
             'userDatas'=>$userDatas,
             'comments'=>$comments,
-            'cpid'=>$cp->cpid,
             'cplist'=>$cplist,
             'today'=>$today,
 
@@ -175,19 +162,44 @@ class CarpoolController extends Controller
     }
 
 
-    //編輯
-    public function cpedit($cpid){
-        $cp = CpList::find($cpid);
-        // dd($cp->cptitle);
+    //編輯頁面
+    public function edit(Request $req){
+        $cp = CpList::find($req->cpid);
+        // dd($req->cpid);
         $min = date('Y-m-d',strtotime("+1 day"));
         $max = date('Y-m-d',strtotime("+1 year"));
         // dd($min);
-        return view('/carpool/cpform',[
+
+
+        return view('carpool.cpedit', [
             'min'=>$min,
             'max'=>$max,
+            'cp'=> $cp,
         ]);
+    }
 
-        return view('carpool.cpedit', ['cp'=> $cp]);
+    //更新
+    public function update(Request $req){
+        $cp = CpList::find($req->cpid);
+        $cp->cptitle = $req -> title1;
+        $cp->value = $req -> radio1;
+        $cp->arrive = $req -> arrive1;
+        $cp->departdate = $req -> departdate1;
+        $cp->returndate = $req -> returndate1;
+        $cp->depart = $req -> depart1;
+        $cp->original = $req -> original1;
+        $cp->hire = $req -> hire1;
+        $cp->cost = $req -> cost1;
+        $cp->note = $req -> note1;
+        $cp->save();
+        return Redirect::to("/carpool/info/{$cp->cpid}");
+
+    }
+
+    //刪除
+    public function delete(Request $req){
+        CpList::where('cpid', $req->cpid)->delete();
+        return redirect(route('mbcp'));
     }
     
 
@@ -195,12 +207,13 @@ class CarpoolController extends Controller
     public function getcpinfo()
     {
 
-        $today = strtotime("now");
         // dd($today);
         $uid = Auth::id();
 
         //開團中
-        $cp = DB::table('carpool_list1')->where('uid', $uid)->orderby('departdate')->get();
+        $cp = DB::select('select carpool_list1.cpid, departdate, cptitle, hire, number, createtime from carpool_list1 left join 
+                            ( select cpid, count(*) as number from carpool_join where status=1 GROUP by cpid ) as a
+                            on carpool_list1.cpid = a.cpid where departdate > now() and uid = ? order by departdate ',[$uid]);
         // dd($cp);
 
         $joiner = DB::table('carpool_list1')
@@ -227,9 +240,9 @@ class CarpoolController extends Controller
         //確認中
         $cp3 = DB::select('select * from carpool_join left join carpool_list1 
                             on carpool_join.cpid = carpool_list1.cpid where carpool_join.status = 0
-                            and carpool_join.uid = ? and carpool_list1.departdate > now()',[$uid]);  
-                            
-                            
+                            and carpool_join.uid = ? and carpool_list1.departdate > now()',[$uid]); 
+                          
+                                                
         //歷史紀錄
         $cp4 = DB::select('select carpool_join.cpid, carpool_join.uid, status, cptitle, departdate from carpool_join 
                             left join carpool_list1 on carpool_join.cpid = carpool_list1.cpid where status = 1 
@@ -243,7 +256,6 @@ class CarpoolController extends Controller
         return view('member.carpool', [
             'cp'=> $cp,
             'joiner' => $joiner,
-            'today'=>$today,
             'cp2'=>$cp2,
             'joiner2'=>$joiner2,
             'cp3'=>$cp3,
@@ -261,6 +273,13 @@ class CarpoolController extends Controller
         DB::update('update carpool_join set status = ? where uid = ? and cpid = ?',[$value, $joiner, $cpid]);
 
         return redirect('/member/carpool');
+    }
+
+    //確認中可以取消參加
+    public function cancel(Request $req){
+        $uid = Auth::id();
+        DB::delete('delete from carpool_join where uid = ? and cpid = ?',[$uid, $req->cpid]);
+        return redirect(route('mbcp'));
     }
 
 

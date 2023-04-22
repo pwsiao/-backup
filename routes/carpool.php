@@ -16,7 +16,10 @@ Route::post('/carpool/info/comment/{cpid}', [CarpoolController::class, 'comment'
 
 Route::get('/member/carpool',[CarpoolController::class, 'getcpinfo'])->name('mbcp');
 Route::post('/member/carpool',[CarpoolController::class, 'comfirmjoin']);
-Route::get('/carpool/info/{cpid}/edit',[CarpoolController::class, 'cpedit'])->name('cpedit');
+Route::post('/member/carpool/cancel',[CarpoolController::class, 'cancel'])->name('canceljoin');
+Route::post('/carpool/edit',[CarpoolController::class, 'edit'])->name('cpedit');
+Route::post('/carpool/update',[CarpoolController::class, 'update'])->name('cpupdate');
+Route::post('/carpool/delete',[CarpoolController::class, 'delete'])->name('cpdelete');
 
 // Route::view('/wel','welcome');
 // Route::post('/test',[SendJoinNoticeMailController::class, 'store'])->name('test');
