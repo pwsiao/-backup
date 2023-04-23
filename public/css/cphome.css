@@ -1,0 +1,38 @@
+/* cphome搜索匡 */
+form {
+    width: 50%;
+    margin-left: 50%;
+    margin-top: 50px;
+    transform: translate(-50%,-50%);
+}
+form.example input[type="text"] {
+    padding: 10px;
+    font-size: 20px;
+    border: 1px solid rgb(170, 164, 164);
+    float: left;
+    width: 60%;
+    background: white;
+}
+
+form.example button {
+    width: 20%;
+    padding: 1%;
+    height: 45px;
+    background: #b1bba0;
+    color: #664c43;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+}
+
+form.example button:hover {
+    background: #d8ddcf;
+    color: black;
+}
+
+form.example::after {
+    content: "";
+    clear: both;
+    display: table;
+}
