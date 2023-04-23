@@ -24,59 +24,42 @@
         <div class="pageContent">
             <div id="feelSave">
                 <h2>心得</h2>
+                @foreach($feelSaveList as $feelSaveArticle)
                 <div class="article">
                     <div class="articleDate">
-                        3/15
+                        {{ $feelSaveArticle->date }}
                     </div>
                     <div class="articleTitle">
-                        【六順山七彩湖】五天步行107公里-探訪中央山脈心臟地帶
+                        {{ $feelSaveArticle->title }}<br>
+                    </div>
+                    <div class="buttons">
+                        <input type="button" name="" id="" class="operate" value="檢視文章" onclick="location.href='{{ route('fedetail', ['id'=>$feelSaveArticle->fid]) }}'">
                     </div>
                 </div>
-                <div class="article">
-                    <div class="articleDate">
-                        2/13
-                    </div>
-                    <div class="articleTitle">
-                        2023 臺北大縱走 7：飛龍步道至指南宮竹柏參道
-                    </div>
-                </div>
-                <div class="article">
-                    <div class="articleDate">
-                        1/5
-                    </div>
-                    <div class="articleTitle">
-                        新手登山常見的 12 個問題（高山症、雨衣、備用衣物、山屋、上廁所、生理期、體能）
-                    </div>
-                </div>
+                @endforeach
             </div>
+
             <hr />
+
             <div id="forumSave">
                 <h2>論壇</h2>
+                @foreach($forumSaveList as $forumSaveArticle)
                 <div class="article">
                     <div class="articleDate">
-                        3/18
+                        {{ $forumSaveArticle->date }}
                     </div>
                     <div class="articleTitle">
-                        魚路古道：石門的茶金歲月
+                        {{ $forumSaveArticle->title }}<br>
+                    </div>
+                    <div class="buttons">
+                        <form method="post" action="{{ route('goToForum') }}">
+                            @csrf
+                            <input type="submit" name="" id="" class="operate" value="檢視文章">
+                            <input type="hidden" name="foid" value="{{ $forumSaveArticle->foid }}">
+                        </form>
                     </div>
                 </div>
-                <div class="article">
-                    <div class="articleDate">
-                        1/5
-                    </div>
-                    <div class="articleTitle">
-                        【羊畢羊 一日單攻 】鋸齒連峰值得一探嗎？畢祿山風景超讚！
-                    </div>
-                </div>
-                <div class="article">
-                    <div class="articleDate">
-                        1/3
-                    </div>
-                    <div class="articleTitle">
-                        【裝備】繞境裝備怎麼帶？大甲媽祖穿搭一次看！
-                    </div>
-                </div>
-
+                @endforeach
             </div>
         </div>
 

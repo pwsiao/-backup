@@ -24,80 +24,50 @@
         <div class="pageContent">
             <div id="forumRecord">
                 <h2>我的討論串</h2>
+                @foreach($forumList as $forumArticle)
                 <div class="article">
                     <div class="articleDate">
-                        3/15
+                        {{ $forumArticle->date }}
                     </div>
                     <div class="articleTitle">
-                        <span>[草稿]</span>【六順山七彩湖】五天步行107公里-探訪中央山脈心臟地帶
+                        @if( !$forumArticle->state)
+                        <span>[草稿]</span>
+                        @endif
+                        {{ $forumArticle->title }}
                     </div>
                     <div class="buttons">
-                        <button name="" id="" class="operate">編輯</button>
-                        <button name="" id="" class="operate">刪除</button>
+                        <form method="POST" action="{{ route('editForum') }}">
+                            @csrf
+                            <input type="submit" name="" id="" class="operate" value="編輯">
+                            <input type="hidden" name="foid" value="{{ $forumArticle->foid }}">
+                        </form>
+                        <form method="POST" action="{{ route('delForum', ['foid' => $forumArticle->foid]) }}" onsubmit="return confirm('確定要刪除嗎？')">
+                            @csrf
+                            @method('DELETE')
+                            <input type="submit" name="" id="" class="operate" value="刪除">
+                        </form>
                     </div>
                 </div>
-                <div class="article">
-                    <div class="articleDate">
-                        2/13
-                    </div>
-                    <div class="articleTitle">
-                        2023 臺北大縱走 7：飛龍步道至指南宮竹柏參道
-                    </div>
-                    <div class="buttons">
-                        <button name="" id="" class="operate">編輯</button>
-                        <button name="" id="" class="operate">刪除</button>
-                    </div>
-                </div>
-                <div class="article">
-                    <div class="articleDate">
-                        1/5
-                    </div>
-                    <div class="articleTitle">
-                        新手登山常見的 12 個問題（高山症、雨衣、備用衣物、山屋、上廁所、生理期、體能）
-                    </div>
-                    <div class="buttons">
-                        <button name="" id="" class="operate">編輯</button>
-                        <button name="" id="" class="operate">刪除</button>
-                    </div>
-                </div>
+                @endforeach
             </div>
             <hr />
+            
             <div id="comment">
                 <h2>我的留言</h2>
+                @foreach($forumComments as $forumComment)
                 <div class="article">
                     <div class="articleDate">
-                        3/18
+                        {{ $forumComment->date }}
                     </div>
                     <div class="articleTitle">
-                        魚路古道：石門的茶金歲月
+                        {{ $forumComment->title }}<br>
+                        {{ $forumComment->forumComment }}
                     </div>
                     <div class="buttons">
-                        <button name="" id="" class="operate">檢視留言</button>
+                        <input type="button" name="" id="" class="operate" value="檢視文章" onclick="location.href='{{ route('fodetail', ['foid'=>$forumComment->foid, 'sfid'=>$forumComment->sfid]) }}'">
                     </div>
                 </div>
-                <div class="article">
-                    <div class="articleDate">
-                        1/5
-                    </div>
-                    <div class="articleTitle">
-                        【羊畢羊 一日單攻 】鋸齒連峰值得一探嗎？畢祿山風景超讚！
-                    </div>
-                    <div class="buttons">
-                        <button name="" id="" class="operate">檢視留言</button>
-                    </div>
-                </div>
-                <div class="article">
-                    <div class="articleDate">
-                        1/3
-                    </div>
-                    <div class="articleTitle">
-                        【裝備】繞境裝備怎麼帶？大甲媽祖穿搭一次看！
-                    </div>
-                    <div class="buttons">
-                        <button name="" id="" class="operate">檢視留言</button>
-                    </div>
-                </div>
-
+                @endforeach
             </div>
         </div>
 
