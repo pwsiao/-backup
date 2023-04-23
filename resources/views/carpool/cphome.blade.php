@@ -186,6 +186,12 @@
                 <a href="{{ route('login') }}">我要揪共乘</a>
             @endif
         </div>
+        <div>
+            <form class="example" action="{{ route('cphome') }}">
+                <input type="text" placeholder="輸入關鍵字" name="search" id="search-input">
+                <button type="submit" id="searchbt">搜索</button>
+            </form>
+        </div>
         <div id="carpool-tabs-container">
             <div style="width: 80%;">
                 <!-- Tab首列 -->

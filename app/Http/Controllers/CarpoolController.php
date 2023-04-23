@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Mail;
 class CarpoolController extends Controller
 {
 
-    //表單限制日期
+    //表單限制日期 /cpform
     public function getdate(){
         $min = date('Y-m-d',strtotime("+1 day"));
         $max = date('Y-m-d',strtotime("+1 year"));
@@ -29,7 +29,7 @@ class CarpoolController extends Controller
     }
 
 
-    //發起共乘 cpform
+    //發起共乘 /cpform
     public function create(Request $req){
         $id = Auth::id();
         $cp = new CpList();
@@ -50,7 +50,8 @@ class CarpoolController extends Controller
         return Redirect::to("/carpool/info/{$cp->cpid}");
     }
 
-    //共乘資訊 cpinfo
+
+    //共乘資訊 /cpinfo
     public function showinfo($cpid){
         $today = strtotime("now");
 
@@ -90,30 +91,24 @@ class CarpoolController extends Controller
                                            ->where('uid',$id)
                                            ->value('status'); 
 
-        return view('carpool.cpinfo',[
-            'cp'=>$cp,
-            'n1'=> $n1,
-            'joiner'=> $joiner,
-            'status'=>$status,
-            'uid'=>$uid,
-            'id'=>$id,
-            'userDatas'=>$userDatas,
-            'comments'=>$comments,
-            'cplist'=>$cplist,
-            'today'=>$today,
+            return view('carpool.cpinfo',[
+                'cp'=>$cp,
+                'n1'=> $n1,
+                'joiner'=> $joiner,
+                'status'=>$status,
+                'uid'=>$uid,
+                'id'=>$id,
+                'userDatas'=>$userDatas,
+                'comments'=>$comments,
+                'cplist'=>$cplist,
+                'today'=>$today,
 
         ]);
     }
-    // $status = DB::select('select status from carpool_join where cpid = ? and uid = ?',[$cpid,$id]);
-    // var_dump($status);
-    // array(1) { [0]=> object(stdClass)#337 (1) { ["status"]=> int(0) } }
-    
 
 
-
-
-    // 共乘首頁列表
-    public function cplist(){
+    // 共乘首頁列表 /cphome
+    public function cplist(Request $req){
        
         $cplist = CpList::orderBy('createtime','desc')->get();
         // dd($cplist[0]->cptitle);
@@ -123,17 +118,22 @@ class CarpoolController extends Controller
                                 where status=1 group by cpid ) as a 
                                 on carpool_list1.cpid = a.cpid");
 
+        $outputs = DB::table('carpool_list1')
+        ->where('cptitle', 'REGEXP', $req->search)
+        ->orderByDesc('createtime');
+        // ->paginate(10)                        
+
         // dd($cplist2);
 
         return view('carpool.cphome', [
             'cplist'=>$cplist, 
             'cplist2'=> $cplist2,
+            'outputs'=>$outputs
         ]);
     }
 
-
-    
-    //按下參加，發送email
+   
+    //按下參加，發送email /cpinfo
     public function join($cpid) : RedirectResponse{
 
         $id = Auth::id();
@@ -152,8 +152,7 @@ class CarpoolController extends Controller
     }
 
 
-
-    //留言
+    //留言 /cpinfo
     public function comment(Request $req, $cpid) {
         $uid = Auth::id();
         $content = $req->cpcom;
@@ -162,7 +161,7 @@ class CarpoolController extends Controller
     }
 
 
-    //編輯頁面
+    //編輯頁面 /member
     public function edit(Request $req){
         $cp = CpList::find($req->cpid);
         // dd($req->cpid);
@@ -178,7 +177,8 @@ class CarpoolController extends Controller
         ]);
     }
 
-    //更新
+
+    //更新 /member
     public function update(Request $req){
         $cp = CpList::find($req->cpid);
         $cp->cptitle = $req -> title1;
@@ -196,14 +196,15 @@ class CarpoolController extends Controller
 
     }
 
-    //刪除
+
+    //刪除 /member
     public function delete(Request $req){
         CpList::where('cpid', $req->cpid)->delete();
         return redirect(route('mbcp'));
     }
     
 
-    //會員頁cp
+    //會員頁cp /member
     public function getcpinfo()
     {
 
@@ -264,7 +265,7 @@ class CarpoolController extends Controller
     }
 
    
-    //會員頁確認鍵
+    //會員頁確認鍵 /member
     public function comfirmjoin(Request $req)
     {
         $value = $req->input('cpconfirm');
@@ -275,7 +276,8 @@ class CarpoolController extends Controller
         return redirect('/member/carpool');
     }
 
-    //確認中可以取消參加
+
+    //確認中可以取消參加 /member
     public function cancel(Request $req){
         $uid = Auth::id();
         DB::delete('delete from carpool_join where uid = ? and cpid = ?',[$uid, $req->cpid]);

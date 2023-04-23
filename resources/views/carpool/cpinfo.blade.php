@@ -102,7 +102,7 @@
                         @if(Auth::check())
                             @if($uid != $id)
                                 @if($n1 == 0)
-                                    <form method="post" action="">
+                                    <form method="post" action="{{route('cpjoin',['cpid'=>$cp->cpid])}}">
                                         @csrf
                                         <input type="submit" id="joinbutton1" value="加入">
                                     </form>

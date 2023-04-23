@@ -8,14 +8,15 @@ use App\Http\Middleware\CheckReturnDate;
 
 
 Route::get('/carpool',[CarpoolController::class, 'cplist'])->name('cphome');
+Route::post('/carpool',[CarpoolController::class, 'cplist']);
 Route::get('/carpool/form',[CarpoolController::class, 'getdate'])->name('cpform');
-Route::post('/carpool/form', [CarpoolController::class, 'create'])->middleware(CheckReturnDate::class);
+Route::post('/carpool/form', [CarpoolController::class, 'create'])->middleware(CheckReturnDate::class)->name('cpform');
 Route::get('/carpool/info/{cpid}',[CarpoolController::class, 'showinfo'])->name('cpinfo');
-Route::post('/carpool/info/{cpid}', [CarpoolController::class, 'join']);
+Route::post('/carpool/info/{cpid}', [CarpoolController::class, 'join'])->name('cpjoin');
 Route::post('/carpool/info/comment/{cpid}', [CarpoolController::class, 'comment'])->name('cpcomment');
 
 Route::get('/member/carpool',[CarpoolController::class, 'getcpinfo'])->name('mbcp');
-Route::post('/member/carpool',[CarpoolController::class, 'comfirmjoin']);
+Route::post('/member/carpool',[CarpoolController::class, 'comfirmjoin'])->name('comfirmjoin');
 Route::post('/member/carpool/cancel',[CarpoolController::class, 'cancel'])->name('canceljoin');
 Route::post('/carpool/edit',[CarpoolController::class, 'edit'])->name('cpedit');
 Route::post('/carpool/update',[CarpoolController::class, 'update'])->name('cpupdate');

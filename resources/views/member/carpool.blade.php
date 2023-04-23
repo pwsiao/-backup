@@ -65,7 +65,7 @@
                                          
                                             @if($c->number < $c->hire)
                                             <div class="memberState">
-                                                <form action="" method="post">
+                                                <form action="{{route('comfirmjoin')}}" method="post">
                                                     @csrf
                                                     <button type="submit" name="cpconfirm" value="1" class="operate">✓</button>
                                                     <button type="submit" name="cpconfirm" value="2" class="operate">✗</button>

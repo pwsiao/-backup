@@ -15,7 +15,7 @@
     <h1 id="carpool-title">我要揪共乘</h1>
     <div id="carpoolform-container">
         <img src="{{asset('img/carpool.jpg')}}" alt="">
-        <form action="" method="post">
+        <form action="{{route('cpform')}}" method="post">
             @csrf
             <div style="display: flex; justify-content: center;">
                 <table>
