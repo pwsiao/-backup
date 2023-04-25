@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class FeelController extends Controller
 {
+    private $model;
     public function __construct()
     {
         $this->model = new MyModel;
@@ -39,6 +40,7 @@ class FeelController extends Controller
         $uid = Auth::id();
         $userDatas = $this->model->feelComPN($uid);
         $userPic = $this->model->UserPic($uid);
+        $isRed = $this->model->FeIsRed($ftid);
         return view('feel.feelDetail', [
             'article' => $article,
             'datas' => $datas,
@@ -46,13 +48,14 @@ class FeelController extends Controller
             'userDatas' => $userDatas,
             'uid' => $uid,
             'ftid' => $ftid,
-            'userPic' => $userPic
+            'userPic' => $userPic,
+            'isRed' => $isRed
         ]);
     }
 
     public function feelCom(Request $request)
     {
-        $uid = $request->uid;
+        $uid = Auth::id();
         $ftid = $request->ftid;
         $feelcom = $request->feelcom;
         $this->model->feelCom($ftid, $uid, $feelcom);
@@ -62,7 +65,7 @@ class FeelController extends Controller
 
     public function feelMes(Request $request)
     {
-        $uid = $request->uid;
+        $uid = Auth::id();
         $title = $request->title;
         $content = $request->content;
 
@@ -70,18 +73,30 @@ class FeelController extends Controller
         $file = $request->file('pic');
         // 獲取文件的二進制內容
         $pic = $file->get();
-
+        if ($request->hasFile('pic')) {
+            $file = $request->file('pic');
+            $pic = $file->get();
+            $mime_type = $file->getMimeType();
+            $src = 'data:' . $mime_type . ';base64,' . base64_encode($pic);
+        } else {
+            $src = null;
+        }
         $state = $request->input('btValue');
 
-        $this->model->feelMes($uid, $title, $content, $pic, $state);
-        return redirect("/feelIndex");
 
-        // return $state;
+        $answer = $this->model->feelMes($uid, $title, $content, $src, $state);
+
+        if($answer === 0){
+            $request->session()->flash('answer', $answer);
+            return redirect()->back()->with('answer', $answer);
+        }else{
+            return redirect("/feelIndex")->with(['answer' => $answer]);
+        }
     }
 
     public function feelSaved(Request $request)
     {
-        $uid = $request->uid;
+        $uid = Auth::id();
         $ftid = $request->ftid;
         $this->model->feelSaved($uid,$ftid);
         return redirect("/feelDetail/{$ftid}");
@@ -90,11 +105,11 @@ class FeelController extends Controller
     }
 
     public function feelUnsaved(Request $request){
-        $uid = $request->uid;
+        $uid = Auth::id();
         $ftid = $request->ftid;
         $this->model->feelUnsaved($uid,$ftid);
         return redirect("/feelDetail/{$ftid}");
-        // return $uid ;
+        
     }
     public function feelMesSaved(Request $request){
         $uid = $request->uid;      
@@ -121,7 +136,8 @@ class FeelController extends Controller
     
     }
 
-    public function getuserpic($uid){
+    public function getuserpic(){
+        $uid = Auth::id();
         $myModel = new MyModel();
         $userPic = $myModel->UserPic($uid);
         return view('feel.feelMessage',[

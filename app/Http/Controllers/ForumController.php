@@ -32,7 +32,7 @@ class ForumController extends Controller
         $uid = Auth::id();
         $userPic = $this->model->UserPic($uid);
         
-        return view('forum.forumIndex',[
+        return view('forum.forumQIndex',[
             'forumNew2s' => $forumNew2s,
             'questions' => $questions,
             'groups' => $groups,
@@ -40,6 +40,66 @@ class ForumController extends Controller
             'uid' => $uid,
             'Qoutputs' => $Qoutputs,
             'Goutputs' => $Goutputs,
+            'Houtputs' => $Houtputs,
+            'userPic' => $userPic
+        ]);
+    }
+
+    public function forumQIndex(Request $request)
+    {
+        $search = $request->search;
+        $forumNew2s = $this->model->forumNew2();
+
+        $questions = $this->model->question();
+        $Qoutputs = $this->model->forumQSearch($search);
+
+        $uid = Auth::id();
+        $userPic = $this->model->UserPic($uid);
+        
+        return view('forum.forumQIndex',[
+            'forumNew2s' => $forumNew2s,
+            'questions' => $questions,
+            'uid' => $uid,
+            'Qoutputs' => $Qoutputs,
+            'userPic' => $userPic
+        ]);
+    }
+
+    public function forumGIndex(Request $request)
+    {
+        $search = $request->search;
+        $forumNew2s = $this->model->forumNew2();
+
+        $groups = $this->model->group();
+        $Goutputs = $this->model->forumGSearch($search);
+
+        $uid = Auth::id();
+        $userPic = $this->model->UserPic($uid);
+        
+        return view('forum.forumGIndex',[
+            'forumNew2s' => $forumNew2s,
+            'groups' => $groups,
+            'uid' => $uid,
+            'Goutputs' => $Goutputs,
+            'userPic' => $userPic
+        ]);
+    }
+
+    public function forumHIndex(Request $request)
+    {
+        $search = $request->search;
+        $forumNew2s = $this->model->forumNew2();
+
+        $haters = $this->model->hater();
+        $Houtputs = $this->model->forumHSearch($search);
+
+        $uid = Auth::id();
+        $userPic = $this->model->UserPic($uid);
+        
+        return view('forum.forumHIndex',[
+            'forumNew2s' => $forumNew2s,
+            'haters' => $haters,
+            'uid' => $uid,
             'Houtputs' => $Houtputs,
             'userPic' => $userPic
         ]);
@@ -54,6 +114,7 @@ class ForumController extends Controller
         $uid = Auth::id();
         $userPic = $this->model->UserPic($uid);
         $userDatas = $this->model->feelComPN($uid);
+        $isRed = $this->model->FoIsRed($foid);
         return view('forum.forumDetail',[
             'articles' => $articles,
             'FCquestions' => $FCquestions,
@@ -62,12 +123,13 @@ class ForumController extends Controller
             'sfid' => $sfid,
             'uid' => $uid,
             'foid'=> $foid,
-            'userPic' => $userPic
+            'userPic' => $userPic,
+            'isRed' => $isRed
         ]);
     }
 
     public function forumCom(Request $request){
-        $uid = $request->uid;
+        $uid = Auth::id();
         $foid = $request->foid;
         $sfid = $request->sfid;
         $forumcom = $request->forumcom;
@@ -79,24 +141,38 @@ class ForumController extends Controller
 
     public function forumMes(Request $request)
     {
-        $uid = $request->uid;
+        $uid = Auth::id();
         $title = $request->title;
         $content = $request->content;
         $sfid = $request->sfid;
         $state = $request->input('btValue');
 
         // 從請求中獲取文件實例
-        $file = $request->file('pic');
+        // $file = $request->file('pic');
         // 獲取文件的二進制內容
-        $pic = $file->get();
-        $this->model->forumMes($sfid,$uid,$title,$content,$pic,$state);
-        return redirect("/forumIndex");
-        // return $abc;
+        // $pic = $file->get();
+        // $answer = $this->model->forumMes($sfid,$uid,$title,$content,$pic,$state);
+
+        if ($request->hasFile('pic')) {
+            $file = $request->file('pic');
+            $pic = $file->get();
+            $mime_type = $file->getMimeType();
+            $src = 'data:' . $mime_type . ';base64,' . base64_encode($pic);
+        } else {
+            $src = null;
+        }
+        $answer = $this->model->forumMes($sfid, $uid, $title, $content, $src, $state);
+        if($answer === 0){
+            // $request->session()->flash('answer', $answer);
+            return redirect()->back()->with('answer', $answer);
+        }else{
+            return redirect("/forumQIndex")->with(['answer' => $answer]);
+        }
     }
 
     public function forumSaved(Request $request)
     {
-        $uid = $request->uid;
+        $uid = Auth::id();
         $ftid = $request->ftid;
         $sfid = $request->sfid;
         $this->model->forumSaved($uid,$ftid);
@@ -107,7 +183,7 @@ class ForumController extends Controller
     
     public function forumUnsaved(Request $request)
     {
-        $uid = $request->uid;
+        $uid = Auth::id();
         $ftid = $request->ftid;
         $sfid = $request->sfid;
         $this->model->forumUnsaved($uid,$ftid);
@@ -117,23 +193,9 @@ class ForumController extends Controller
     }
 
 
-    public function forumMesSaved(Request $request)
-    {
-        $uid = $request->uid;
-        $title = $request->title;
-        $content = $request->content;
-        $sfid = $request->sfid;
 
-        // 從請求中獲取文件實例
-        $file = $request->file('pic');
-        // 獲取文件的二進制內容
-        $pic = $file->get();
-        $this->model->forumMesSaved($sfid,$uid,$title,$content,$pic);
-        return redirect("/forumMes/{uid}");
-        // return ;
-    }
-
-    public function getuserpic($uid){
+    public function getuserpic(){
+        $uid = Auth::id();
         $myModel = new MyModel();
         $userPic = $myModel->UserPic($uid);
         return view('forum.forumMessage',[

@@ -11,7 +11,7 @@ h1 {
 }
 
 .row {
-    display: flex;
+    height: 2800px;
 }
 
 .column1 {
@@ -21,8 +21,10 @@ h1 {
 
 .column2 {
   width: 30%;
-  margin-top: 7%;
-  height: 100%;
+  position: absolute;
+  right: 50px;
+  top: 170px;
+  padding-bottom: 10px;
 }
 
 /* tab */
@@ -318,11 +320,11 @@ aside {
 }
 
 #abcc {
-  /* background-color: #664c43; */
+
   height: 200px;
-  /* width: 100%; */
-  border-right: 1px solid #B1BBA0;
-  border-left: 1px solid #B1BBA0;
+
+  /* border-right: 1px solid #B1BBA0; */
+  /* border-left: 1px solid #B1BBA0; */
 }
 
 @media screen and (max-width: 1200px) {

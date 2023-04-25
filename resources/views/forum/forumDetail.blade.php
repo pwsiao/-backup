@@ -19,10 +19,14 @@
                     @if(isset($articles))
                         @foreach($articles as $article)
                         <div>
-                        <img src="data:image/jpeg;base64,{{base64_encode( $article->upicture)}}" >
+                            @if(empty($article1->upicture))
+                                <img src="{{ asset('pic/admin.png') }}" alt="">
+                            @else
+                                <img src="{{$article->upicture}}">
+                            @endif
                             <div>{{$article->name}}</div>
                             @auth
-                                <a id="heartHref" href="{{route('fosave',[ 'sfid'=>$sfid, 'uid'=>$uid, 'ftid'=>$foid ] )}}">
+                                <a id="heartHref">
                                     <i class="bi bi-suit-heart-fill" id="heart"></i>
                                 </a>
                             @endauth
@@ -32,7 +36,7 @@
                             <p>{{$article->createtime}}</p>
                         </div>
                         <div id="imgDiv">
-                            <img src="data:image/jpeg;base64,{{base64_encode( $article->fpicture)}}" >
+                            <img src="{{$article->fpicture}}" >
                         </div>
                         <div>
                             {{$article->content}}
@@ -43,40 +47,35 @@
                     @endif
                     </div>
                     @auth
+
                     <script>
                         // 获取图标元素和链接元素
                         const heartIcon = document.getElementById('heart');
                         const heartHref = document.getElementById('heartHref');
-                        const uid = heartHref.dataset.uid;
-                        const ftid = heartHref.dataset.ftid;
-                    
-                    
-                        // 初始化图标状态
-                        let isRed = localStorage.getItem('isRed') === 'true';
-                        if (isRed) {
-                            heartIcon.classList.add('text-danger');
-                            heartHref.href = "{{route('fosave',[ 'sfid'=>$sfid, 'uid'=>$uid, 'ftid'=>$foid ] )}}";
+                        const isRed = {!! json_encode($isRed) !!};
+                        if (isRed.length > 0) {
+                            heartIcon.style.color = 'red';
                         }
-                    
+
                         // 监听点击事件
                         heartIcon.addEventListener('click', () => {
-                            // 切换图标颜色
-                            if (isRed) {
-                                heartIcon.classList.remove('text-danger');
-                                isRed = false;
-                                localStorage.setItem('isRed', 'false');
-                                heartHref.href = "{{route('founsave',[ 'sfid'=>$sfid, 'uid'=>$uid, 'ftid'=>$foid ] )}}";
-                                alert("取消收藏");
+                        event.preventDefault();
                         
-                            } else {
-                                heartIcon.classList.add('text-danger');
-                                isRed = true;
-                                localStorage.setItem('isRed', 'true');
-                                heartHref.href = "{{route('fosave',[ 'sfid'=>$sfid, 'uid'=>$uid, 'ftid'=>$foid ] )}}";
-                                alert("收藏成功");   
-                            }
+                          // 切换图标颜色
+                        if (isRed.length > 0) {
+                          //   heartIcon.classList.add('text-danger');
+                        
+                        window.location.href = "{{route('founsave',[ 'sfid'=>$sfid, 'ftid'=>$foid ] )}}";
+                            alert("取消收藏");
+                        } else {
+                          //   heartIcon.classList.remove('text-danger');
+                            heartIcon.style.color = 'red';
+                            window.location.href = "{{route('fosave',[ 'sfid'=>$sfid, 'ftid'=>$foid ] )}}";
+                            alert("收藏成功"); 
+                        }
                         });
                     </script>
+
                     @endauth
                     <!-- 留言紀錄 -->
                     @if($FCquestions == null)
@@ -96,12 +95,14 @@
                         @foreach($FCquestions as $FCquestion)
                             <div class="headDiv">
                                 <div class="headDivChi">
-                                    <img src="data:image/jpeg;base64,{{base64_encode($FCquestion->upicture)}}" >
+                                @if(empty($FCquestion->upicture))
+                                    <img src="{{ asset('pic/admin.png') }}" alt="">
+                                @else
+                                    <img src="{{$FCquestion->upicture}}">
+                                @endif
                                     <p>{{$FCquestion->name}}</p>
                                 </div>
-                                <div class="headDivChi2">
-                                    <p>{{$FCquestion->content}}</p>
-                                </div>
+                                <div class="headDivChi2">{{$FCquestion->content}}</div>
                             </div>
                             <hr>
                         @endforeach
@@ -114,11 +115,15 @@
                     <!-- 留言 -->
                     <div id="mes">
                     @if (Auth::check())
-                        <form method="post" action="{{ route('forumcom',['sfid'=>$sfid,'foid'=>$foid,'uid'=>$uid])}}" id="myForm">
+                        <form method="post" action="{{ route('forumcom',['sfid'=>$sfid,'foid'=>$foid])}}" id="myForm">
                             @csrf
                             @foreach($userDatas as $userData)
                             <div class="formPic">
-                                <img class="headDivPic" src="data:image/jpeg;base64,{{base64_encode( $userData->upicture)}}" >
+                                @if(empty($userData->upicture))
+                                    <img class="headDivPic" src="{{ asset('pic/admin.png') }}" alt="">
+                                @else
+                                    <img class="headDivPic" src="{{ $userData->upicture}}" >
+                                @endif                               
                                 <p>{{$userData->name}} ></p>
                             </div>
                             @endforeach
@@ -131,7 +136,7 @@
                             @csrf
                             @foreach($userDatas as $userData)
                             <div class="formPic">
-                                <img class="headDivPic" src="data:image/jpeg;base64,{{base64_encode( $userData->upicture)}}" >
+                                <img class="headDivPic" src="{{$userData->upicture}}" >
                                 <p>{{$userData->name}} ></p>
                             </div>
                             @endforeach
@@ -150,7 +155,17 @@
                                     <a href="{{route('fodetail',[ 'sfid'=> $forumNew->sfid, 'foid'=>$forumNew->foid ] )}}">
                                         <h4>{{$forumNew->title}}</h4>
                                     </a>
-                                    <p>作者：{{$forumNew->name}}</p>
+                                    <div class="new">
+                                        @if(empty($forumNew->upicture))
+                                            <img class="newpic" src="{{ asset('pic/admin.png') }}" alt="">
+                                        @else
+                                            <img class="newpic" src="{{$forumNew->upicture}}">
+                                        @endif 
+                                        <span class="newname">{{$forumNew->name}}</span>
+                                        <br>
+                                        <br>
+                                        <span class="newtime">{{$forumNew->createtime}}</span>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach

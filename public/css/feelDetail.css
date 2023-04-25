@@ -42,6 +42,10 @@
     width: 85%;
     padding: 40px;
     font-size: 20px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    position: relative;
 }
 #content > div:nth-child(1) > img:nth-child(1) {
     height: 70px;
@@ -74,10 +78,10 @@
 }
 
 #content > div:nth-child(1) > a {
-    display: inline-block;
-    position: relative;
-    top: -40px;
-    left: 70%;
+    /* display: inline-block; */
+    position: absolute;
+    top: 2.5%;
+    left: 85%;
     color: rgb(78, 77, 77);
     font-size: 40px;
     cursor: pointer;
@@ -99,7 +103,7 @@
 }
 
 .text-danger {
-    color: rgb(244, 4, 4) !important;
+    color: rgb(231, 30, 70) !important;
   }
   
 
@@ -127,10 +131,13 @@
     font-size: 20px;
 }
 
-.headDivChi2 > p {
+.headDivChi2{
     width: 90%;
     font-size: 18px;
     margin-top: 1%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .headDivChi2 > button {
@@ -138,6 +145,7 @@
     border: transparent;
     font-size: 20px;
     margin-left: 70%;
+    cursor: pointer;
     color: rgb(42, 42, 42);
 }
 
@@ -257,15 +265,40 @@ aside > h1 {
   box-orient: vertical; /* W3C 标准语法 */
   overflow: hidden; /* 超出部分隐藏 */
   text-overflow: ellipsis; /* 超出部分显示省略号 */
-  padding: 5px;
+  padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
 }
 
-
+.article2:hover{
+    transform: translateY(-10px);
+    transition: transform 0.3s ease;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
 
 .article2Con > p:nth-child(1) {
   font-size: 18px;
   margin: 0;
   font-weight: bold;
+}
+
+.newpic{
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+}
+
+.newname{
+    position: relative;
+    bottom:15px;
+    left: 5px;
+}
+
+.newtime{
+    /* text-align: right;  */
+    position: relative;
+    bottom:15px;
+    left: 5px;
 }
 
 @media screen and (max-width: 1200px) {

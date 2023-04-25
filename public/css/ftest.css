@@ -1,0 +1,83 @@
+
+
+
+
+
+
+
+
+
+
+
+/* 文章列表 */
+#articles {
+    background-color: #d8ddcf;
+    width: 80%;
+    padding: 30px;
+    margin-top:50px
+}
+.article {
+    background-color: white;
+    font-size: 20px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: #ccc 1px solid;
+    width: 520px;
+    margin-bottom: 20px;
+}
+
+#articles {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+
+
+.articleCon {
+    flex-basis: 60%; /* 文字内容占 70% */
+    padding-left: 20px; /* 左边距 20px，与图片分隔开 */
+    line-height: 1.5;
+    height: 200px;
+    display: -webkit-box; /* 旧版 Safari、iOS 和 Android */
+    display: -moz-box; /* 旧版 Firefox */
+    display: box; /* W3C 标准语法 */
+    -webkit-box-orient: vertical; /* 旧版 Safari、iOS 和 Android */
+    -moz-box-orient: vertical; /* 旧版 Firefox */
+    box-orient: vertical; /* W3C 标准语法 */
+    overflow: hidden; /* 超出部分隐藏 */
+    text-overflow: ellipsis; /* 超出部分显示省略号 */
+}
+
+.articleCon > h5 {
+    margin: 0;
+}
+
+.articlePic img {
+    
+    object-fit: cover; /* 填满并保持图片比例 */
+    object-position: center; /* 图片居中 */
+    position: absolute; /* 设置绝对定位，以便图片可以填满容器 */
+    top: 0;
+    left: 0;
+    width: 100%; /* 图片宽度填满容器 */
+    height: 100%; /* 图片高度填满容器 */
+    object-fit: cover; /* 填满并保持图片比例 */
+    object-position: center; /* 图片居中 */
+  
+}
+
+.articlePic {
+    flex-basis: 40%; /* 图片占 30% */
+    width: 500px; /* 容器宽度 */
+    height: 500px; /* 容器高度 */
+    position: relative; /* 设置相对定位，以便容器可以容纳图片 */
+
+}
+
+
+
+
+

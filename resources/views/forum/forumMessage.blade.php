@@ -21,30 +21,37 @@
                     <p></p>
                     <input type="file" id="photo-upload" name="pic" accept="image/*" required>
                     <div id="preview"></div>
-                    <script src="{{asset('js/mesCanva.js')}}"></script>
+                    <script src="{{asset('js/MesCanva.js')}}"></script>
                     <hr>
                     選看板：
                     <input type="radio" name="sfid" id="" value="1" required>問題
                     <input type="radio" name="sfid" id="" value="2" required>揪團
                     <input type="radio" name="sfid" id="" value="3" required>黑特
                     <hr>
-                    <input type="text" placeholder="輸入標題" name="title" minlength="5" required>
+                    <input type="text" placeholder="輸入標題" name="title" minlength="5" maxlength="30" required>
                     <br>
-                    <textarea placeholder="輸入內容" name = "content" minlength="10" required></textarea>
+                    <textarea placeholder="輸入內容" name="content" minlength="10" required></textarea>
                     <br><br>
                     <hr>
                     <div id="bt">
-                        <button type="submit" value="1" name="btValue">發布</button>
                         <button type="submit" value="0" name="btValue">儲存</button>
+                        <button type="submit" value="1" name="btValue">發布</button>
                     </div>
                 </form>
-                <!-- <script>
-                    function changeAction(){
-                        document.getElementById('myForm').action = "/BigProject/public/forumMesSaved/{{$uid}}";
-                    }                
-                </script> -->
+                @if(session()->has('answer'))
+                    @if(session('answer') === 1)
+                        <script>alert("發佈成功！")</script>
+                    @else
+                        <script>alert("發佈失敗！請重新選擇片")</script>
+                    @endif
+                @endif
+
+
+
+
+                
+
             </div>
             <br><br>
         </div>
-
 @endsection

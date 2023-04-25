@@ -24,7 +24,7 @@
                         <div id="abc" class="tabcontent">
                             <form class="example" type="get" action="{{ route('foindex') }}">
                                 <input type="text" placeholder="輸入關鍵字" name="search" id="search-input">
-                                <button type="submit" id="searchbt">搜索</button>
+                                <button type="submit" id="searchbt-abc" class="BU">搜索</button>
                             </form>
                             <div id="articles">
                             @if(isset($Qoutputs))
@@ -36,7 +36,7 @@
                                 @foreach($Qoutputs as $Qoutput)
                                 <div class="article">
                                     <div class="articlePic">                 
-                                        <img src="data:image/jpeg;base64,{{base64_encode($Qoutput->fpicture)}}" >
+                                        <img src="{{ $Qoutput->fpicture}}" >
                                     </div>
                                     <div class="articleCon">
                                         <a href="{{route('fodetail',[ 'sfid'=> 1, 'foid'=>$Qoutput->foid ] )}}">
@@ -53,7 +53,7 @@
                                 @foreach($questions as $question)
                                         <div class="article">
                                             <div class="articlePic">                 
-                                                <img src="data:image/jpeg;base64,{{base64_encode($question->fpicture)}}" >
+                                                <img src="{{question->fpicture}}" >
                                             </div>
                                             <div class="articleCon">
                                                 <a href="{{route('fodetail',[ 'sfid'=> 1, 'foid'=>$Qoutput->foid ] )}}">
@@ -71,7 +71,7 @@
                         <div id="Paris" class="tabcontent">
                             <form class="example" type="get" action="{{ route('foindex') }}">
                                 <input type="text" placeholder="輸入關鍵字" name="search" id="search-input">
-                                <button type="submit" id="searchbt">搜索</button>
+                                <button type="submit" id="searchbt-paris" class="BU">搜索</button>
                             </form>
                             <div id="articles">
                             @if(isset($Goutputs))
@@ -83,7 +83,7 @@
                                     @foreach($Goutputs as $Goutput)
                                     <div class="article">
                                         <div class="articlePic">                 
-                                            <img src="data:image/jpeg;base64,{{base64_encode($Goutput->fpicture)}}" >
+                                            <img src="{{$Goutput->fpicture}}" >
                                         </div>
                                         <div class="articleCon">
                                             <a href="{{route('fodetail',[ 'sfid'=> 2, 'foid'=>$Goutput->foid ] )}}">
@@ -100,7 +100,7 @@
                                 @foreach($groups as $group)
                                             <div class="article">
                                                 <div class="articlePic">                 
-                                                    <img src="data:image/jpeg;base64,{{base64_encode($group->fpicture)}}" >
+                                                    <img src="{{$group->fpicture}}" >
                                                 </div>
                                                 <div class="articleCon">
                                                     <a href="{{route('fodetail',[ 'sfid'=> 2, 'foid'=>$group->foid ] )}}">
@@ -116,9 +116,9 @@
                             </div>
                         </div>
                         <div id="Tokyo" class="tabcontent">
-                            <form class="example">
+                            <form class="example" type="get" action="{{ route('foindex') }}">
                                 <input type="text" placeholder="輸入關鍵字" name="search" id="search-input">
-                                <button type="submit" id="searchbt" type="get" action="{{ route('foindex') }}">搜索</button>
+                                <button type="submit" id="searchbt-tokyo" type="get" action="{{ route('foindex') }}" class="BU">搜索</button>
                             </form>
                             <div id="articles">
                             @if(isset($Houtputs))
@@ -130,7 +130,7 @@
                                     @foreach($Houtputs as $Houtput)
                                     <div class="article">
                                         <div class="articlePic">                 
-                                            <img src="data:image/jpeg;base64,{{base64_encode($Houtput->fpicture)}}" >
+                                            <img src="{{$Houtput->fpicture}}" >
                                         </div>
                                         <div class="articleCon">
                                             <a href="{{route('fodetail',[ 'sfid'=> 3, 'foid'=>$Houtput->foid ] )}}">
@@ -147,7 +147,7 @@
                                 @foreach($haters as $hater)
                                     <div class="article">
                                         <div class="articlePic">                 
-                                            <img src="data:image/jpeg;base64,{{base64_encode($hater->fpicture)}}" >
+                                            <img src="{{$hater->fpicture}}" >
                                         </div>
                                         <div class="articleCon">
                                             <a href="{{route('fodetail',[ 'sfid'=> 3, 'foid'=>$hater->foid ] )}}">
@@ -163,15 +163,12 @@
                             </div>
                         </div>
                     </div>
-                    
-
                 </div>
-            <script src="{{ asset('js/forumIndex.js') }}"></script>
+
+<script src="{{ asset('js/forumIndex.js') }}"></script>
+
             @auth
-                <?php
-                    $url = route('fomes',[ 'uid'=> $uid ] )
-                ?>
-                <button id="btPublish" onclick="window.location.href ='{{ $url}}'">
+                <button id="btPublish" onclick="window.location.href ='{{ route('fomes')}}'">
                     發文
                 </button>
             @endauth
@@ -183,7 +180,17 @@
                                     <a href="{{ route('fodetail',['sfid'=>$forumNew2->sfid,'foid'=>$forumNew2->foid])}}">
                                         <h4>{{$forumNew2->title}}</h4>
                                     </a>
-                                    <p>作者：{{$forumNew2->name}}</p>
+                                    <div class="new">
+                                    @if(empty($forumNew2->upicture))
+                                        <img class="newpic" src="{{ asset('pic/admin.png') }}" alt="">
+                                    @else
+                                        <img class="newpic" src="{{$forumNew2->upicture}}">
+                                    @endif                                            
+                                        <span class="newname">{{$forumNew2->name}}</span>
+                                        <br>
+                                        <br>
+                                        <span class="newtime">{{$forumNew2->createtime}}</span>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach    
@@ -192,6 +199,6 @@
             </div>
 
             <div id="abcc"></div>
- </div>
 
-@endsection
+
+ @endsection

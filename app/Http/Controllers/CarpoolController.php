@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 
 use Illuminate\Http\RedirectResponse;
 use App\Mail\JoinNotice;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -110,25 +111,34 @@ class CarpoolController extends Controller
     // 共乘首頁列表 /cphome
     public function cplist(Request $req){
        
-        $cplist = CpList::orderBy('createtime','desc')->get();
+        // $cplist = CpList::orderBy('createtime','desc')->get();
         // dd($cplist[0]->cptitle);
 
-        $cplist2 = DB::select("select  * FROM carpool_list1 left join
+        $cplist = DB::select("select  * FROM carpool_list1 left join
                                 ( select cpid, count(*) as joiner  from carpool_join 
                                 where status=1 group by cpid ) as a 
                                 on carpool_list1.cpid = a.cpid");
 
-        $outputs = DB::table('carpool_list1')
-        ->where('cptitle', 'REGEXP', $req->search)
-        ->orderByDesc('createtime');
-        // ->paginate(10)                        
+        
+        // $countjoiner = DB::table('carpool_join')
+        //         ->select('cpid', DB::raw('count(*) as joiner'))
+        //         ->groupBy('cpid');
+
+        $searchresult = DB::table('carpool_list1')
+                ->leftJoin('users','carpool_list1.uid','=','users.id')
+                ->where('cptitle', 'REGEXP', $req->search)
+                ->get();  
+                
+        // dd($searchresult);        
+        // $search = $req->search;                      
 
         // dd($cplist2);
 
         return view('carpool.cphome', [
             'cplist'=>$cplist, 
-            'cplist2'=> $cplist2,
-            'outputs'=>$outputs
+            // 'cplist2'=> $cplist2,
+            'searchresult'=>$searchresult,
+            'search'=> $req->search,
         ]);
     }
 

@@ -31,7 +31,7 @@
     }
 
     $a =[];
-    foreach($cplist as $c){
+    foreach($searchresult as $c){
     $event = new Events($c->cptitle, $c->departdate, $c->cpid);
     array_push($a,$event);
     }
@@ -189,7 +189,7 @@
         </div>
         <div>
             <form class="example" action="{{ route('cphome') }}">
-                <input type="text" placeholder="輸入關鍵字" name="search" id="search-input">
+                <input type="text" placeholder="輸入關鍵字" name="search" id="search-input" value="{{$search}}">
                 <button type="submit" id="searchbt">搜索</button>
             </form>
         </div>
@@ -212,34 +212,33 @@
                 </div>
 
                 <div id="carpool-list" class="tabcontent" style="text-align: center;">
-
-                @foreach($cplist as $cp)
-                    <a href="{{route('cpinfo',[ 'cpid'=>$cp->cpid ] )}}">
-                        <div class="carpool-list2">
-                            <span>{{$cp->departdate}}</span>
-                            <span>{{$cp->cptitle}}</span>
-                            @if(isset($cp->poster['upicture']))
-                            <img src="{{$cp->poster['upicture']}}" alt="">
-                            @else
-                            <img src="{{asset('pic/admin.png')}}" alt="">
-                            @endif
-                            
-                            @foreach($cplist2 as $c)
-                                @if($cp->createtime == $c->createtime)
-                                    @if(isset($c->joiner))
-                                        @if($cp->hire > $c->joiner)
-                                        <span>{{$c->joiner}}/{{$cp->hire}}</span>
-                                        @elseif($cp->hire == $c->joiner)
-                                        <span>已徵滿</span>
-                                        @endif
-                                    @else
-                                    <span>0/{{$cp->hire}}</span>
-                                    @endif
+                    @foreach($searchresult as $cp)
+                        <a href="{{route('cpinfo',[ 'cpid'=>$cp->cpid ] )}}">
+                            <div class="carpool-list2">
+                                <span>{{$cp->departdate}}</span>
+                                <span>{{$cp->cptitle}}</span>
+                                @if(isset($cp->upicture))
+                                <img src="{{$cp->upicture}}" alt="">
+                                @else
+                                <img src="{{asset('pic/admin.png')}}" alt="">
                                 @endif
-                            @endforeach
-                        </div>
-                    </a>
-                @endforeach
+                                
+                                @foreach($cplist as $c)
+                                    @if($cp->createtime == $c->createtime)
+                                        @if(isset($c->joiner))
+                                            @if($cp->hire > $c->joiner)
+                                            <span>{{$c->joiner}}/{{$cp->hire}}</span>
+                                            @elseif($cp->hire == $c->joiner)
+                                            <span>已徵滿</span>
+                                            @endif
+                                        @else
+                                        <span>0/{{$cp->hire}}</span>
+                                        @endif
+                                    @endif
+                                @endforeach
+                            </div>
+                        </a>
+                    @endforeach  
                 </div>
 
             </div>
