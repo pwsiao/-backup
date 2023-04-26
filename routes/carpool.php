@@ -25,7 +25,7 @@ Route::post('/carpool/edit', [CarpoolController::class, 'edit'])->name('cpedit')
 Route::post('/carpool/update', [CarpoolController::class, 'update'])->name('cpupdate');
 Route::post('/carpool/delete', [CarpoolController::class, 'delete'])->name('cpdelete');
 
-Route::get('/notice', [CarpoolController::class, 'cpjoinNotice'])->name('notice');
+
 // Route::view('/wel','welcome');
 // Route::post('/test',[SendJoinNoticeMailController::class, 'store'])->name('test');
 // Route::post('/test',[CarpoolController::class, 'test'])->name('test');

@@ -89,7 +89,7 @@ margin-top: 1.8%;
 }
 
 #content > div:nth-child(1) > a:hover{
-color: rgb(231, 30, 70);
+color: #d64045;
 font-size: 45px;
 }
 
@@ -172,7 +172,31 @@ font-size: 45px;
   white-space: pre-wrap;
 }
 
+.icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 90%;
+  position: relative;
+  top: -60px;
+  font-size: 20px;
+  color: #664c43;
+  cursor: pointer;
 
+}
+
+.editbt {
+  margin-left: 25%;
+}
+
+.bi-trash3{
+  color: #664c43;
+}
+
+
+.headDivChi2 > form {
+  margin-top: -50px;
+}
 /* 留言 */
 .formPic {
 display: flex;
@@ -422,5 +446,13 @@ border: transparent;
 resize: none;
 position: relative;
 left: 10px;
+}
+
+.icons {
+  margin-left: 80%;
+}
+
+.editbt {
+  margin-left: -5%;
 }
 }

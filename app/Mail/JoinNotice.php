@@ -8,7 +8,6 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\CpList;
 
 class JoinNotice extends Mailable
 {
@@ -17,8 +16,7 @@ class JoinNotice extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(
-        public CpList $join,)
+    public function __construct()
     {
         
     }
@@ -29,7 +27,7 @@ class JoinNotice extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Join Notice',
+            subject: '與山同行 加入通知',
         );
     }
 

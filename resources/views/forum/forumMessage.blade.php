@@ -15,7 +15,7 @@
             <br>
             <h1>論壇發表</h1>
             <div id="FormContainer">
-                <form method="post" action="{{route('forummes',['uid'=>$uid])}}" enctype="multipart/form-data" id="myForm">
+                <form method="post" action="{{route('forummes')}}" enctype="multipart/form-data" id="myForm">
                     @csrf
                     選擇封面：<br>
                     <p></p>

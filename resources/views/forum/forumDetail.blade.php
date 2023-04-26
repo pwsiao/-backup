@@ -54,7 +54,7 @@
                         const heartHref = document.getElementById('heartHref');
                         const isRed = {!! json_encode($isRed) !!};
                         if (isRed.length > 0) {
-                            heartIcon.style.color = 'red';
+                            heartIcon.style.color = '#d64045';
                         }
 
                         // 监听点击事件
@@ -69,7 +69,7 @@
                             alert("取消收藏");
                         } else {
                           //   heartIcon.classList.remove('text-danger');
-                            heartIcon.style.color = 'red';
+                            heartIcon.style.color = '#d64045';
                             window.location.href = "{{route('fosave',[ 'sfid'=>$sfid, 'ftid'=>$foid ] )}}";
                             alert("收藏成功"); 
                         }
@@ -101,9 +101,34 @@
                                     <img src="{{$FCquestion->upicture}}">
                                 @endif
                                     <p>{{$FCquestion->name}}</p>
+                                @if($FCquestion->uid === $uid)
+                                    <div class="icons">
+                                        <a><i class="bi bi-pencil-square"></i></a>
+                                        <span>|</span>
+                                        <a href="{{route('forumcomdelect',['focid'=>$FCquestion->focid])}}"><i class="bi bi-trash3"></i></a>
+                                    </div>
+                                @endif
                                 </div>
                                 <div class="headDivChi2">{{$FCquestion->content}}</div>
                             </div>
+                            <script>
+                                var editButtons = document.querySelectorAll('.bi-pencil-square');
+                                editButtons.forEach((button) => {
+                                    button.addEventListener('click', (event) => {
+                                    event.preventDefault();
+                                    var divToEdit = event.target.closest('.headDiv').querySelector('.headDivChi2');
+                                    // alert(divToEdit);
+                                    divToEdit.innerHTML = `
+                                    <form action="{{route('forumcomedit',['focid'=>$FCquestion->focid])}}" method="POST">
+                                        @csrf
+                                        <textarea name="content" required>{{$FCquestion->content}}</textarea>
+                                        <input class="editbt" type="submit" value="-更新留言-">
+                                    </form>
+                                    `;
+                                    });
+                                });
+                            
+                            </script>
                             <hr>
                         @endforeach
                         </div>

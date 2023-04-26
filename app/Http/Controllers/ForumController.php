@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth;
 
+use App\Notifications\ForumCommentNotice;
+use App\Models\User;
+
 class ForumController extends Controller
 {
     private $model;
@@ -138,7 +141,28 @@ class ForumController extends Controller
         $forumcom = $request->forumcom;
         // return [$uid,$foid,$sfid,$forumcom];
         $this->model->forumCom($uid,$sfid,$foid,$forumcom);
+
+        $list = $this->model->forumDetail($sfid, $foid);
+        $user = User::find($list[0]->uid); //要發送通知的對象poster
+        $someone = Auth::user()->name;
+        $title = $list[0]->title;
+        $comment =  $request->forumcom;
+        $user->notify(new ForumCommentNotice($someone, $title, $comment, $foid, $uid, $sfid));
+
         return redirect("/forumDetail/{$sfid}/{$foid}");
+    }
+
+    public function forumComEdit(Request $request){
+        $forumcom = $request->content;
+        $focid = $request->focid;
+        $this->model->forumComEdit($focid,$forumcom);
+        return redirect()->back();
+    }
+
+    public function forumComDelect(Request $request){
+        $focid = $request->focid;
+        $this->model->forumComDelect($focid);
+        return redirect()->back();
     }
 
 

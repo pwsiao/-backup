@@ -89,7 +89,7 @@
 }
 
 #content > div:nth-child(1) > a:hover{
-  color: rgb(255, 22, 69);
+  color: #d64045;
   font-size: 45px;
 }
 
@@ -249,6 +249,31 @@ textarea:focus {
     margin-left: 5px;
 }
 
+.bi-pencil-square, .bi-trash3 {
+    /* position: relative; 
+    top: -30px; */
+    font-size: 20px;
+    color: #664c43;
+    cursor: pointer;
+    /* margin-left: 500px; */
+}
+
+.icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 90%;
+    position: relative;
+    top: -60px;
+}
+
+.editbt {
+    margin-left: 25%;
+}
+
+.headDivChi2 > form {
+    margin-top: -50px;
+}
 
 /* 側邊欄 */
 
@@ -323,6 +348,7 @@ aside > h1 {
       font-size: 40px;
       cursor: pointer;
   }
+
 }
 
 @media screen and (max-width: 600px) {
@@ -423,5 +449,13 @@ textarea {
   position: relative;
   left: 10px;
 
+}
+
+.icons {
+    margin-left: 80%;
+}
+
+.editbt {
+    margin-left: -5%;
 }
 }

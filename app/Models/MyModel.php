@@ -64,9 +64,10 @@ class MyModel extends Model
         return $datas;
     }
     function feelComment($id){
-        $comments = DB::select("select Feel_comment.content as content,upicture,name,title,Feel_comment.createtime from Feel_comment left join Feel_list on Feel_comment.fid = Feel_list.fid left join users on Feel_comment.uid = users.id where Feel_comment.fid = ?",[$id]);
+        $comments = DB::select("select fcid,Feel_comment.uid,Feel_comment.content as content,upicture,name,title,Feel_comment.createtime from Feel_comment left join Feel_list on Feel_comment.fid = Feel_list.fid left join users on Feel_comment.uid = users.id where Feel_comment.fid = ?",[$id]);
         return $comments;
     }
+
 
     function feelComPN($uid){
         $userDatas = DB::select("select name, upicture from users where id = ?",[$uid]);
@@ -75,6 +76,18 @@ class MyModel extends Model
 
     function feelCom($ftid,$uid,$feelcom){
         DB::insert("INSERT INTO `Feel_comment` SET fid = ?, uid = ?, content = ? ",[$ftid,$uid,$feelcom]);
+        $answer = "ok";
+        return $answer;
+    }
+
+    function feelComEdit($fcid,$feelcom){
+        DB::update("UPDATE `Feel_comment` SET content = ? WHERE fcid = ?",[$feelcom,$fcid]);
+        $answer = "ok";
+        return $answer;
+    }
+
+    function feelComDelect($fcid){
+        DB::delete("DELETE FROM `Feel_comment` WHERE fcid = ?",[$fcid]);
         $answer = "ok";
         return $answer;
     }
@@ -186,7 +199,7 @@ class MyModel extends Model
     }
 
     function forumDetail($sid,$foid){
-        $datas = DB::select("select fpicture,name,title,Forum_list.createtime,upicture,Forum_list.content as content from Forum_list left join users on Forum_list.uid = users.id where Forum_list.sfid = ? and Forum_list.foid = ? ",[$sid, $foid]);
+        $datas = DB::select("select uid,fpicture,name,title,Forum_list.createtime,upicture,Forum_list.content as content from Forum_list left join users on Forum_list.uid = users.id where Forum_list.sfid = ? and Forum_list.foid = ? ",[$sid, $foid]);
         return $datas;
     }
 
@@ -213,6 +226,18 @@ class MyModel extends Model
     
     function forumCom($uid,$sfid,$foid,$forumcom){
         DB::insert("INSERT INTO `Forum_comment` SET uid = ?, sfid = ?, foid = ?, content = ?",[$uid,$sfid,$foid,$forumcom]);
+        $answer = "ok";
+        return $answer;
+    }
+
+    function forumComEdit($focid,$forumcom){
+        DB::update("UPDATE `Forum_comment` SET content = ? WHERE focid = ?",[$forumcom,$focid]);
+        $answer = "ok";
+        return $answer;
+    }
+
+    function forumComDelect($focid){
+        DB::delete("DELETE FROM `Forum_comment` WHERE focid = ?",[$focid]);
         $answer = "ok";
         return $answer;
     }

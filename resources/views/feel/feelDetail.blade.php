@@ -97,12 +97,36 @@
                             <img src="{{ asset('pic/admin.png') }}" alt="">
                         @else
                             <img class="headDivPic" src="{{$comment->upicture}}">
-                        @endif
-                        
+                        @endif                      
                         <p>{{$comment->name}}</p>
+                        @if($comment->uid === $uid)
+                            <div class="icons">
+                                <a><i class="bi bi-pencil-square"></i></a>
+                                <span>|</span>
+                                <a href="{{route('feelcomdelect',['fcid'=>$comment->fcid])}}"><i class="bi bi-trash3"></i></a>
+                            </div>
+                        @endif
                     </div>
                     <div class="headDivChi2">{{$comment->content}}</div>
                 </div>
+                <script>
+                    var editButtons = document.querySelectorAll('.bi-pencil-square');
+                    editButtons.forEach((button) => {
+                        button.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        var divToEdit = event.target.closest('.headDiv').querySelector('.headDivChi2');
+                        // alert(divToEdit);
+                        divToEdit.innerHTML = `
+                        <form action="{{route('feelcomedit',['fcid'=>$comment->fcid])}}" method="POST">
+                            @csrf
+                            <textarea name="content" required>{{$comment->content}}</textarea>
+                            <input class="editbt" type="submit" value="-更新留言-">
+                        </form>
+                        `;
+                        });
+                    });
+
+                </script>
                 <hr>
                 @endforeach
             </div>

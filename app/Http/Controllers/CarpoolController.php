@@ -17,6 +17,8 @@ use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Mail;
 use App\Notifications\WannajoinNotice;
 use App\Notifications\CpcommentNotice;
+use App\Notifications\ConfirmJoinNotice;
+use App\Notifications\DeclineJoinNotice;
 use Illuminate\Support\Facades\Notification;
 
 
@@ -158,10 +160,9 @@ class CarpoolController extends Controller
         $poster = CpList::find($cpid);
         // dd($poster->poster['id']);
         
-        Mail::to($poster->poster['email'])->send(new JoinNotice($poster));
+        Mail::to($poster->poster['email'])->send(new JoinNotice());
 
         $user = User::find($poster->poster['id']);
-
         $joiner = Auth::user()->name;
         $cptitle = $poster->cptitle;
         $user->notify(new WannajoinNotice($joiner, $cptitle));
@@ -180,9 +181,8 @@ class CarpoolController extends Controller
         $user = User::find($cplist->poster['id']); //要發送通知的對象poster
         $someone = Auth::user()->name;
         $cptitle = $cplist-> cptitle;
-        // $poster = $cplist->poster['id'];
         $comment =  $req->cpcom;
-        $user->notify(new CpcommentNotice($someone, $cptitle, $comment, $cpid));
+        $user->notify(new CpcommentNotice($someone, $cptitle, $comment, $cpid, $uid));
 
         return redirect("/carpool/info/{$cpid}");
     }
@@ -299,6 +299,15 @@ class CarpoolController extends Controller
         $joiner = $req->input('joiner');
         $cpid = $req->input('cpid');
         DB::update('update carpool_join set status = ? where uid = ? and cpid = ?',[$value, $joiner, $cpid]);
+
+        $user = User::find($joiner);
+        $poster = Auth::user()->name;
+        $cptitle = CpList::find($cpid)->cptitle;
+        if($value == 1){
+            $user->notify(new ConfirmJoinNotice($poster, $cptitle));
+        }else{
+            $user->notify(new DeclineJoinNotice($poster, $cptitle));
+        }
 
         return redirect('/member/carpool');
     }

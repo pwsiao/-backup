@@ -8,21 +8,18 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 
-class CpcommentNotice extends Notification
+class ConfirmJoinNotice extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    protected $someone, $cptitle, $comment, $cpid, $uid;
-    public function __construct($someone, $cptitle, $comment, $cpid, $uid)
+    protected $poster, $cptitle;
+    public function __construct($poster, $cptitle)
     {
-        $this->someone = $someone;
+        $this->poster = $poster;
         $this->cptitle = $cptitle;
-        $this->comment = $comment;
-        $this->cpid = $cpid;
-        $this->uid = $uid;
     }
 
     /**
@@ -56,13 +53,10 @@ class CpcommentNotice extends Notification
     {
         return [
             
-            'someone'=> $this->someone, 
-            'message'=> '在你的共乘貼文',
+            'poster'=> $this->poster,
+            'message'=> '已確認你的共乘加入',
             'cptitle' => $this->cptitle,
-            'message2' =>'中留言',
-            'comment' => $this->comment,
-            'cpid' => $this->cpid,
-            'uid' => $this->uid,
+            'message2'=>'，趕緊把行程加到行事曆吧!'
         ];
     }
 }

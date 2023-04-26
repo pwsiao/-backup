@@ -212,6 +212,7 @@
                 </div>
 
                 <div id="carpool-list" class="tabcontent" style="text-align: center;">
+                @if(count($searchresult) > 0)    
                     @foreach($searchresult as $cp)
                         <a href="{{route('cpinfo',[ 'cpid'=>$cp->cpid ] )}}">
                             <div class="carpool-list2">
@@ -238,7 +239,10 @@
                                 @endforeach
                             </div>
                         </a>
-                    @endforeach  
+                    @endforeach
+                @else
+                    <p style="font-size: 30px;">查無相關資料</p>
+                @endif  
                 </div>
 
             </div>

@@ -41,7 +41,7 @@
                                         <input type="hidden" name="cpid" value="{{$c->cpid}}">
                                         <button name="" id="" class="operate" type="submit">編輯</button>
                                     </form>
-                                    <form action="{{route('cpdelete')}}" method="post">
+                                    <form action="{{route('cpdelete')}}" method="post" onsubmit="return confirm('確定要刪除嗎？')">
                                         @csrf
                                         <input type="hidden" name="cpid" value="{{$c->cpid}}">
                                         <button name="" id="" class="operate" type="submit">刪除</button>
@@ -149,7 +149,7 @@
                                 <div class="groupName">
                                     {{$c->cptitle}}
                                 </div>
-                                <form action="{{route('canceljoin')}}" method="post">
+                                <form action="{{route('canceljoin')}}" method="post" onsubmit="return confirm('確定要取消嗎？')">
                                 @csrf
                                 <input type="hidden" name="cpid" value="{{$c->cpid}}">
                                 <button name="" id="" class="operate" type="submit">取消</button>

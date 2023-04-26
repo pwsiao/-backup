@@ -7,6 +7,10 @@ use App\Models\MyModel;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\FeelCommentNotice;
+use App\Models\User;
+
+
 
 
 class FeelController extends Controller
@@ -50,7 +54,7 @@ class FeelController extends Controller
             'uid' => $uid,
             'ftid' => $ftid,
             'userPic' => $userPic,
-            'isRed' => $isRed
+            'isRed' => $isRed,
         ]);
     }
 
@@ -60,9 +64,32 @@ class FeelController extends Controller
         $ftid = $request->ftid;
         $feelcom = $request->feelcom;
         $this->model->feelCom($ftid, $uid, $feelcom);
+
+        $list = $this->model->feelDetail($ftid);
+        $user = User::find($list[0]->uid); //要發送通知的對象poster
+        $someone = Auth::user()->name;
+        $title = $list[0]->title;
+        $comment =  $request->feelcom;
+        $user->notify(new FeelCommentNotice($someone, $title, $comment, $ftid, $uid));
+
         // return "ok";
         return redirect("/feelDetail/{$ftid}");
     }
+
+    public function feelComEdit(Request $request){
+        $feelcom = $request->content;
+        $fcid = $request->fcid;
+        $this->model->feelComEdit($fcid,$feelcom);
+        return redirect()->back();
+    }
+
+    public function feelComDelect(Request $request){
+        $fcid = $request->fcid;
+        $this->model->feelComDelect($fcid);
+        return redirect()->back();
+    }
+
+    
 
     public function feelMes(Request $request)
     {
