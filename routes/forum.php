@@ -19,7 +19,7 @@ Route::get('/forumMessage', [ForumController::class,'getuserpic'])->name('fomes'
 
 Route::post('/forumCom/{sfid}/{foid}',[ForumController::class,'forumCom'])->name('forumcom');
 
-Route::post('/forumMes/{uid}', [ForumController::class,'forumMes'])->name('forummes');
+Route::post('/forumMes', [ForumController::class,'forumMes'])->name('forummes');
 
 Route::get('/forumSaved/{sfid}/{ftid}', [ForumController::class,'forumSaved'])->name('fosave');
 

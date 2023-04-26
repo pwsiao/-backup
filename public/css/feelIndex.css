@@ -82,12 +82,14 @@ form.example::after {
     background-color: #d8ddcf;
     width: 80%;
     padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
 }
 .article {
     background-color: #f8f6f2;
     /* margin-bottom: 10px; */
     font-size: 20px;
-    width: 90%;
+    width: 100%;
     height: 200px;
     display: flex;
     justify-content: center;
@@ -95,11 +97,6 @@ form.example::after {
     border: #ccc 1px solid;
     width: 100%;
     margin-bottom: 20px;
-}
-
-#articles {
-    display: flex;
-    flex-wrap: wrap;
 }
 
 
@@ -130,11 +127,14 @@ form.example::after {
     box-orient: vertical; /* W3C 标准语法 */
     overflow: hidden; /* 超出部分隐藏 */
     text-overflow: ellipsis; /* 超出部分显示省略号 */
+    width: 50px;
 }
 
 .articleCon > h5 {
   margin: 0;
+  font-weight: 400;
 }
+
 
 .articlePic img {
     width: 100%; /* 图片宽度 100% */
@@ -160,6 +160,11 @@ form.example::after {
 
 .searchtitle{
     padding-right: 20px;
+}
+
+.linking{
+    text-decoration: none;
+    color: #664c43;
 }
 /* 發文按鈕 */
 #btPublish {
@@ -236,7 +241,10 @@ aside {
     left: 5px;
 }
 
-
+.linking2 {
+    text-decoration: none;
+    color: #664c43;
+}
 /* 響應式 */
 @media screen and (max-width: 1199px) {
     .article {
@@ -312,10 +320,10 @@ aside {
 
 
     .column1 {
-        width: 80%;
+        width: 90%;
         padding: 5px;
         text-align: center;
-        margin-left: 14%;
+        margin-left: 10%;
     }
 
     .article {
@@ -323,7 +331,7 @@ aside {
         width: 100%;
         height: 150px;
         /* text-align: center; */
-        /* margin-left: 3%; */
+        margin-right: 3%;
     }
 
     aside {
@@ -332,7 +340,7 @@ aside {
 
     form.example button {
       height: 43px;
-      margin-left: -70px;
+      margin-left: -75px;
   }
   
   #content-container {
@@ -353,6 +361,7 @@ aside {
     height: 150px;
     padding: 5px;
     text-align: start;
+    width: 0px;
   }
 
   #abc {
@@ -362,4 +371,5 @@ aside {
     border-right: 1px solid #B1BBA0;
     border-left: 1px solid #B1BBA0;
   }
+
 }

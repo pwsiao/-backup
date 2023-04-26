@@ -46,6 +46,7 @@
     overflow-wrap: break-word;
     white-space: normal;
     position: relative;
+    color: #664c43;
 }
 #content > div:nth-child(1) > img:nth-child(1) {
     height: 70px;
@@ -114,6 +115,7 @@
     width: 85%;
     margin-left: 0%;
     padding: 40px;
+    color: #664c43;
 }
 
 .headDiv > .headDivChi > * {
@@ -177,6 +179,7 @@
     width: 85%;
     margin-left: 0%;
     padding: 40px;
+    color: #664c43;
 }
 #mes > form > div:nth-child(1) > img {
     height: 60px;
@@ -214,6 +217,7 @@ textarea {
     resize: none;
     position: relative;
     left: 10px;
+    color: #664c43;
 }
 textarea:focus {
     outline: transparent;
@@ -301,6 +305,10 @@ aside > h1 {
     left: 5px;
 }
 
+.linking{
+    text-decoration: none;
+    color: #664c43;
+}
 @media screen and (max-width: 1200px) {
     #content > div:nth-child(1) > img:last-child {
         left: 60%;
@@ -414,5 +422,6 @@ textarea {
   resize: none;
   position: relative;
   left: 10px;
+
 }
 }

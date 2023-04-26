@@ -9,6 +9,7 @@ body {
     height: 50px;
     width: 50px;
     margin-top: 5px;
+    object-fit: cover;
 }
 
 .menuForMobile img {
@@ -16,6 +17,7 @@ body {
     height: 100px;
     width: 100px;
     margin: 10px 0 -10px 0;
+    object-fit: cover;
 }
 
 
@@ -157,39 +159,46 @@ body {
 
 #footer {
     background-color: #B1BBA0;
-    height: 100px;
+    height: fit-content;
     padding: 0 30px;
+    margin: 0 0 -20px 0;
+    color: #664c43;
+    font-size: 20px;
+  }
+  
+  #left {
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  .footerMenu {
+    line-height: 70px;
+    padding: 0;
+    margin: 0;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-    margin-bottom: -20px;
-}
-
-#left {
-    text-align: left;
-    color: #664c43;
-}
-
-#rights a {
-    text-decoration: none;
-    color: #fbf7f4;
-}
-
-#links {
-    text-align: right;
-    color: #664c43;
-}
-
-#links a {
+    justify-content: center;
+    border-top: 1px solid #D8DDCF;
+    border-bottom: 1px solid #D8DDCF;
+  }
+  
+  .footerMenu li {
+    float: left;
+    list-style-type: none;
+  }
+  
+  .footerMenu li a {
+    display: flex;
     color: #664c43;
     text-decoration: none;
-}
-
-#links i {
-    vertical-align: baseline;
-}
-
+    line-height: 70px;
+    padding: 0 1em;
+  }
+  
+  .footerMenu li a:hover {
+    background-color: #a1ac8e;
+    color: #ffffff;
+  }
+  
 @media screen and (max-width: 1199px) {
     body {
         margin: 0;

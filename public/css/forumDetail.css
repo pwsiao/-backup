@@ -46,6 +46,7 @@ margin-top: 1.8%;
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
+  color: #664c43;
 }
 #content > div:nth-child(1) > img:nth-child(1) {
   height: 70px;
@@ -124,6 +125,7 @@ font-size: 45px;
 .headDivChi2 > * {
   display: inline-block;
   font-size: 20px;
+  color: #664c43;
 }
 
 .headDivChi2 {
@@ -157,6 +159,7 @@ font-size: 45px;
 .formPic > p {
   font-size: 20px;
   margin-left: 5px;
+  color: #664c43;
 }
 
 .headDivChi > img {
@@ -219,9 +222,20 @@ textarea {
   resize: none;
   position: relative;
   left: 10px;
+  color: #664c43;
 }
 textarea:focus {
   outline: transparent;
+}
+
+.feelcom{
+  color: #664c43;
+}
+
+.linking {
+  color: #664c43;
+  text-decoration: none;
+  
 }
 
 #mes > form > :last-child > input[type="submit"] {

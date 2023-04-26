@@ -23,7 +23,7 @@
                         </div>
                         <div id="Paris" class="tabcontent">
                             <form class="example" type="get" action="{{ route('fohindex') }}">
-                                <input type="text" placeholder="輸入關鍵字" name="search" id="search-input">
+                                <input type="text" placeholder="輸入關鍵字" name="search" id="search-input" value="{{$search}}">
                                 <button type="submit" id="searchbt-tokyo" type="get" class="BU">搜索</button>
                             </form>
                             <div id="articles">
@@ -34,35 +34,35 @@
                                     </div>
                                 @else
                                     @foreach($Houtputs as $Houtput)
-                                    <div class="article">
-                                        <div class="articlePic">                 
-                                            <img src="{{$Houtput->fpicture}}" >
+                                    <a href="{{route('fodetail',[ 'sfid'=> 3, 'foid'=>$Houtput->foid ] )}}" class="linking">
+                                        <div class="article">
+                                            <div class="articlePic">                 
+                                                <img src="{{$Houtput->fpicture}}" class="articleImg" >
+                                            </div>
+                                            <div class="articleCon">
+                                                <h4 class="searchtitle">{{$Houtput->title}}</h4>                            
+                                                <h5>作者：{{$Houtput->name}}</h5>
+                                                <h5>發布日期：{{$Houtput->createtime}}</h5>
+                                            </div>
                                         </div>
-                                        <div class="articleCon">
-                                            <a href="{{route('fodetail',[ 'sfid'=> 3, 'foid'=>$Houtput->foid ] )}}">
-                                                <h4 class="searchtitle">{{$Houtput->title}}</h4>
-                                            </a>
-                                            <h5>作者：{{$Houtput->name}}</h5>
-                                            <h5>發布日期：{{$Houtput->createtime}}</h5>
-                                        </div>
-                                    </div>
+                                    </a>
                                     @endforeach
                                     {{$Houtputs->links() }} 
                                 @endif                               
                             @else          
                                 @foreach($haters as $hater)
+                                <a href="{{route('fodetail',[ 'sfid'=> 3, 'foid'=>$hater->foid ] )}}" class="linking">
                                     <div class="article">
                                         <div class="articlePic">                 
                                             <img src="{{$hater->fpicture}}" >
                                         </div>
                                         <div class="articleCon">
-                                            <a href="{{route('fodetail',[ 'sfid'=> 3, 'foid'=>$hater->foid ] )}}">
-                                                <h4 class="searchtitle">{{$hater->title}}</h4>
-                                            </a>
+                                            <h4 class="searchtitle">{{$hater->title}}</h4>
                                             <h5>作者：{{$hater->name}}</h5>
                                             <h5>發布日期：{{$hater->createtime}}</h5>
                                         </div>
                                     </div>
+                                </a>
                                 @endforeach
                                 {{ $haters->links() }} 
                             @endif
@@ -81,11 +81,10 @@
                     <aside class="column2">
                         <h1>-最新文章-</h1>
                         @foreach($forumNew2s as $forumNew2)
+                        <a href="{{ route('fodetail',['sfid'=>$forumNew2->sfid,'foid'=>$forumNew2->foid])}}" class="linking">
                             <div class="article2">
-                                <div class="article2Con">
-                                    <a href="{{ route('fodetail',['sfid'=>$forumNew2->sfid,'foid'=>$forumNew2->foid])}}">
-                                        <h4>{{$forumNew2->title}}</h4>
-                                    </a>
+                                <div class="article2Con">                                    
+                                    <h4>{{$forumNew2->title}}</h4>
                                     <div class="new">
                                     @if(empty($forumNew2->upicture))
                                         <img class="newpic" src="{{ asset('pic/admin.png') }}" alt="">
@@ -99,6 +98,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </a>
                         @endforeach    
                     </aside>
                 </div>

@@ -23,7 +23,7 @@
                         </div>
                         <div id="abc" class="tabcontent">
                             <form class="example" type="get" action="{{ route('foqindex') }}">
-                                <input type="text" placeholder="輸入關鍵字" name="search" id="search-input">
+                                <input type="text" placeholder="輸入關鍵字" name="search" id="search-input" value="{{$search}}">
                                 <button type="submit" id="searchbt-abc" class="BU">搜索</button>
                             </form>
                             <div id="articles">
@@ -34,35 +34,37 @@
                                     </div>
                                 @else
                                 @foreach($Qoutputs as $Qoutput)
-                                <div class="article">
-                                    <div class="articlePic">                 
-                                        <img src="{{ $Qoutput->fpicture}}" >
-                                    </div>
-                                    <div class="articleCon">
-                                        <a href="{{route('fodetail',[ 'sfid'=> 1, 'foid'=>$Qoutput->foid ] )}}">
+                                <a href="{{route('fodetail',[ 'sfid'=> 1, 'foid'=>$Qoutput->foid ] )}}" class="linking">
+                                    <div class="article">
+                                        <div class="articlePic">                 
+                                            <img src="{{ $Qoutput->fpicture}}" class="articleImg">
+                                        </div>
+                                        <div class="articleCon">
+                                        <!-- <a href="{{route('fodetail',[ 'sfid'=> 1, 'foid'=>$Qoutput->foid ] )}}"> -->
                                             <h4 class="searchtitle">{{$Qoutput->title}}</h4>
-                                        </a>
-                                        <h5>作者：{{$Qoutput->name}}</h5>
-                                        <h5>發布日期：{{$Qoutput->createtime}}</h5>
+                                        <!-- </a> -->
+                                            <h5>作者：{{$Qoutput->name}}</h5>
+                                            <h5>發布日期：{{$Qoutput->createtime}}</h5>
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                                 @endforeach
                                 {{$Qoutputs->links() }} 
                                 @endif   
                             @else          
                                 @foreach($questions as $question)
-                                        <div class="article">
-                                            <div class="articlePic">                 
-                                                <img src="{{question->fpicture}}" >
-                                            </div>
-                                            <div class="articleCon">
-                                                <a href="{{route('fodetail',[ 'sfid'=> 1, 'foid'=>$Qoutput->foid ] )}}">
-                                                    <h4 class="searchtitle">{{$question->title}}</h4>
-                                                </a>
-                                                <h5>作者：{{$question->name}}</h5>
-                                                <h5>發布日期：{{$question->createtime}}</h5>
-                                            </div>
+                                <a href="{{route('fodetail',[ 'sfid'=> 1, 'foid'=>$Qoutput->foid ] )}}">
+                                    <div class="article">
+                                        <div class="articlePic">                 
+                                            <img src="{{question->fpicture}}" >
                                         </div>
+                                        <div class="articleCon">
+                                            <h4 class="searchtitle">{{$question->title}}</h4>
+                                            <h5>作者：{{$question->name}}</h5>
+                                            <h5>發布日期：{{$question->createtime}}</h5>
+                                        </div>
+                                    </div>
+                                </a>
                                 @endforeach
                                 {{ $questions->links() }} 
                             @endif
@@ -80,11 +82,10 @@
                     <aside class="column2">
                         <h1>-最新文章-</h1>
                         @foreach($forumNew2s as $forumNew2)
+                        <a href="{{ route('fodetail',['sfid'=>$forumNew2->sfid,'foid'=>$forumNew2->foid])}}" class="linking">
                             <div class="article2">
                                 <div class="article2Con">
-                                    <a href="{{ route('fodetail',['sfid'=>$forumNew2->sfid,'foid'=>$forumNew2->foid])}}">
-                                        <h4>{{$forumNew2->title}}</h4>
-                                    </a>
+                                    <h4>{{$forumNew2->title}}</h4>
                                     <div class="new">
                                     @if(empty($forumNew2->upicture))
                                         <img class="newpic" src="{{ asset('pic/admin.png') }}" alt="">
@@ -98,6 +99,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </a>
                         @endforeach    
                     </aside>
                 </div>

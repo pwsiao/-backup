@@ -62,7 +62,8 @@ class MemberController extends Controller
                     ->where('Forum_comment.uid', $uid)
                     ->orderby('Forum_comment.createtime', 'desc')
                     ->get();
-
+        // dd(json_encode($forumList));
+        // dd($forumList);
         // dd($forumComments);
         return view('member.forum', ['forumList'=> $forumList, 'forumComments'=>$forumComments]);
     }
@@ -175,6 +176,9 @@ class MemberController extends Controller
                 ->where('Feel_comment.uid', $uid)
                 ->orderby('Feel_comment.createtime', 'desc')
                 ->get();
+        
+        // dd(json_encode($feelComments));
+        // dd($feelList);
 
     return view('member.feel', ['feelList' => $feelList, 'feelComments' => $feelComments]);    
     }

@@ -19,31 +19,30 @@
 
 
 <body>
-    <div id="memberSection">
-        @if (Auth::check())
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <x-dropdown-link :href="route('logout')"
-                    onclick="event.preventDefault();
-                            this.closest('form').submit();"
-                    id="BtLogout">
-                    {{ __('登出') }}
-                </x-dropdown-link>
-            </form>
-            <?php $user = Auth::user(); ?>
-            @if (empty($user->upicture))
-                <a href="{{ route('login') }}"><img src="{{ asset('pic/admin.png') }}" class="memberIcon"></a>
-            @else
-                <a href="{{ route('mbinfo') }}"><img src="{{ $user->upicture }}" class="memberIcon"></a>
-            @endif
-        @else
-            <a href="{{ route('login') }}"><button id="BtLogin">登入/註冊</button></a>
-        @endif
-    </div>
-
     <div id="mainContent">
         <div id="logo">
-            <a href="/"><img src="{{ asset('img/logo.jpg') }}"></a>
+            <a href="/"><img src="{{ asset('img/logo.jpg') }}" id="logoImg"></a>
+            <div id="memberSection">
+                @if (Auth::check())
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <x-dropdown-link :href="route('logout')"
+                            onclick="event.preventDefault();
+                                    this.closest('form').submit();"
+                            id="BtLogout">
+                            {{ __('登出') }}
+                        </x-dropdown-link>
+                    </form>
+                    <?php $user = Auth::user(); ?>
+                    @if (empty($user->upicture))
+                        <a href="{{ route('mbinfo') }}"><img src="{{ asset('pic/admin.png') }}" class="memberIcon"></a>
+                    @else
+                        <a href="{{ route('mbinfo') }}"><img src="{{ $user->upicture }}" class="memberIcon"></a>
+                    @endif
+                @else
+                    <a href="{{ route('login') }}"><button id="BtLogin">登入/註冊</button></a>
+                @endif
+            </div>        
         </div>
 
         <div id="section1">
@@ -81,17 +80,19 @@
             <div class="sliderContainer">
                 <div class="slider responsive">
                     @foreach ($feeldatas as $data)
+                    <a href="{{ route('fedetail', ['id' => $data->fid]) }}">
                         <div class="card">
                             <img src=" {{ $data->fpicture }}" class="articlePic">
                             <h5>{{ $data->title }}</h5>
                             <p>作者：{{ $data->name }}</p>
                             <p>發表日期：{{ $data->date }}</p>
-                            <div style="margin: 24px 0;">
+                            <div style="margin: 15px 0;">
                             </div>
-                            <a href="{{ route('fedetail', ['id' => $data->fid]) }}">
+                            {{-- <a href="{{ route('fedetail', ['id' => $data->fid]) }}">
                                 <button>閱讀</button>
-                            </a>
+                            </a> --}}
                         </div>
+                    </a>
                     @endforeach
                 </div>
             </div>
@@ -102,17 +103,19 @@
             <div class="sliderContainer">
                 <div class="slider responsive">
                     @foreach ($forumdatas as $data)
+                    <a href="{{ route('fodetail', ['sfid' => $data->sfid, 'foid' => $data->foid]) }}">
                         <div class="card">
                             <img src="{{ $data->fpicture }}" class="articlePic">
                             <h5>{{ $data->title }}</h5>
                             <p>作者：{{ $data->name }}</p>
                             <p>發表日期：{{ $data->date }}</p>
-                            <div style="margin: 24px 0;">
+                            <div style="margin: 15px 0;">
                             </div>
-                            <a href="{{ route('fodetail', ['sfid' => $data->sfid, 'foid' => $data->foid]) }}">
+                            {{-- <a href="{{ route('fodetail', ['sfid' => $data->sfid, 'foid' => $data->foid]) }}">
                                 <button>閱讀</button>
-                            </a>
+                            </a> --}}
                         </div>
+                    </a>
                     @endforeach
                 </div>
             </div>
@@ -120,12 +123,12 @@
         <!-- 輪播控制 -->
         <script src="{{ asset('js/index.js') }}"></script>
         <footer id="footer">
-            <div id="left">Copyright © 2023 與山同行/Mountogether Rights Reserved.</div>
-            <ul class="menu">
+            <ul class="footerMenu">
                 <li><a href="{{ route('cphome') }}">拼車</a></li>
                 <li><a href="/feelIndex">心得</a></li>
                 <li><a href="/forumIndex">論壇</a></li>
             </ul>
+            <div id="left">Copyright © 2023 與山同行/Mountogether Rights Reserved.</div>
         </footer>
     </div>
 

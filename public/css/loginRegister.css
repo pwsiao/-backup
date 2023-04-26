@@ -10,6 +10,7 @@ body {
 #logo img {
   height: 100px;
   margin: 10px auto;
+  border-radius: 20px;
 }
 
 /* 登入 */
@@ -21,6 +22,7 @@ label {
   padding: 30px;
   background-color: #f8f6f2;
   border: 1px solid #664c43;
+  border-radius: 20px;
 }
 .mainInfoContainer h1 {
   text-align: center;

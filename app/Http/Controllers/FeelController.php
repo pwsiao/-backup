@@ -27,7 +27,8 @@ class FeelController extends Controller
             'datas' => $datas,
             'uid' => $uid,
             'outputs' => $outputs,
-            'userPic' => $userPic
+            'userPic' => $userPic,
+            'search' => $search
         ]);
     }
 

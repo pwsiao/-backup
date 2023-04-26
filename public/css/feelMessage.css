@@ -13,7 +13,7 @@ h1{
   margin-left: 6%;
   font-size: 25px;
   padding: 50px;
-  color: #333232;
+  color:#664c43;
 }
 
 input[type="text"] {
@@ -21,6 +21,7 @@ input[type="text"] {
   border: transparent;
   font-size: 25px;
   width: 100%;
+  color: #664c43;
 }
 
 
@@ -36,6 +37,7 @@ textarea {
   background-color: #d8ddcf;
   border: transparent;
   resize: none;
+  color: #664c43;
 }
 textarea:focus {
   outline: transparent;

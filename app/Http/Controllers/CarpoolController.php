@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+// use App\Notifications\InvoicePaid;
+// use App\Models\Invoice;
 use App\Models\CpList;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,6 +15,9 @@ use Illuminate\Http\RedirectResponse;
 use App\Mail\JoinNotice;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Mail;
+use App\Notifications\WannajoinNotice;
+use App\Notifications\CpcommentNotice;
+use Illuminate\Support\Facades\Notification;
 
 
 class CarpoolController extends Controller
@@ -48,6 +53,7 @@ class CarpoolController extends Controller
         $cp->note = $req -> note1;
         // $cp->createtime = $req -> timestamps;
         $cp->save();
+
         return Redirect::to("/carpool/info/{$cp->cpid}");
     }
 
@@ -149,15 +155,17 @@ class CarpoolController extends Controller
         $id = Auth::id();
         DB::insert('insert into carpool_join set cpid = ?, uid = ?, status = ?',[$cpid, $id, 0]);
 
-        $creatoremail = DB::table('carpool_list1')
-                      ->leftJoin('users', 'carpool_list1.uid', '=', 'users.id')
-                      ->where('cpid',$cpid)
-                      ->value('email');
+        $poster = CpList::find($cpid);
+        // dd($poster->poster['id']);
+        
+        Mail::to($poster->poster['email'])->send(new JoinNotice($poster));
 
+        $user = User::find($poster->poster['id']);
 
-        $join = CpList::findOrFail($cpid);
-        Mail::to($creatoremail)->send(new JoinNotice($join));
-        // dd($creatoremail);
+        $joiner = Auth::user()->name;
+        $cptitle = $poster->cptitle;
+        $user->notify(new WannajoinNotice($joiner, $cptitle));
+        
         return redirect("/carpool/info/{$cpid}");
     }
 
@@ -167,6 +175,15 @@ class CarpoolController extends Controller
         $uid = Auth::id();
         $content = $req->cpcom;
         DB::insert("insert into carpool_comment set uid = ?, cpid = ?, content = ?",[$uid, $cpid, $content]);
+        
+        $cplist = CpList::find($cpid);
+        $user = User::find($cplist->poster['id']); //要發送通知的對象poster
+        $someone = Auth::user()->name;
+        $cptitle = $cplist-> cptitle;
+        // $poster = $cplist->poster['id'];
+        $comment =  $req->cpcom;
+        $user->notify(new CpcommentNotice($someone, $cptitle, $comment, $cpid));
+
         return redirect("/carpool/info/{$cpid}");
     }
 
@@ -294,6 +311,15 @@ class CarpoolController extends Controller
         return redirect(route('mbcp'));
     }
 
+
+    //通知
+    public function cpjoinNotice(){
+        $user = Auth::user();
+        $notice = $user->notifications;
+        // dd($notice);
+        $notice->markAsRead();
+        return view('notice',['notice'=>$notice]);
+    }
 
     public function test(Request $req){
         $u = new User();

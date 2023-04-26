@@ -168,7 +168,6 @@ form.example::after {
   box-orient: vertical; /* W3C 标准语法 */
   overflow: hidden; /* 超出部分隐藏 */
   text-overflow: ellipsis; /* 超出部分显示省略号 */
-  
 }
 .article:hover{
     transform: translateY(-10px);
@@ -180,9 +179,10 @@ form.example::after {
 
 .articleCon > h5 {
   margin: 0;
+  font-weight:400;
 }
 
-.articlePic img {
+.articleImg {
   
   object-fit: cover; /* 填满并保持图片比例 */
   object-position: center; /* 图片居中 */
@@ -226,6 +226,8 @@ form.example::after {
     white-space: normal;
 }
 
+
+
 .newpic{
     height: 40px;
     width: 40px;
@@ -266,6 +268,12 @@ form.example::after {
 }
 
 /* 側邊欄 */
+.linking {
+    text-decoration: none;
+    color: #664c43;
+    width: 100%;
+}
+
 aside {
     width: 15%;
     background-color: #d8ddcf;
@@ -286,6 +294,8 @@ aside {
     padding-left: 20px;
     padding-right: 20px;
     padding-bottom: 10px;
+
+
 }
 
 .article2:hover {
@@ -299,10 +309,12 @@ aside {
     font-size: 18px;
     margin: 0;
     font-weight: bold;
+    
 }
 .article2Con {
     padding: 10px;
 }
+
 
 .column2 > h1 {
   margin-left: 10px;

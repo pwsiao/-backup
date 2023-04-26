@@ -27,7 +27,7 @@
                 @if (Auth::check())
                     <?php $user = Auth::user(); ?>
                     @if(empty($user->upicture))
-                        <li><a href="{{ route('login') }}"><img src="{{ asset('pic/admin.png') }}"></a></li>
+                        <li><a href="{{ route('mbinfo') }}"><img src="{{ asset('pic/admin.png') }}"></a></li>
                     @else
                         <li><a href="{{ route('mbinfo') }}"><img src="{{ $user->upicture }}" ></a></li>
                     @endif
@@ -50,7 +50,7 @@
                 @if (Auth::check())
                 <?php $user = Auth::user(); ?>
                 @if(empty($user->upicture))
-                    <li><a href="{{ route('login') }}"><img src="{{ asset('pic/admin.png') }}"></a></li>
+                    <li><a href="{{ route('mbinfo') }}"><img src="{{ asset('pic/admin.png') }}"></a></li>
                 @else
                     <li><a href="{{ route('mbinfo') }}"><img src="{{ $user->upicture }}" ></a></li>
                 @endif
@@ -66,12 +66,12 @@
         @yield('content')
 
         <footer id="footer">
-            <div id="left">Copyright © 2023 the-sponger.com Rights Reserved.</div>
-            <div id="links">
-                <a href="https://the-sponger.com/"><i class="bi bi-house"></i></a>&nbsp;&nbsp;&nbsp;
-                <a href="https://www.instagram.com/the.sponger/"><i class="bi bi-instagram"></i></a>&nbsp;&nbsp;&nbsp;
-                <a href="mailto:thesponger91@gmail.com"><i class="bi bi-envelope"></i></a>
-            </div>
+            <ul class="footerMenu">
+                <li><a href="{{ route('cphome') }}">拼車</a></li>
+                <li><a href="/feelIndex">心得</a></li>
+                <li><a href="/forumIndex">論壇</a></li>
+            </ul>
+            <div id="left">Copyright © 2023 與山同行/Mountogether Rights Reserved.</div>
         </footer>
     </div>
 </body>

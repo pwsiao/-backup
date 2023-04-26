@@ -25,7 +25,7 @@
                         </div>
                         <div id="Paris" class="tabcontent">
                             <form class="example" type="get" action="{{ route('fogindex') }}">
-                                <input type="text" placeholder="輸入關鍵字" name="search" id="search-input">
+                                <input type="text" placeholder="輸入關鍵字" name="search" id="search-input" value="{{$search}}">
                                 <button type="submit" id="searchbt-paris" class="BU">搜索</button>
                             </form>
                             <div id="articles">
@@ -36,35 +36,35 @@
                                     </div>
                                 @else
                                     @foreach($Goutputs as $Goutput)
-                                    <div class="article">
-                                        <div class="articlePic">                 
-                                            <img src="{{$Goutput->fpicture}}" >
-                                        </div>
-                                        <div class="articleCon">
-                                            <a href="{{route('fodetail',[ 'sfid'=> 2, 'foid'=>$Goutput->foid ] )}}">
+                                    <a href="{{route('fodetail',[ 'sfid'=> 2, 'foid'=>$Goutput->foid ] )}}" class="linking">
+                                        <div class="article">
+                                            <div class="articlePic">                 
+                                                <img src="{{$Goutput->fpicture}}" class="articleImg">
+                                            </div>
+                                            <div class="articleCon">                                               
                                                 <h4 class="searchtitle">{{$Goutput->title}}</h4>
-                                            </a>
-                                            <h5>作者：{{$Goutput->name}}</h5>
-                                            <h5>發布日期：{{$Goutput->createtime}}</h5>
+                                                <h5>作者：{{$Goutput->name}}</h5>
+                                                <h5>發布日期：{{$Goutput->createtime}}</h5>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </a>
                                     @endforeach
                                     {{$Goutputs->links() }} 
                                 @endif                               
                             @else          
                                 @foreach($groups as $group)
-                                            <div class="article">
-                                                <div class="articlePic">                 
-                                                    <img src="{{$group->fpicture}}" >
-                                                </div>
-                                                <div class="articleCon">
-                                                    <a href="{{route('fodetail',[ 'sfid'=> 2, 'foid'=>$group->foid ] )}}">
-                                                        <h4 class="searchtitle">{{$group->title}}</h4>
-                                                    </a>
-                                                    <h5>作者：{{$group->name}}</h5>
-                                                    <h5>發布日期：{{$group->createtime}}</h5>
-                                                </div>
-                                            </div>
+                                <a href="{{route('fodetail',[ 'sfid'=> 2, 'foid'=>$group->foid ] )}}" class="linking">
+                                    <div class="article">
+                                        <div class="articlePic">                 
+                                            <img src="{{$group->fpicture}}" >
+                                        </div>
+                                        <div class="articleCon">
+                                            <h4 class="searchtitle">{{$group->title}}</h4>
+                                            <h5>作者：{{$group->name}}</h5>
+                                            <h5>發布日期：{{$group->createtime}}</h5>
+                                        </div>
+                                    </div>
+                                </a>
                                 @endforeach
                                 {{ $groups->links() }} 
                             @endif
@@ -85,11 +85,10 @@
                     <aside class="column2">
                         <h1>-最新文章-</h1>
                         @foreach($forumNew2s as $forumNew2)
+                        <a href="{{ route('fodetail',['sfid'=>$forumNew2->sfid,'foid'=>$forumNew2->foid])}}" class="linking">
                             <div class="article2">
                                 <div class="article2Con">
-                                    <a href="{{ route('fodetail',['sfid'=>$forumNew2->sfid,'foid'=>$forumNew2->foid])}}">
-                                        <h4>{{$forumNew2->title}}</h4>
-                                    </a>
+                                    <h4>{{$forumNew2->title}}</h4>
                                     <div class="new">
                                     @if(empty($forumNew2->upicture))
                                         <img class="newpic" src="{{ asset('pic/admin.png') }}" alt="">
@@ -103,6 +102,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </a>
                         @endforeach    
                     </aside>
                 </div>

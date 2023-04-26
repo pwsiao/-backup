@@ -150,11 +150,10 @@
                     <aside>
                         <h1>最新文章</h1>
                         @foreach($forumNews as $forumNew)
+                        <a href="{{route('fodetail',[ 'sfid'=> $forumNew->sfid, 'foid'=>$forumNew->foid ] )}}" class="linking">
                             <div class="article2">
-                                <div class="article2Con">
-                                    <a href="{{route('fodetail',[ 'sfid'=> $forumNew->sfid, 'foid'=>$forumNew->foid ] )}}">
-                                        <h4>{{$forumNew->title}}</h4>
-                                    </a>
+                                <div class="article2Con">                                   
+                                    <h4>{{$forumNew->title}}</h4>
                                     <div class="new">
                                         @if(empty($forumNew->upicture))
                                             <img class="newpic" src="{{ asset('pic/admin.png') }}" alt="">
@@ -168,6 +167,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </a>
                         @endforeach
                     </aside>
                 </div>

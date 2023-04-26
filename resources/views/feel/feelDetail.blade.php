@@ -52,7 +52,7 @@
             const heartHref = document.getElementById('heartHref');
             const isRed = {!! json_encode($isRed) !!};
             if (isRed.length > 0) {
-                heartIcon.style.color = 'red';
+                heartIcon.style.color = '#d64045';
             }
         
             // 监听点击事件
@@ -67,7 +67,7 @@
                     alert("取消收藏");
                 } else {
                 //   heartIcon.classList.remove('text-danger');
-                heartIcon.style.color = 'red';
+                    heartIcon.style.color = '#d64045';
                     window.location.href = "{{route('fesave',[ 'ftid'=>$ftid ] )}}";
                     alert("收藏成功"); 
                 }
@@ -150,25 +150,25 @@
             <aside>
                 <h1>-最新文章-</h1>
                 @foreach($datas as $data)
-                <div class="article2">
-                    <div class="article2Con">
-                        <a href="{{route('fedetail',[ 'id'=> $data->fid ] )}}">
-                            <h4>{{$data->title}}</h4>
-                        </a>
-                        <div class="new">
-                        @if(empty($data->upicture))
-                            <img class="newpic" src="{{ asset('pic/admin.png') }}" alt="">
-                        @else
-                            <img class="newpic" src="{{$data->upicture}}">
-                        @endif                       
-                            <span class="newname">{{$data->name}}</span>
-                            <br>
-                            <br>
-                            <span class="newtime">{{$data->createtime}}</span>
+                <a href="{{route('fedetail',[ 'id'=> $data->fid ] )}}" class="linking">
+                    <div class="article2">
+                        <div class="article2Con">                       
+                            <h4>{{$data->title}}</h4>                     
+                            <div class="new">
+                            @if(empty($data->upicture))
+                                <img class="newpic" src="{{ asset('pic/admin.png') }}" alt="">
+                            @else
+                                <img class="newpic" src="{{$data->upicture}}">
+                            @endif                       
+                                <span class="newname">{{$data->name}}</span>
+                                <br>
+                                <br>
+                                <span class="newtime">{{$data->createtime}}</span>
+                            </div>
+                            <!-- <p>作者：{{$data->name}}</p> -->
                         </div>
-                        <!-- <p>作者：{{$data->name}}</p> -->
                     </div>
-                </div>
+                </a>
                 @endforeach
             </aside>
         </div>

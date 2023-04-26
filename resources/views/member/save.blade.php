@@ -24,6 +24,7 @@
         <div class="pageContent">
             <div id="feelSave">
                 <h2>心得</h2>
+                @if(count($feelSaveList) > 0)
                 @foreach($feelSaveList as $feelSaveArticle)
                 <div class="article">
                     <div class="articleDate">
@@ -37,12 +38,18 @@
                     </div>
                 </div>
                 @endforeach
+                @else
+                <div class="article">
+                    目前沒有收藏心得，快去<a href="{{ route('feindex') }}">心得</a>看看別人的分享吧！
+                </div>
+                @endif
             </div>
 
             <hr />
 
             <div id="forumSave">
                 <h2>論壇</h2>
+                @if(count($forumSaveList) > 0)
                 @foreach($forumSaveList as $forumSaveArticle)
                 <div class="article">
                     <div class="articleDate">
@@ -60,6 +67,11 @@
                     </div>
                 </div>
                 @endforeach
+                @else
+                <div class="article">
+                    目前沒有收藏討論串，快去<a href="{{ route('foqindex') }}">論壇</a>看看別人的討論串吧！
+                </div>
+                @endif
             </div>
         </div>
 
