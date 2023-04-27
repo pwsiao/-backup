@@ -38,7 +38,7 @@
                         <div id="imgDiv">
                             <img src="{{$article->fpicture}}" >
                         </div>
-                        <div>
+                        <div id="artCon">
                             {{$article->content}}
                         </div>
                         @endforeach

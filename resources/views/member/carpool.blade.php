@@ -102,8 +102,10 @@
                     </div>
                 @endif
             </div>
+            
+            <hr>
 
-            <div id="join">
+            <div class="join">
                 <h2>參加中</h2>
                 @if(empty($cp2) == false)
                     @foreach($cp2 as $c)
@@ -136,8 +138,9 @@
                 @endif
             </div>
 
+            <hr>
 
-            <div id="join">
+            <div class="join">
                 <h2>確認中</h2>
                 @if(empty($cp3) == false)
                     @foreach($cp3 as $c)
@@ -149,11 +152,13 @@
                                 <div class="groupName">
                                     {{$c->cptitle}}
                                 </div>
-                                <form action="{{route('canceljoin')}}" method="post" onsubmit="return confirm('確定要取消嗎？')">
-                                @csrf
-                                <input type="hidden" name="cpid" value="{{$c->cpid}}">
-                                <button name="" id="" class="operate" type="submit">取消</button>
-                                </form>
+                                <div class="joinMember">
+                                    <form action="{{route('canceljoin')}}" method="post" onsubmit="return confirm('確定要取消嗎？')">
+                                    @csrf
+                                    <input type="hidden" name="cpid" value="{{$c->cpid}}">
+                                    <button name="" id="" class="operate" type="submit">取消</button>
+                                    </form>
+                                </div>
                             </div>
                         </a>
                     @endforeach
@@ -164,11 +169,9 @@
                 @endif
             </div>
 
+            <hr>
 
-
-
-
-            <div id="finished">
+            <div class="join">
                 <h2>歷史紀錄</h2>
                 @if(empty($cp4) == false)
                     @foreach($cp4 as $c)
@@ -198,6 +201,35 @@
                     <div class="group">
                             一片空白喔
                     </div>  
+                @endif
+            </div>
+
+            <hr>
+
+            <div id="comment">
+                <h2>我的留言</h2>
+                @if(count($cp5) > 0)
+                    @foreach($cp5 as $cpComment)
+                    <div class="viewArticle">
+                        <div class="articleDate">
+                            {{ $cpComment->date }}
+                        </div>
+                        <div class="articleTitleComment">
+                            <div class="articleTitle">{{ $cpComment->cptitle }}</div>
+                            <div class="articleComment">
+                                留言內容：<br />
+                                {{ $cpComment->content }}
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <a href="{{ route('cpinfo',[ 'cpid'=>$cpComment->cpid ] ) }}"><button type="button" name="" id="" class="operate">檢視文章</button></a>
+                        </div>
+                    </div>
+                    @endforeach
+                @else
+                    <div class="article">
+                        目前沒有留言，快去<a href="{{ route('cphome') }}">心得</a>看看別人的分享吧！
+                    </div>
                 @endif
             </div>
         </div>

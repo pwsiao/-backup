@@ -28,5 +28,5 @@ Route::middleware('auth')->group(function () {
 
     // 收藏
     Route::get('/member/save', [MemberController::class, 'getSaveList'])->name('mbsave');
-    Route::post('/member/save/goToForum', [MemberController::class, 'goToForum'])->name('goToForum');
+    // Route::post('/member/save/goToForum', [MemberController::class, 'goToForum'])->name('goToForum');
 });

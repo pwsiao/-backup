@@ -2,7 +2,7 @@
  
 
 @section('head')
-<title>個人頁面</title>
+<title>個人資料 | 與山同行</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <link rel="stylesheet" href="{{asset('css/member-all.css')}}">
 <link rel="stylesheet" href="{{asset('css/member-info.css')}}">
@@ -27,57 +27,65 @@
             <form id="info" method="POST" action="{{ route('mbinfo.update') }}" enctype="multipart/form-data">
             @csrf
                 <h2>個人資料</h2>
-                <p id="icon">
+                <label for="image" class="formLabel">
                     <span id="iconName">頭像：</span>
-                    @if ($user->upicture != null)
-                    <img src="{{ $user->upicture }}" id="iconImg">
-                    @else
-                    <img src="{{asset('img/admin.png')}}" id="iconImg">
-                    @endif
-                    <input name="image" type="file"><br />
-                </p>
-                <p>
+                </label>
+                @if ($user->upicture != null)
+                <img src="{{ $user->upicture }}" id="iconImg">
+                @else
+                <img src="{{asset('img/admin.png')}}" id="iconImg">
+                @endif
+                <input name="image" id="image" type="file" style="width: 200px;"><br />
+
+                <label for="name" class="formLabel">
                     暱稱：
-                    <input type="text" name="name" value="{{ $user->name }}"><br />
-                </p>
-                <p>
+                </label>
+                <input type="text" name="name" id="name" value="{{ $user->name }}"><br />
+
+                <label for="birthday" class="formLabel">
                     生日：
-                    <input type="date" name="birthday" value="{{ $user->birthday }}"><br />
-                </p>
-                <p>
+                </label>
+                <input type="date" name="birthday" id="birthday" value="{{ $user->birthday }}"><br />
+
+                <label class="formLabel">
                     性別：
-                    <label for="male"><input type="radio" name="sex" id="male" value="1" <?php echo ($user->sex == "1") ? " checked" : ""; ?>>男</label>
-                    <label for="female"><input type="radio" name="sex" id="female" value="2" <?php echo ($user->sex == "2") ? " checked" : ""; ?>>女</label>
-                </p>
-                <p>
+                </label>
+                <label for="male"><input type="radio" name="sex" id="male" value="1" <?php echo ($user->sex == "1") ? " checked" : ""; ?>>男</label>
+                <label for="female"><input type="radio" name="sex" id="female" value="2" <?php echo ($user->sex == "2") ? " checked" : ""; ?>>女</label><br />
+                
+                <label class="formLabel">
                     電子郵件：
-                    {{ $user->email }}<br />
-                </p>
-                <p>
+                </label>
+                {{ $user->email }}<br />
+
+                <label for="about" class="formLabel">
                     關於我：<br />
-                    {{-- <input type="text" name="about" id="" value="{{ $user->about }}"> --}}
-                    <textarea name="about" id="" cols="30" rows="10">{{ $user->about }}</textarea><br />
-                </p>
-                <button>儲存修改</button>
+                </label>
+                <textarea name="about" id="about" rows="5">{{ $user->about }}</textarea><br />
+
+                <button class="saveChange">儲存修改</button>
             </form>
             <hr />
             <form id="changePwd" method="post" action="{{ route('password.update') }}">
                 @csrf
                 @method('put')
                 <h2>修改密碼</h2>
-                <p>
+                <label for="current_password" class="formLabel">
                     目前密碼：
-                    <input type="password" name="current_password"><br />
-                </p>
-                <p>
+                </label>
+                <input type="password" name="current_password" id="current_password"><br />
+
+                <label for="password" class="formLabel">
                     新密碼：
-                    <input type="password" name="password"><br />
-                </p>
-                <p>
+                </label>
+                <input type="password" name="password" id="password"><br />
+
+                <label for="password_confirmation" class="formLabel">
                     確認密碼：
-                    <input type="password" name="password_confirmation"><br />
-                </p>
-                <button>儲存修改</button>
+                </label>
+                <input type="password" name="password_confirmation" id="password_confirmation"><br />
+
+                <button class="saveChange">變更密碼</button>
             </form>
         </div>
 

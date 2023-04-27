@@ -58,7 +58,7 @@ class ForumCommentNotice extends Notification
         return [
             
             'someone'=> $this->someone, 
-            'message'=> '在你的心得貼文',
+            'message'=> '在你的論壇貼文',
             'title' => $this->title,
             'message2' =>'中留言',
             'comment' => $this->comment,

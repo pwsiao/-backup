@@ -1,12 +1,5 @@
-/* 導覽列 */
-#navBar {
-  background-color: #b1bba0;
-  height: 50px;
-}
-
 h1{
   text-align: center;
-  margin-top: -10px;
   color: #664c43;
 }
 
@@ -27,8 +20,6 @@ input[type="text"] {
   width: 100%;
   color: #664c43;
 }
-
-
 
 input[type="text"]:focus {
   outline: none; /* 隱藏預設的focus樣式 */

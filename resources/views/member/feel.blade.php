@@ -2,7 +2,7 @@
 
 
 @section('head')
-<title>心得</title>
+<title>心得發表/留言紀錄 | 與山同行</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <link rel="stylesheet" href="{{asset('css/member-all.css')}}">
 <link rel="stylesheet" href="{{asset('css/feel.css')}}">
@@ -26,26 +26,29 @@
                 <h2>我的心得</h2>
                 @if(count($feelList) > 0)
                     @foreach($feelList as $feelArticle)
-                    <div class="article">
+                    <div class="editArticle">
                         <div class="articleDate">
                             {{ $feelArticle->date }}
                         </div>
                         <div class="articleTitle">
                             @if( !$feelArticle->state)
-                            <span>[草稿]</span>
+                            <span>[草稿]</span>&nbsp;
                             @endif
                             {{ $feelArticle->title }}
                         </div>
                         <div class="buttons">
+                            @if( $feelArticle->state )
+                            <a href="{{route('fedetail',[ 'id'=>$feelArticle->fid ] )}}"><button name="" id="" class="operate" type="submit">查看</button></a>
+                            @endif
                             <form method="POST" action="{{ route('editFeel') }}">
                                 @csrf
-                                <input type="submit" name="" id="" class="operate" value="編輯">
+                                <button type="submit" name="" id="" class="operate">編輯</button>
                                 <input type="hidden" name="fid" value="{{ $feelArticle->fid }}">
                             </form>
                             <form method="POST" action="{{ route('delFeel', ['fid' => $feelArticle->fid]) }}" onsubmit="return confirm('確定要刪除嗎？')">
                                 @csrf
                                 @method('DELETE')
-                                <input type="submit" name="" id="" class="operate" value="刪除">
+                                <button type="submit" name="" id="" class="operate">刪除</button>
                             </form>
                         </div>
                     </div>
@@ -61,16 +64,19 @@
                 <h2>我的留言</h2>
                 @if(count($feelComments) > 0)
                     @foreach($feelComments as $feelComment)
-                    <div class="article">
+                    <div class="viewArticle">
                         <div class="articleDate">
                             {{ $feelComment->date }}
                         </div>
-                        <div class="articleTitle">
-                            {{ $feelComment->title }}<br>
-                            {{ $feelComment->feelComment }}
+                        <div class="articleTitleComment">
+                            <div class="articleTitle">{{ $feelComment->title }}</div>
+                            <div class="articleComment">
+                                留言內容：<br />
+                                {{ $feelComment->feelComment }}
+                            </div>
                         </div>
                         <div class="buttons">
-                            <input type="button" name="" id="" class="operate" value="檢視文章" onclick="location.href='{{ route('fedetail', ['id'=>$feelComment->fid]) }}'">
+                            <a href="{{ route('fedetail', ['id'=>$feelComment->fid]) }}"><button type="button" name="" id="" class="operate">檢視文章</button></a>
                         </div>
                     </div>
                     @endforeach

@@ -277,13 +277,13 @@ class MemberController extends Controller
     return view('member.save', ['feelSaveList' => $feelSaveList,'forumSaveList' => $forumSaveList]);
     }
 
-    public function goToForum(Request $request) {
-        $forumSaved = ForumList::leftJoin('Forum_saved', 'Forum_list.foid', '=', 'Forum_saved.foid')
-                ->select("*")
-                ->where('Forum_list.foid', $request->foid)
-                ->first();
-        // dd($forumSaved);
+    // public function goToForum(Request $request) {
+    //     $forumSaved = ForumList::leftJoin('Forum_saved', 'Forum_list.foid', '=', 'Forum_saved.foid')
+    //             ->select("*")
+    //             ->where('Forum_list.foid', $request->foid)
+    //             ->first();
+    //     // dd($forumSaved);
         
-    return redirect("/forumDetail/{$forumSaved->sfid}/{$forumSaved->foid}");
-    }
+    // return redirect("/forumDetail/{$forumSaved->sfid}/{$forumSaved->foid}");
+    // }
 }

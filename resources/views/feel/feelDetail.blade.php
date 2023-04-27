@@ -2,7 +2,9 @@
 
 
 @section('head')
-<title>心得文章內容</title>
+@foreach($article as $article1)
+<title>{{ $article1->title }} - 登山心得 | 與山同行</title>
+@endforeach
 <link rel="stylesheet" href="{{ asset('css/feelDetail.css') }}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
@@ -13,19 +15,18 @@
 
 @section('content')
 <div id="content-container">
-    <div class="abc"></div>
     <div class="row">
         <div class="column1">
             <!-- 文章內容 -->
             <div id="content">
                 @foreach($article as $article1)
-                <div>
+                <div class="author">
                 @if(empty($article1->upicture))
                     <img src="{{ asset('pic/admin.png') }}" alt="">
                 @else
                     <img src="{{$article1->upicture}}">
                 @endif
-                    <div>{{$article1->name}}</div>
+                    <span>{{$article1->name}}</span>
                     @auth
                         <a id="heartHref">
                             <i class="bi bi-suit-heart-fill" id="heart"></i>
@@ -34,7 +35,7 @@
                 </div>
                 <div>
                     <h1>{{ $article1->title}}</h1>
-                    <p>{{ $article1->createtime}}</p>
+                    <p class="date">{{ $article1->date}}</p>
                 </div>
                 <div id="imgDiv">
                     <img src="{{ $article1->fpicture}}">
@@ -44,9 +45,9 @@
                 </div>
                 @endforeach
             </div>
-        @auth
-        <script>
+            @auth
 
+            <script>
               // 获取图标元素和链接元素
             const heartIcon = document.getElementById('heart');
             const heartHref = document.getElementById('heartHref');
@@ -72,16 +73,15 @@
                     alert("收藏成功"); 
                 }
             });
-        </script>
+            </script>
+            @endauth
 
-
-        @endauth
             @if($comments == null)
             <div id="mesHis">
                 <div class="headDiv">
                     <div class="headDivChi">
                     </div>
-                    <div class="headDivChi2">
+                    <div class="noComment">
                         <p>還沒有人留言喔～</p>
                         <p>快來當頭香～</p>
                     </div>
@@ -94,7 +94,7 @@
                 <div class="headDiv">
                     <div class="headDivChi">
                         @if(empty($comment->upicture))
-                            <img src="{{ asset('pic/admin.png') }}" alt="">
+                            <img src="{{ asset('pic/admin.png') }}">
                         @else
                             <img class="headDivPic" src="{{$comment->upicture}}">
                         @endif                      
@@ -119,7 +119,7 @@
                         divToEdit.innerHTML = `
                         <form action="{{route('feelcomedit',['fcid'=>$comment->fcid])}}" method="POST">
                             @csrf
-                            <textarea name="content" required>{{$comment->content}}</textarea>
+                            <textarea id="feelcom" name="content" required>{{$comment->content}}</textarea>
                             <input class="editbt" type="submit" value="-更新留言-">
                         </form>
                         `;
@@ -140,7 +140,7 @@
                     @foreach($userDatas as $userData)
                     <div class="formPic">
                         @if(empty($userData->upicture))
-                            <img src="{{ asset('pic/admin.png') }}" alt="">
+                            <img src="{{ asset('pic/admin.png') }}">
                         @else
                             <img class="headDivPic" src="{{$userData->upicture}}">
                         @endif
@@ -164,40 +164,35 @@
                         <p>{{$userData->name}} ></p>
                     </div>
                     @endforeach
-                    <textarea name="feelcom" id="" cols="30" rows="10" placeholder="你需要先登入才能留言喔～" disabled></textarea>
+                    <textarea name="feelcom" id="feelcom" cols="30" rows="10" placeholder="你需要先登入才能留言喔～" disabled></textarea>
                     <input type="button" value="-送出-">
                 </form>
                 @endif
             </div>
         </div>
-        <div class="column2">
-            <aside>
+
+        <aside class="column2">
                 <h1>-最新文章-</h1>
                 @foreach($datas as $data)
-                <a href="{{route('fedetail',[ 'id'=> $data->fid ] )}}" class="linking">
+                <a href="{{route('fedetail',[ 'id'=> $data->fid ] )}}" class="linking2">
                     <div class="article2">
                         <div class="article2Con">                       
-                            <h4>{{$data->title}}</h4>                     
+                            <h3>{{$data->title}}</h3>                     
                             <div class="new">
-                            @if(empty($data->upicture))
-                                <img class="newpic" src="{{ asset('pic/admin.png') }}" alt="">
-                            @else
-                                <img class="newpic" src="{{$data->upicture}}">
-                            @endif                       
-                                <span class="newname">{{$data->name}}</span>
-                                <br>
-                                <br>
-                                <span class="newtime">{{$data->createtime}}</span>
+                                @if(empty($data->upicture))
+                                    <img class="newpic" src="{{ asset('pic/admin.png') }}" alt="">
+                                @else
+                                    <img class="newpic" src="{{$data->upicture}}">
+                                @endif                       
+                                <span class="newname">{{$data->name}}</span><br />
+                                <span class="newtime">{{$data->date}}</span>
                             </div>
-                            <!-- <p>作者：{{$data->name}}</p> -->
                         </div>
                     </div>
                 </a>
                 @endforeach
-            </aside>
-        </div>
+        </aside>
     </div>
 </div>
-<div class="abcc"></div>
 
 @endsection

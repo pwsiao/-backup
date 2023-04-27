@@ -2,7 +2,7 @@
 
 
 @section('head')
-<title>論壇</title>
+<title>論壇討論串發表/留言紀錄 | 與山同行</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <link rel="stylesheet" href="{{asset('css/member-all.css')}}">
 <link rel="stylesheet" href="{{asset('css/forum.css')}}">
@@ -26,26 +26,29 @@
                 <h2>我的討論串</h2>
                 @if(count($forumList) > 0)
                     @foreach($forumList as $forumArticle)
-                    <div class="article">
+                    <div class="editArticle">
                         <div class="articleDate">
                             {{ $forumArticle->date }}
                         </div>
                         <div class="articleTitle">
                             @if( !$forumArticle->state)
-                            <span>[草稿]</span>
+                            <span>[草稿]</span>&nbsp;
                             @endif
                             {{ $forumArticle->title }}
                         </div>
                         <div class="buttons">
+                            @if( $forumArticle->state )
+                            <a href="{{route('fodetail',[ 'sfid'=>$forumArticle->sfid, 'foid'=>$forumArticle->foid ] )}}"><button name="" id="" class="operate" type="submit">查看</button></a>
+                            @endif
                             <form method="POST" action="{{ route('editForum') }}">
                                 @csrf
-                                <input type="submit" name="" id="" class="operate" value="編輯">
+                                <button type="submit" name="" id="" class="operate">編輯</button>
                                 <input type="hidden" name="foid" value="{{ $forumArticle->foid }}">
                             </form>
                             <form method="POST" action="{{ route('delForum', ['foid' => $forumArticle->foid]) }}" onsubmit="return confirm('確定要刪除嗎？')">
                                 @csrf
                                 @method('DELETE')
-                                <input type="submit" name="" id="" class="operate" value="刪除">
+                                <button type="submit" name="" id="" class="operate">刪除</button>
                             </form>
                         </div>
                     </div>
@@ -62,16 +65,19 @@
                 <h2>我的留言</h2>
                 @if(count($forumComments) > 0)
                     @foreach($forumComments as $forumComment)
-                    <div class="article">
+                    <div class="viewArticle">
                         <div class="articleDate">
                             {{ $forumComment->date }}
                         </div>
-                        <div class="articleTitle">
-                            {{ $forumComment->title }}<br>
-                            {{ $forumComment->forumComment }}
+                        <div class="articleTitleComment">
+                            <div class="articleTitle">{{ $forumComment->title }}</div>
+                            <div class="articleComment">
+                                留言內容：<br />
+                                {{ $forumComment->forumComment }}
+                            </div>
                         </div>
                         <div class="buttons">
-                            <input type="button" name="" id="" class="operate" value="檢視文章" onclick="location.href='{{ route('fodetail', ['foid'=>$forumComment->foid, 'sfid'=>$forumComment->sfid]) }}'">
+                            <a href="{{route('fodetail',[ 'sfid'=>$forumArticle->sfid, 'foid'=>$forumArticle->foid ] )}}"><button type="button" name="" id="" class="operate">檢視文章</button></a>
                         </div>
                     </div>
                     @endforeach

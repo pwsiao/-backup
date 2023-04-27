@@ -246,6 +246,28 @@ textarea:focus {
     margin-left: 5px;
 }
 
+.bi-pencil-square, .bi-trash3 {
+    /* position: relative; 
+    top: -30px; */
+    font-size: 20px;
+    color: #664c43;
+    cursor: pointer;
+    /* margin-left: 500px; */
+}
+
+.icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 89%;
+    position: relative;
+    top: -60px;
+}
+
+.editbt {
+    margin-left: 25%;
+}
+
 
 /* 側邊欄 */
 

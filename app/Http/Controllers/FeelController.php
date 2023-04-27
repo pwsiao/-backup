@@ -11,8 +11,6 @@ use App\Notifications\FeelCommentNotice;
 use App\Models\User;
 
 
-
-
 class FeelController extends Controller
 {
     private $model;

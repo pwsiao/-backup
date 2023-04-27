@@ -14,16 +14,21 @@
 
 h2 {
     text-align: center;
+    color: #664c43;
+    margin: 10px 0;
 }
 
-hr {
-    width: 80%;
-    margin: 30px auto;
-}
-
-#info, #changePwd {
+#info,
+#changePwd {
     line-height: 50px;
     margin: 0 70px;
+}
+
+.formLabel {
+    width: 130px;
+    display: inline-block;
+    text-align: right;
+    margin: 10px 0;
 }
 
 #icon {
@@ -38,13 +43,36 @@ hr {
 #iconImg {
     object-fit: cover;
     object-position: center;
-    height:100px;
+    height: 100px;
     width: 100px;
     border-radius: 50%;
+    vertical-align: middle;
+    margin: 10px 0;
 }
 
-textarea {
-    width: 90%;
+.image {
+    width: 100px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="password"] {
+    font-size: 20px;
+    padding: 10px;
+    vertical-align: middle;
+    border: 1px solid #D8DDCF;
+    border-radius: 10px;
+}
+
+#about {
+    width: 70%;
+    vertical-align: middle;
+    margin: 10px 0;
+    font-size: 20px;
+    padding: 10px;
+    border: 1px solid #D8DDCF;
+    border-radius: 10px;
 }
 
 .memberIcon {
@@ -53,14 +81,47 @@ textarea {
     border-radius: 50%;
 }
 
-@media screen and (max-width: 1199px) {
+.saveChange {
+    background-color: #D8DDCF;
+    border-radius: 10px;
+    color: #664c43;
+    padding: 10px 10px;
+    border: 1px solid #4B3730;
+    cursor: pointer;
+    width: 30%;
+    font-size: 20px;
+    display: block;
+    margin: 20px auto;
+    transition: 0.4s;
 }
 
+.saveChange:hover {
+    background-color: #b1bba0;
+}
+
+
+@media screen and (max-width: 1199px) {}
+
 @media screen and (max-width: 800px) {
-    #info {
-        margin-left: 30px;
+    #info,
+    #changePwd {
+        margin: 0 30px;
+    }
+
+    .formLabel {
+        width: fit-content;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="password"] {
+        width: 100%;
+    }
+
+    #about {
+        width: 100%;
     }
 }
 
-@media screen and (max-width: 600px) {
-}
+@media screen and (max-width: 600px) {}

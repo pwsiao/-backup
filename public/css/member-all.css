@@ -10,6 +10,17 @@ h1 {
     font-size: 48px;
 }
 
+h2 {
+    text-align: center;
+    color: #664c43;
+    margin: 30px 0;
+}
+
+hr {
+    width: 80%;
+    margin: 30px auto;
+}
+
 #mainContent {
     width: 90%;
     display: flex;
@@ -30,6 +41,7 @@ h1 {
     border: 1px solid #4B3730;
     height: fit-content;
     min-width: 200px;
+    border-radius: 10px;
 }
 
 #leftBar ul {
@@ -41,6 +53,17 @@ h1 {
     list-style-type: none;
     line-height: 50px;
     padding-left: 20px;
+    transition: 0.4s;
+}
+
+#leftBar li:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#leftBar li:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 #leftBar li:hover {
@@ -62,6 +85,7 @@ h1 {
     width: 90%;
     border: 1px solid #4B3730;
     margin-bottom: 30px;
+    border-radius: 10px;
 }
 
 #mobileLeftBar ul {
@@ -69,14 +93,32 @@ h1 {
     justify-content: space-around;
     padding: 0;
     margin: 0;
+        transition: 0.4s;
+
 }
 
 #mobileLeftBar li {
     float: left;
     list-style-type: none;
     width: 20%;
-    line-height: 50px;
+    /* line-height: 50px; */
     text-align: center;
+    white-space:pre-wrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0;
+    transition: 0.4s;
+}
+
+#mobileLeftBar li:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+#mobileLeftBar li:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 #mobileLeftBar li:hover {
@@ -96,6 +138,9 @@ h1 {
     width: 100%;
     font-size: 24px;
     margin: 20px 0;
+    padding: 10px 0;
+    border-radius: 10px;
+    transition: 0.4s;
 }
 
 #logoutBtn:hover {
@@ -106,23 +151,87 @@ h1 {
     width: 70%;
     margin-bottom: 70px;
     border: 1px solid #4B3730;
-    padding: 30px 0;
+    padding: 20px 0;
+    border-radius: 10px;
 }
 
 .buttons {
-    width: 30%;
+    width: 40%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .operate {
-    width: 80px;
-    margin: 0 10px;
+    width: fit-content;
+    margin: 5px;
+    padding: 10px;
     border: 1px solid #664c43;
     color: #664c43;
-    background-color: #ECEEE7;
+    background-color: #F8F6F2;
     font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.operate:hover {
+    background-color: #D8DDCF; 
+}
+
+/* for feel, forum, save */
+.article,
+.editArticle,
+.viewArticle {
+    display: flex;
+    align-items: center;
+    background-color: #D8DDCF;
+    margin: 10px auto;
+    padding: 15px 20px;
+    border-radius: 10px;
+}
+
+.articleDate {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    text-align: center;
+}
+
+.articleTitle {
+    width: 50%;
+    padding: 0 5px 0 20px;
+}
+
+.editArticle .operate:hover,
+.viewArticle .operate:hover {
+    background-color: #B1BBA0; 
+}
+
+.articleTitleComment {
+    width: 70%;
+}
+
+.articleTitleComment .articleTitle{
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.articleComment {
+    font-size: 18px;
+    display: flex;
+    justify-content: left;
+    padding: 0 5px 0 20px;
+}
+
+.viewArticle .buttons {
+    width: 20%;
+}
+
+.article a {
+    /* text-decoration: none; */
+    color: #664c43;
 }
 
 @media screen and (max-width: 1199px) {}

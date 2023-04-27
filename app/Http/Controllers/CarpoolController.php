@@ -135,6 +135,7 @@ class CarpoolController extends Controller
         $searchresult = DB::table('carpool_list1')
                 ->leftJoin('users','carpool_list1.uid','=','users.id')
                 ->where('cptitle', 'REGEXP', $req->search)
+                ->orderBy('createtime','desc')
                 ->get();  
                 
         // dd($searchresult);        
@@ -187,8 +188,21 @@ class CarpoolController extends Controller
         return redirect("/carpool/info/{$cpid}");
     }
 
+    //編輯留言
+    public function editcomment(Request $req){
+        $content = $req->content;
+        DB::update("update carpool_comment set content = ? where cpcid = ?", [$content, $req->cpcid]);
+        return redirect()->back();
+    }
 
-    //編輯頁面 /member
+    //刪除留言
+    public function deletecomment(Request $req){
+        DB::delete("delete from carpool_comment where cpcid = ?",[$req->cpcid]);
+        return redirect()->back();
+    }
+
+
+    //編輯的頁面 /member
     public function edit(Request $req){
         $cp = CpList::find($req->cpid);
         // dd($req->cpid);
@@ -280,7 +294,17 @@ class CarpoolController extends Controller
                             order by departdate desc',[$uid, $uid]); 
         
         // dd(json_decode($cp2));
-        // dd($joiner2);
+
+        //我的留言
+        $cp5 = DB::table('carpool_comment')
+                        ->leftJoin('carpool_list1','carpool_comment.cpid','=','carpool_list1.cpid')
+                        ->select('*', DB::raw('Date(carpool_comment.createtime) as date'))
+                        ->where('carpool_comment.uid', $uid)
+                        ->orderBy('carpool_comment.createtime','desc')
+                        ->get();
+
+
+        // dd($cp5);
         return view('member.carpool', [
             'cp'=> $cp,
             'joiner' => $joiner,
@@ -288,6 +312,7 @@ class CarpoolController extends Controller
             'joiner2'=>$joiner2,
             'cp3'=>$cp3,
             'cp4'=>$cp4,
+            'cp5'=>$cp5,
         ]);
     }
 

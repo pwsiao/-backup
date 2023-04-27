@@ -2,9 +2,8 @@
 
 
 @section('head')
-<title>心得首頁</title>
+<title>登山心得 | 與山同行</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-<link rel="stylesheet" href="{{ asset('css/ftest.css') }}">
 <link rel="stylesheet" href="{{ asset('css/feelIndex.css') }}">
 
 @endsection
@@ -14,20 +13,18 @@
 <div id="content-container">
     <div class="row">
         <div class="column1">
+            <h1>心得</h1>
             @auth
                 <button id="btPublish" onclick="window.location.href = '{{ route('femes')}}'">
                     發文
                 </button>
             @endauth
-            <div class="abcc"></div>
-            <h1>心得</h1>
             <div>
-                <form class="example" type="get" action="{{ route('feindex') }}">
-                    <input type="text" placeholder="輸入關鍵字" name="search" id="search-input" value="{{$search}}">
-                    <button type="submit" id="searchbt">搜索</button>
-                </form>
-                <br>
                 <div id="articles">
+                    <form class="example" type="get" action="{{ route('feindex') }}">
+                        <input type="text" placeholder="輸入關鍵字" name="search" id="search-input" value="{{$search}}">
+                        <button type="submit" id="searchbt">搜索</button>
+                    </form>    
                     @if(isset($outputs))
                         @foreach($outputs as $output)
                         <a href="{{route('fedetail',[ 'id'=> $output->fid ] )}}" class="linking">
@@ -36,9 +33,9 @@
                                     <img src="{{$output->fpicture}}">
                                 </div>
                                 <div class="articleCon">                            
-                                    <h4 class="searchtitle">{{$output->title}}</h4>
-                                    <h5>作者：{{$output->name}}</h5>
-                                    <h5>發布日期：{{$output->createtime}}</h5>
+                                    <h2 class="searchtitle">{{$output->title}}</h2>
+                                    <p>作者：{{$output->name}}</p>
+                                    <p>發布日期：{{$output->date}}</p>
                                 </div>
                             </div>
                         </a>
@@ -59,7 +56,7 @@
                                 <div class="articleCon">
                                         <h4 class="searchtitle">{{$data->title}}</h4>                              
                                     <h5>作者：{{$data->name}}</h5>
-                                    <h5>發布日期：{{$data->createtime}}</h5>
+                                    <h5>發布日期：{{$data->date}}</h5>
                                 </div>
                             </div>
                         </a>
@@ -86,10 +83,8 @@
                             @else
                                 <img class="newpic" src="{{$data->upicture}}">
                             @endif                               
-                            <span class="newname">{{$data->name}}</span>
-                            <br>
-                            <br>
-                            <span class="newtime">{{$data->createtime}}</span>
+                            <span class="newname">{{$data->name}}</span><br />
+                            <span class="newtime">{{$data->date}}</span>
                         </div>
                     </div>
                 </div>
@@ -98,6 +93,5 @@
         </aside>
     </div>
 </div>
-<div class="abc"></div>
 
 @endsection

@@ -18,6 +18,7 @@ class MyModel extends Model
     function feelIndex(){
         $datas = DB::table('Feel_list')
                 ->leftJoin('users', 'Feel_list.uid', '=', 'users.id')
+                ->select('*', DB::raw('Date(Feel_list.createtime) as date'))
                 ->where('state','=','1')
                 ->orderByDesc('Feel_list.createtime')
                 ->paginate(10);
@@ -26,6 +27,7 @@ class MyModel extends Model
     function feelnew($ftid){
         $datas = DB::table('Feel_list')
                 ->leftJoin('users', 'Feel_list.uid', '=', 'users.id')
+                ->select('*', DB::raw('Date(Feel_list.createtime) as date'))
                 ->where('state','=','1')
                 ->where('fid','<>',$ftid)
                 ->orderByDesc('Feel_list.createtime')
@@ -46,6 +48,7 @@ class MyModel extends Model
     function feelSearch($search){
         $outputs = DB::table('Feel_list')
         ->leftJoin('users', 'Feel_list.uid', '=', 'users.id')
+        ->select('*', DB::raw('Date(Feel_list.createtime) as date'))
         ->where('title', 'REGEXP', $search)
         ->where('state','=','1')
         ->orderByDesc('Feel_list.createtime')
@@ -60,7 +63,7 @@ class MyModel extends Model
         return $datas;
     }
     function feelDetail($id){
-        $datas = DB::select("select * from Feel_list left join users on Feel_list.uid = users.id where Feel_list.fid = ?",[$id]);
+        $datas = DB::select("select *, Date(createtime) as date from Feel_list left join users on Feel_list.uid = users.id where Feel_list.fid = ?",[$id]);
         return $datas;
     }
     function feelComment($id){
@@ -199,7 +202,7 @@ class MyModel extends Model
     }
 
     function forumDetail($sid,$foid){
-        $datas = DB::select("select uid,fpicture,name,title,Forum_list.createtime,upicture,Forum_list.content as content from Forum_list left join users on Forum_list.uid = users.id where Forum_list.sfid = ? and Forum_list.foid = ? ",[$sid, $foid]);
+        $datas = DB::select("select uid, fpicture, name, title, Forum_list.createtime, upicture, Forum_list.content as content from Forum_list left join users on Forum_list.uid = users.id where Forum_list.sfid = ? and Forum_list.foid = ? ",[$sid, $foid]);
         return $datas;
     }
 

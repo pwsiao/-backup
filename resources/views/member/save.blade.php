@@ -2,7 +2,7 @@
 
 
 @section('head')
-<title>收藏</title>
+<title>心得/討論串收藏 | 個人頁面</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <link rel="stylesheet" href="{{asset('css/member-all.css')}}">
 <link rel="stylesheet" href="{{asset('css/save.css')}}">
@@ -26,7 +26,7 @@
                 <h2>心得</h2>
                 @if(count($feelSaveList) > 0)
                 @foreach($feelSaveList as $feelSaveArticle)
-                <div class="article">
+                <div class="viewArticle">
                     <div class="articleDate">
                         {{ $feelSaveArticle->date }}
                     </div>
@@ -34,7 +34,7 @@
                         {{ $feelSaveArticle->title }}<br>
                     </div>
                     <div class="buttons">
-                        <input type="button" name="" id="" class="operate" value="檢視文章" onclick="location.href='{{ route('fedetail', ['id'=>$feelSaveArticle->fid]) }}'">
+                        <a href="{{ route('fedetail', ['id'=>$feelSaveArticle->fid]) }}"><button type="button" name="" id="" class="operate">檢視文章</button></a>
                     </div>
                 </div>
                 @endforeach
@@ -51,7 +51,7 @@
                 <h2>論壇</h2>
                 @if(count($forumSaveList) > 0)
                 @foreach($forumSaveList as $forumSaveArticle)
-                <div class="article">
+                <div class="viewArticle">
                     <div class="articleDate">
                         {{ $forumSaveArticle->date }}
                     </div>
@@ -59,11 +59,12 @@
                         {{ $forumSaveArticle->title }}<br>
                     </div>
                     <div class="buttons">
-                        <form method="post" action="{{ route('goToForum') }}">
+                        {{-- <form method="post" action="{{ route('goToForum') }}">
                             @csrf
-                            <input type="submit" name="" id="" class="operate" value="檢視文章">
+                            <button type="submit" name="" id="" class="operate">檢視文章</button>
                             <input type="hidden" name="foid" value="{{ $forumSaveArticle->foid }}">
-                        </form>
+                        </form> --}}
+                        <a href="{{route('fodetail',[ 'sfid'=>$forumSaveArticle->sfid, 'foid'=>$forumSaveArticle->foid ] )}}"><button type="button" name="" id="" class="operate">檢視文章</button></a>
                     </div>
                 </div>
                 @endforeach
