@@ -178,7 +178,6 @@
 
 
     <div id="content-container">
-        <br>
         <h1 id="carpool-title">拼車</h1>
         <div id="carpool-link">
             @if(Auth::check())
@@ -212,6 +211,12 @@
                 </div>
 
                 <div id="carpool-list" class="tabcontent" style="text-align: center;">
+                    <div class="titleDiv">
+                        <span>出發日期</span>
+                        <span>團名</span>
+                        <span>開團人</span>
+                        <span>人數</span>
+                    </div>
                 @if(count($searchresult) > 0)    
                     @foreach($searchresult as $cp)
                         <a href="{{route('cpinfo',[ 'cpid'=>$cp->cpid ] )}}">

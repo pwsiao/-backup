@@ -14,7 +14,7 @@
 
 <body>
     <div id="container">
-        <div>    
+        <div id="notice">    
             <h2>通知</h2>
             @if(count($notice) > 0)
                 @foreach($notice as $n)

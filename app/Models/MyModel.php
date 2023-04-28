@@ -138,7 +138,7 @@ class MyModel extends Model
     function forumQSearch($search){
         $Qoutputs  = DB::table('Forum_list')
         ->leftJoin('users', 'Forum_list.uid', '=', 'users.id')
-        ->select('fpicture', 'foid', 'title', 'name', 'Forum_list.createtime as createtime')
+        ->select('fpicture', 'foid', 'title', 'name', DB::raw('Date(Forum_list.createtime) as date'))
         ->where('Forum_list.sfid', '=', 1)
         ->where('state','=','1')
         ->where('title', 'REGEXP', $search)
@@ -165,7 +165,7 @@ class MyModel extends Model
     function forumGSearch($search){
         $Goutputs  = DB::table('Forum_list')
         ->leftJoin('users', 'Forum_list.uid', '=', 'users.id')
-        ->select('fpicture', 'foid', 'title', 'name', 'Forum_list.createtime as createtime')
+        ->select('fpicture', 'foid', 'title', 'name', DB::raw('Date(Forum_list.createtime) as date'))
         ->where('Forum_list.sfid', '=', 2)
         ->where('state','=','1')
         ->where('title', 'REGEXP', $search)
@@ -192,7 +192,7 @@ class MyModel extends Model
     function forumHSearch($search){
         $Houtputs  = DB::table('Forum_list')
         ->leftJoin('users', 'Forum_list.uid', '=', 'users.id')
-        ->select('fpicture', 'foid', 'title', 'name', 'Forum_list.createtime as createtime')
+        ->select('fpicture', 'foid', 'title', 'name', DB::raw('Date(Forum_list.createtime) as date'))
         ->where('Forum_list.sfid', '=', 3)
         ->where('title', 'REGEXP', $search)
         ->where('state','=','1')
@@ -202,7 +202,7 @@ class MyModel extends Model
     }
 
     function forumDetail($sid,$foid){
-        $datas = DB::select("select uid, fpicture, name, title, Forum_list.createtime, upicture, Forum_list.content as content from Forum_list left join users on Forum_list.uid = users.id where Forum_list.sfid = ? and Forum_list.foid = ? ",[$sid, $foid]);
+        $datas = DB::select("select uid, fpicture, name, title, Date(Forum_list.createtime) as date, upicture, Forum_list.content as content from Forum_list left join users on Forum_list.uid = users.id where Forum_list.sfid = ? and Forum_list.foid = ? ",[$sid, $foid]);
         return $datas;
     }
 
@@ -217,7 +217,7 @@ class MyModel extends Model
     }
 
     function forumNew($sid,$foid){
-        $forumNews = DB::select("select * from Forum_list left join users on Forum_list.uid = users.id where Forum_list.sfid = ? and state = 1 and Forum_list.foid <> ? order by Forum_list.createtime DESC LIMIT 13",[$sid,$foid]);
+        $forumNews = DB::select("select *, Date(createtime) as date from Forum_list left join users on Forum_list.uid = users.id where state = 1 and Forum_list.foid <> ? order by Forum_list.createtime DESC LIMIT 10",[$foid]);
         return $forumNews;
     }
 

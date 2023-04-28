@@ -13,7 +13,7 @@ Route::get('/feelMessage', [FeelController::class,'getuserpic'])->name('femes');
 
 Route::post('/feelCom/{ftid}',[FeelController::class,'feelCom'])->name('feelcom');
 
-Route::post('/feelComEdit/{fcid}',[FeelController::class,'feelComEdit'])->name('feelcomedit');
+Route::post('/feelComEdit',[FeelController::class,'feelComEdit'])->name('feelcomedit');
 
 Route::get('/feelComDelect/{fcid}',[FeelController::class,'feelComDelect'])->name('feelcomdelect');
 

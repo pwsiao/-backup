@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\CpList;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,16 +10,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class JoinNotice extends Mailable
+class ConfirmJoinMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(protected $joiner, protected $joineremail)
+    public function __construct(protected $email, protected $poster)
     {
-        
+        //
     }
 
     /**
@@ -27,7 +28,7 @@ class JoinNotice extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '與山同行 欲加入請確認',
+            subject: '與山同行 確認已加入共乘',
         );
     }
 
@@ -37,10 +38,10 @@ class JoinNotice extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'carpool.joinemail',
+            view: 'carpool.confirmjoinmail',
             with:[
-                'joiner' => $this->joiner,
-                'joineremail'=> $this->joineremail,
+                'poster' => $this->poster,
+                'email'=> $this->email,
             ],
         );
     }

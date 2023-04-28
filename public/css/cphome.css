@@ -1,17 +1,18 @@
 /* cphome搜索匡 */
-form {
+form.example {
     width: 50%;
-    margin-left: 50%;
-    margin-top: 50px;
-    transform: translate(-50%,-50%);
+    margin: 20px auto 0 auto;
+    display: flex;
+    justify-content: center;
 }
+
 form.example input[type="text"] {
     padding: 10px;
     font-size: 20px;
     border: 1px solid rgb(170, 164, 164);
-    float: left;
     width: 60%;
     background: white;
+    border-radius: 10px 0 0 10px;
 }
 
 form.example button {
@@ -24,6 +25,7 @@ form.example button {
     border: 1px solid grey;
     border-left: none;
     cursor: pointer;
+    border-radius: 0 10px 10px 0;
 }
 
 form.example button:hover {

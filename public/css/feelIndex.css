@@ -44,18 +44,6 @@ h1 {
     background-color: #B1BBA0;
 }
 
-#articles {
-    background-color: #d8ddcf;
-    width: 100%;
-    padding: 30px;
-    margin-top: 40px;
-    border-radius: 20px;
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-}
-
 /* 搜索框 */
 form {
     width: 80%;
@@ -93,6 +81,23 @@ form.example button:hover {
 }
 
 /* 文章列表 */
+#articles {
+    background-color: #d8ddcf;
+    width: 100%;
+    padding: 30px;
+    margin-top: 40px;
+    border-radius: 20px;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.linking{
+    text-decoration: none;
+    color: #333;
+}
+
 .article {
     background-color: #f8f6f2;
     font-size: 20px;
@@ -165,7 +170,6 @@ form.example button:hover {
 
     display: flex;
     justify-content: center;
-
 }
 
 .pagination a {
@@ -173,7 +177,7 @@ form.example button:hover {
     text-decoration: none;
 }
 
-.page-item{
+.page-item {
     margin: 0 10px;
 }
 
@@ -185,11 +189,6 @@ form.example button:hover {
     height: 30px;
     margin: 0;
     text-align: center;
-}
-
-.linking{
-    text-decoration: none;
-    color: #333;
 }
 
 /* 側邊欄 */

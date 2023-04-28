@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Redirect;
 
 use Illuminate\Http\RedirectResponse;
 use App\Mail\JoinNotice;
+use App\Mail\ConfirmJoinMail;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Mail;
 use App\Notifications\WannajoinNotice;
@@ -161,10 +162,11 @@ class CarpoolController extends Controller
         $poster = CpList::find($cpid);
         // dd($poster->poster['id']);
         
-        Mail::to($poster->poster['email'])->send(new JoinNotice());
-
         $user = User::find($poster->poster['id']);
         $joiner = Auth::user()->name;
+        $joineremail = Auth::user()->email;
+        Mail::to($poster->poster['email'])->send(new JoinNotice($joiner, $joineremail));
+
         $cptitle = $poster->cptitle;
         $user->notify(new WannajoinNotice($joiner, $cptitle));
         
@@ -188,14 +190,14 @@ class CarpoolController extends Controller
         return redirect("/carpool/info/{$cpid}");
     }
 
-    //編輯留言
+    //編輯留言 /cpinfo
     public function editcomment(Request $req){
         $content = $req->content;
         DB::update("update carpool_comment set content = ? where cpcid = ?", [$content, $req->cpcid]);
         return redirect()->back();
     }
 
-    //刪除留言
+    //刪除留言 /cpinfo
     public function deletecomment(Request $req){
         DB::delete("delete from carpool_comment where cpcid = ?",[$req->cpcid]);
         return redirect()->back();
@@ -241,6 +243,7 @@ class CarpoolController extends Controller
     //刪除 /member
     public function delete(Request $req){
         CpList::where('cpid', $req->cpid)->delete();
+        DB::table('carpool_comment')->where('cpid', $req->cpid)->delete();
         return redirect(route('mbcp'));
     }
     
@@ -326,10 +329,16 @@ class CarpoolController extends Controller
         DB::update('update carpool_join set status = ? where uid = ? and cpid = ?',[$value, $joiner, $cpid]);
 
         $user = User::find($joiner);
+        $joineremail = $user->email;
         $poster = Auth::user()->name;
-        $cptitle = CpList::find($cpid)->cptitle;
+        $cp = CpList::find($cpid);
+        $cptitle = $cp->cptitle;
         if($value == 1){
             $user->notify(new ConfirmJoinNotice($poster, $cptitle));
+
+        
+            Mail::to($joineremail)->send(new ConfirmJoinMail($cp->poster['email'], $poster));
+
         }else{
             $user->notify(new DeclineJoinNotice($poster, $cptitle));
         }

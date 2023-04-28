@@ -18,7 +18,7 @@ class CheckReturnDate
 
     if (strtotime( $request->returndate1) < strtotime( $request->departdate1)) {
       // die("<script> alert('ok') </script> ");
-      return response("<script> alert('回程日期不得早於出發日期喔') </script> ");
+      return response("<script> alert('回程日期不得早於出發日期喔') </script> ")->redirect()->back();
     }
 
     return $next($request);

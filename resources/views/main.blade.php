@@ -6,8 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-    <link rel="stylesheet" href="{{asset('css/NavFooter.css')}}">
-   
+    <link rel="stylesheet" href="{{ asset('css/NavFooter.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
     @yield('head')
 
 </head>
@@ -25,38 +26,39 @@
                 <li><a href="{{ route('feindex') }}">心得</a></li>
                 <li><a href="{{ route('foqindex') }}">論壇</a></li>
                 @if (Auth::check())
+                    <li><a href="#"><i class="bi bi-bell"></i></a></li>
                     <?php $user = Auth::user(); ?>
-                    @if(empty($user->upicture))
+                    @if (empty($user->upicture))
                         <li><a href="{{ route('mbinfo') }}"><img src="{{ asset('pic/admin.png') }}"></a></li>
                     @else
-                        <li><a href="{{ route('mbinfo') }}"><img src="{{ $user->upicture }}" ></a></li>
+                        <li><a href="{{ route('mbinfo') }}"><img src="{{ $user->upicture }}"></a></li>
                     @endif
                 @else
                     <li><a href="{{ route('login') }}"><img src="{{ asset('pic/admin.png') }}"></a></li>
                 @endif
-                
+
 
             </ul>
         </nav>
 
         <!-- navbar for mobile -->
         <nav id="mobileNavbar">
-            <div class="mobileLogo"><a href="index.html"><img src="{{ asset('img/logo-2.jpg') }}"></a></div>
+            <div class="mobileLogo"><a href="/"><img src="{{ asset('img/logo-2.jpg') }}"></a></div>
             <label id="hamburgerIcon" for="hamburgerInput">
                 <i class="bi bi-list"></i>
             </label>
             <input type="checkbox" id="hamburgerInput">
             <ul class="menuForMobile">
                 @if (Auth::check())
-                <?php $user = Auth::user(); ?>
-                @if(empty($user->upicture))
-                    <li><a href="{{ route('mbinfo') }}"><img src="{{ asset('pic/admin.png') }}"></a></li>
+                    <?php $user = Auth::user(); ?>
+                    @if (empty($user->upicture))
+                        <li><a href="{{ route('mbinfo') }}"><img src="{{ asset('pic/admin.png') }}"></a></li>
+                    @else
+                        <li><a href="{{ route('mbinfo') }}"><img src="{{ $user->upicture }}"></a></li>
+                    @endif
                 @else
-                    <li><a href="{{ route('mbinfo') }}"><img src="{{ $user->upicture }}" ></a></li>
+                    <li><a href="{{ route('login') }}"><img src="{{ asset('pic/admin.png') }}"></a></li>
                 @endif
-            @else
-                <li><a href="{{ route('login') }}"><img src="{{ asset('pic/admin.png') }}"></a></li>
-            @endif
                 <li><a href="{{ route('cphome') }}">拼車</a></li>
                 <li><a href="{{ route('feindex') }}">心得</a></li>
                 <li><a href="{{ route('foqindex') }}">論壇</a></li>

@@ -13,8 +13,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     <link rel="stylesheet" href="{{ asset('css/weather.css') }}">
-    <!-- <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script> -->
-
     <!-- <link rel="stylesheet" href="{{ asset('css/NavFooter.css') }}"> -->
     <title>與山同行</title>
 
@@ -27,6 +25,13 @@
             <a href="/"><img src="{{ asset('img/logo.jpg') }}" id="logoImg"></a>
             <div id="memberSection">
                 @if (Auth::check())
+                    <button class="noticeBell" onclick="shownotice()"><i class="bi bi-bell"></i></button>
+                    <?php $user = Auth::user(); ?>
+                    @if (empty($user->upicture))
+                        <a href="{{ route('mbinfo') }}"><img src="{{ asset('pic/admin.png') }}" class="memberIcon"></a>
+                    @else
+                        <a href="{{ route('mbinfo') }}"><img src="{{ $user->upicture }}" class="memberIcon"></a>
+                    @endif
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <x-dropdown-link :href="route('logout')"
@@ -36,17 +41,48 @@
                             {{ __('登出') }}
                         </x-dropdown-link>
                     </form>
-                    <?php $user = Auth::user(); ?>
-                    @if (empty($user->upicture))
-                        <a href="{{ route('mbinfo') }}"><img src="{{ asset('pic/admin.png') }}" class="memberIcon"></a>
-                    @else
-                        <a href="{{ route('mbinfo') }}"><img src="{{ $user->upicture }}" class="memberIcon"></a>
-                    @endif
                 @else
                     <a href="{{ route('login') }}"><button id="BtLogin">登入/註冊</button></a>
                 @endif
-            </div>        
+            </div>
         </div>
+
+        @if (Auth::check())
+        <div id="notice" style="display: none;">    
+            <h2>通知</h2>
+            @if(count($notice) > 0)
+                @foreach($notice as $n)
+                    @if($n->type == 'App\Notifications\WannajoinNotice')
+                        <span>[揪共乘] {{ $n->created_at}}</span><a href="{{ route('mbcp')}}">
+                        <p>"{{ $n->data['joiner'] }}"{{ $n->data['message'] }}&#60;{{ $n->data['cptitle'] }}&#62;</p></a>
+                    @elseif($n->type == 'App\Notifications\ConfirmJoinNotice')
+                        <span>[共乘確認] {{ $n->created_at}}</span><a href="{{ route('mbcp')}}">
+                        <p>"{{ $n->data['poster'] }}"{{ $n->data['message'] }}&#60;{{ $n->data['cptitle'] }}&#62;{{ $n->data['message2'] }}</p></a>
+                    @elseif($n->type == 'App\Notifications\DeclineJoinNotice')
+                        <span>[共乘確認] {{ $n->created_at}}</span><a href="{{ route('mbcp')}}">
+                        <p>"{{ $n->data['poster'] }}"{{ $n->data['message'] }}&#60;{{ $n->data['cptitle'] }}&#62;{{ $n->data['message2'] }}</p></a>
+                    @elseif($n->type == 'App\Notifications\CpcommentNotice')
+                        @if ($n->notifiable_id != $n->data['uid'])
+                            <span>[共乘留言] {{ $n->created_at}}</span><a href="{{ route('cpinfo',['cpid'=>$n->data['cpid'] ])}}">
+                            <p>"{{ $n->data['someone']}}"{{ $n->data['message'] }} &#60; {{ $n->data['cptitle'] }} &#62; {{ $n->data['message2'] }} "{{ $n->data['comment'] }}"</p></a>
+                        @endif
+                    @elseif($n->type == 'App\Notifications\FeelCommentNotice')
+                        @if ($n->notifiable_id != $n->data['uid'])
+                            <span>[心得留言] {{ $n->created_at}}</span><a href="{{ route('fedetail',['id'=>$n->data['ftid'] ])}}">
+                            <p>"{{ $n->data['someone']}}"{{ $n->data['message'] }} &#60; {{ $n->data['title'] }} &#62; {{ $n->data['message2'] }} "{{ $n->data['comment'] }}"</p></a>
+                        @endif
+                    @elseif($n->type == 'App\Notifications\ForumCommentNotice')
+                        @if ($n->notifiable_id != $n->data['uid'])
+                            <span>[論壇留言] {{ $n->created_at}}</span><a href="{{ route('fodetail',['sfid'=>$n->data['sfid'], 'foid'=>$n->data['foid'] ])}}">
+                            <p>"{{ $n->data['someone']}}"{{ $n->data['message'] }} &#60; {{ $n->data['title'] }} &#62; {{ $n->data['message2'] }} "{{ $n->data['comment'] }}"</p></a>
+                        @endif
+                    @endif    
+                @endforeach
+            @else
+                <p>沒有通知喔</p>
+            @endif
+        </div>
+        @endif
 
         <div id="section1">
             <a href="{{ route('cphome') }}" class="webFeature">
@@ -144,19 +180,19 @@
             <div class="sliderContainer">
                 <div class="slider responsive">
                     @foreach ($feeldatas as $data)
-                    <a href="{{ route('fedetail', ['id' => $data->fid]) }}">
-                        <div class="card">
-                            <img src=" {{ $data->fpicture }}" class="articlePic">
-                            <h5>{{ $data->title }}</h5>
-                            <p>作者：{{ $data->name }}</p>
-                            <p>發表日期：{{ $data->date }}</p>
-                            <div style="margin: 15px 0;">
-                            </div>
-                            {{-- <a href="{{ route('fedetail', ['id' => $data->fid]) }}">
+                        <a href="{{ route('fedetail', ['id' => $data->fid]) }}">
+                            <div class="card">
+                                <img src=" {{ $data->fpicture }}" class="articlePic">
+                                <h5>{{ $data->title }}</h5>
+                                <p>作者：{{ $data->name }}</p>
+                                <p>發表日期：{{ $data->date }}</p>
+                                <div style="margin: 15px 0;">
+                                </div>
+                                {{-- <a href="{{ route('fedetail', ['id' => $data->fid]) }}">
                                 <button>閱讀</button>
                             </a> --}}
-                        </div>
-                    </a>
+                            </div>
+                        </a>
                     @endforeach
                 </div>
             </div>
@@ -167,25 +203,35 @@
             <div class="sliderContainer">
                 <div class="slider responsive">
                     @foreach ($forumdatas as $data)
-                    <a href="{{ route('fodetail', ['sfid' => $data->sfid, 'foid' => $data->foid]) }}">
-                        <div class="card">
-                            <img src="{{ $data->fpicture }}" class="articlePic">
-                            <h5>{{ $data->title }}</h5>
-                            <p>作者：{{ $data->name }}</p>
-                            <p>發表日期：{{ $data->date }}</p>
-                            <div style="margin: 15px 0;">
-                            </div>
-                            {{-- <a href="{{ route('fodetail', ['sfid' => $data->sfid, 'foid' => $data->foid]) }}">
+                        <a href="{{ route('fodetail', ['sfid' => $data->sfid, 'foid' => $data->foid]) }}">
+                            <div class="card">
+                                <img src="{{ $data->fpicture }}" class="articlePic">
+                                <h5>{{ $data->title }}</h5>
+                                <p>作者：{{ $data->name }}</p>
+                                <p>發表日期：{{ $data->date }}</p>
+                                <div style="margin: 15px 0;">
+                                </div>
+                                {{-- <a href="{{ route('fodetail', ['sfid' => $data->sfid, 'foid' => $data->foid]) }}">
                                 <button>閱讀</button>
                             </a> --}}
-                        </div>
-                    </a>
+                            </div>
+                        </a>
                     @endforeach
                 </div>
             </div>
         </div>
         <!-- 輪播控制 -->
         <script src="{{ asset('js/index.js') }}"></script>
+        <script>
+            function shownotice() {
+                        var x = document.getElementById("notice");
+                        if (x.style.display === "none") {
+                            x.style.display = "block";
+                        } else {
+                            x.style.display = "none";
+                        }
+                    }
+        </script>
         <footer id="footer">
             <ul class="footerMenu">
                 <li><a href="{{ route('cphome') }}">拼車</a></li>
@@ -199,12 +245,12 @@
     <script>
         $.ajax({
             url: "/weather",
-            success: function (data) {
+            success: function(data) {
                 $("#mes").hide()
                 // var a = JSON.parse(data);
                 var b = data.cwbopendata.dataset.locations.location
 
-                getTable = function () {
+                getTable = function() {
                     let se1 = document.getElementById("se").value
                     document.getElementById("title").innerHTML = b[se1].locationName
                     let row1 = "<table><thead><tr><td class='t1'>日期</td>"
@@ -219,7 +265,8 @@
                     let x = []
                     var date = b[se1].weatherElement[0].time[0].dataTime.toString().substring(0, 10)
                     for (let i = 0; i < 10; i++) {
-                        if (b[se1].weatherElement[0].time[i].dataTime.toString().substring(0, 10) === date) {
+                        if (b[se1].weatherElement[0].time[i].dataTime.toString().substring(0, 10) ===
+                            date) {
                             x.push(1)
                         } else {
                             break
@@ -227,39 +274,54 @@
                     }
                     let y = x.length
                     let z = 6 - y
-                    
-                    row1 += `<td colspan =${y}>` + b[se1].weatherElement[0].time[0].dataTime.toString().substring(0, 10) + "</td>"
-                    let row1_2 = "<td colspan=8>" + b[se1].weatherElement[0].time[y].dataTime.toString().substring(0, 10) + "</td>"
-                    let row1_3 = "<td colspan=8>" + b[se1].weatherElement[0].time[y + 8].dataTime.toString().substring(0, 10) + "</td>"
-                    let row1_4 = "<td colspan=8>" + b[se1].weatherElement[0].time[y + 16].dataTime.toString().substring(0, 10) + "</td>"
-                    let row1_5 = `<td colspan =${z}>` + b[se1].weatherElement[0].time[29].dataTime.toString().substring(0, 10) + "</td>"
-                    let col = `<colgroup><col span=${y + 1} style='background-color:white;'><col span=8 style='background-color:rgb(201, 238, 252);'>
+
+                    row1 += `<td colspan =${y}>` + b[se1].weatherElement[0].time[0].dataTime.toString()
+                        .substring(0, 10) + "</td>"
+                    let row1_2 = "<td colspan=8>" + b[se1].weatherElement[0].time[y].dataTime.toString()
+                        .substring(0, 10) + "</td>"
+                    let row1_3 = "<td colspan=8>" + b[se1].weatherElement[0].time[y + 8].dataTime.toString()
+                        .substring(0, 10) + "</td>"
+                    let row1_4 = "<td colspan=8>" + b[se1].weatherElement[0].time[y + 16].dataTime
+                    .toString().substring(0, 10) + "</td>"
+                    let row1_5 = `<td colspan =${z}>` + b[se1].weatherElement[0].time[29].dataTime
+                    .toString().substring(0, 10) + "</td>"
+                    let col =
+                        `<colgroup><col span=${y + 1} style='background-color:white;'><col span=8 style='background-color:rgb(201, 238, 252);'>
                             <col span=8 style='background-color:white;'><col span=8 style='background-color:rgb(201, 238, 252);'></colgroup>`
 
                     for (let i = 0; i < 30; i++) {
-                        row2 += "<td>" + b[se1].weatherElement[0].time[i].dataTime.toString().substring(11, 16) + "</td>"
+                        row2 += "<td>" + b[se1].weatherElement[0].time[i].dataTime.toString().substring(11,
+                            16) + "</td>"
                         row3 += "<td>" + b[se1].weatherElement[0].time[i].elementValue.value + "°C</td>"
                         row5 += "<td>" + b[se1].weatherElement[5].time[i].elementValue.value + "</td>"
-                        row6 += "<td>" + b[se1].weatherElement[6].time[i].elementValue[0].value + "<span style='font-size:14px;'>m/s</span></td>"
+                        row6 += "<td>" + b[se1].weatherElement[6].time[i].elementValue[0].value +
+                            "<span style='font-size:14px;'>m/s</span></td>"
                         row7 += "<td>" + b[se1].weatherElement[9].time[i].elementValue[0].value + "</td>"
                         var time = b[se1].weatherElement[0].time[i].dataTime.toString().substring(11, 16)
                         var wx2 = b[se1].weatherElement[9].time[i].elementValue[1].value
                         if (time == "00:00" || time == "03:00" || time == "21:00" || time == "18:00") {
-                            row8 += "<td>" + `<img src="{{ asset('img/weathericon/${wx2}00-removebg-preview.png') }}">` + "</td>"
+                            row8 += "<td>" +
+                                `<img src="{{ asset('img/weathericon/${wx2}00-removebg-preview.png') }}">` +
+                                "</td>"
                         } else {
-                            row8 += "<td>" + `<img src="{{ asset('img/weathericon/${wx2}-removebg-preview.png') }}">` + "</td>"
+                            row8 += "<td>" +
+                                `<img src="{{ asset('img/weathericon/${wx2}-removebg-preview.png') }}">` +
+                                "</td>"
                         }
                     }
 
                     for (let i = 0; i < 15; i++) {
-                        row4 += "<td colspan=2>" + b[se1].weatherElement[3].time[i].elementValue.value + "%</td>"
+                        row4 += "<td colspan=2>" + b[se1].weatherElement[3].time[i].elementValue.value +
+                            "%</td>"
                     }
 
                     if (z <= 0) {
-                        table1 = row1 + row1_2 + row1_3 + row1_4 + "</tr></thead>" + row2 + "</tr>" + row3 + "</tr>" +
+                        table1 = row1 + row1_2 + row1_3 + row1_4 + "</tr></thead>" + row2 + "</tr>" + row3 +
+                            "</tr>" +
                             row4 + row6 + row5 + row7 + row8 + "</tr></tbody>" + col + "</table>"
                     } else {
-                        table1 = row1 + row1_2 + row1_3 + row1_4 + row1_5 + "</tr></thead>" + row2 + "</tr>" + row3 + "</tr>" +
+                        table1 = row1 + row1_2 + row1_3 + row1_4 + row1_5 + "</tr></thead>" + row2 +
+                            "</tr>" + row3 + "</tr>" +
                             row4 + row6 + row5 + row7 + row8 + "</tr></tbody>" + col + "</table>"
                     }
 
@@ -270,7 +332,6 @@
             }
         })
     </script>
-
 
 </body>
 

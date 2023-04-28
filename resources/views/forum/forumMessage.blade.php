@@ -12,13 +12,11 @@
 
 @section('content')
 <div id="content-container">
-            <br>
             <h1>論壇發表</h1>
             <div id="FormContainer">
                 <form method="post" action="{{route('forummes')}}" enctype="multipart/form-data" id="myForm">
                     @csrf
                     選擇封面：<br>
-                    <p></p>
                     <input type="file" id="photo-upload" name="pic" accept="image/*" required>
                     <div id="preview"></div>
                     <script src="{{asset('js/MesCanva.js')}}"></script>
@@ -29,9 +27,7 @@
                     <input type="radio" name="sfid" id="" value="3" required>黑特
                     <hr>
                     <input type="text" placeholder="輸入標題" name="title" minlength="5" maxlength="30" required>
-                    <br>
                     <textarea placeholder="輸入內容" name="content" minlength="10" required></textarea>
-                    <br><br>
                     <hr>
                     <div id="bt">
                         <button type="submit" value="0" name="btValue">儲存</button>
@@ -46,12 +42,6 @@
                     @endif
                 @endif
 
-
-
-
-                
-
             </div>
-            <br><br>
         </div>
 @endsection
