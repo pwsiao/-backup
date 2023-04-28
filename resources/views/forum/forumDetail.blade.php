@@ -19,7 +19,7 @@
                     @if(isset($articles))
                         @foreach($articles as $article)
                         <div>
-                            @if(empty($article1->upicture))
+                            @if(empty($article->upicture))
                                 <img src="{{ asset('pic/admin.png') }}" alt="">
                             @else
                                 <img src="{{$article->upicture}}">

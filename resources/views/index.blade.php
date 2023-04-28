@@ -12,6 +12,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/weather.css') }}">
+    <!-- <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script> -->
+
     <!-- <link rel="stylesheet" href="{{ asset('css/NavFooter.css') }}"> -->
     <title>與山同行</title>
 
@@ -75,6 +78,67 @@
             </a>
         </div>
 
+        <div id="weather">
+            <div class="row" style="width: 85%">
+                <div class="col-md-12">
+                    <form>
+                        <span>請選擇 &nbsp;:</span>
+                        <select name="" id="se">
+                            <optgroup label="雪山主東">
+                                <option value="102" selected>雪山主峰</option>
+                                <option value="5">雪山東峰</option>
+                            </optgroup>
+                            <optgroup label="合歡群峰">
+                                <option value="38">合歡北峰</option>
+                                <option value="55">合歡東峰</option>
+                            </optgroup>
+                            <optgroup label="奇萊南華">
+                                <option value="46">奇萊南峰</option>
+                            </optgroup>
+                            <optgroup label="嘉明湖步道">
+                                <option value="84">向陽山</option>
+                                <option value="81">三叉山</option>
+                            </optgroup>
+                            <optgroup label="玉山主峰">
+                                <option value="121">玉山主峰</option>
+                            </optgroup>
+                            <optgroup label="北大武山">
+                                <option value="96">北大武山</option>
+                            </optgroup>
+                            <optgroup label="南湖群峰">
+                                <option value="2">南湖大山</option>
+                                <option value="13">南湖東峰</option>
+                                <option value="18">南湖北山</option>
+                                <option value="20">審馬陣山</option>
+                            </optgroup>
+                            <optgroup label="大小霸尖山">
+                                <option value="101">大霸尖山</option>
+                                <option value="7">小霸尖山</option>
+                                <option value="112">伊澤山</option>
+                                <option value="100">審馬陣山</option>
+                            </optgroup>
+                            <optgroup label="南橫三星">
+                                <option value="92">塔關山</option>
+                                <option value="95">關山嶺山</option>
+                                <option value="87">庫哈諾辛山</option>
+                            </optgroup>
+                        </select>
+                        <button type="button" onclick=getTable() class="btn btn-outline-success">確定</button>
+                    </form>
+                </div>
+                <div class="col-md-12 mt-4 d-flex justify-content-center">
+                    <h1 id="title"></h1>
+                </div>
+                <div id="mes" style="text-align: center;">
+                    <img src="{{ asset('img/icons8-spinner.gif') }}" alt="" style="height: 50px;"> fetching
+                </div>
+                <div class="col-md-12">
+                    <div id="table1" class="tablesticky"></div>
+                </div>
+                <div class="col-md-12">資料來源:&nbsp;中央氣象局 &nbsp;&nbsp;&nbsp;&nbsp;更新頻率:&nbsp;每6小時</div>
+            </div>
+        </div>
+
         <div id="newFeel">
             <h2>最新心得</h2>
             <div class="sliderContainer">
@@ -131,6 +195,81 @@
             <div id="left">Copyright © 2023 與山同行/Mountogether Rights Reserved.</div>
         </footer>
     </div>
+
+    <script>
+        $.ajax({
+            url: "/weather",
+            success: function (data) {
+                $("#mes").hide()
+                // var a = JSON.parse(data);
+                var b = data.cwbopendata.dataset.locations.location
+
+                getTable = function () {
+                    let se1 = document.getElementById("se").value
+                    document.getElementById("title").innerHTML = b[se1].locationName
+                    let row1 = "<table><thead><tr><td class='t1'>日期</td>"
+                    let row2 = "<tbody><tr><td class='t1'>時間</td>"
+                    let row3 = "<tr><td class='t1'>溫度</td>"
+                    let row4 = "<tr><td class='t1'>降雨機率</td>"
+                    let row5 = "<tr><td class='t1'>風向</td>"
+                    let row6 = "<tr><td class='t1'>風速</td>"
+                    let row7 = "<tr><td rowspan=2 class='t1'>天氣狀況</td>"
+                    let row8 = "<tr>"
+
+                    let x = []
+                    var date = b[se1].weatherElement[0].time[0].dataTime.toString().substring(0, 10)
+                    for (let i = 0; i < 10; i++) {
+                        if (b[se1].weatherElement[0].time[i].dataTime.toString().substring(0, 10) === date) {
+                            x.push(1)
+                        } else {
+                            break
+                        }
+                    }
+                    let y = x.length
+                    let z = 6 - y
+                    
+                    row1 += `<td colspan =${y}>` + b[se1].weatherElement[0].time[0].dataTime.toString().substring(0, 10) + "</td>"
+                    let row1_2 = "<td colspan=8>" + b[se1].weatherElement[0].time[y].dataTime.toString().substring(0, 10) + "</td>"
+                    let row1_3 = "<td colspan=8>" + b[se1].weatherElement[0].time[y + 8].dataTime.toString().substring(0, 10) + "</td>"
+                    let row1_4 = "<td colspan=8>" + b[se1].weatherElement[0].time[y + 16].dataTime.toString().substring(0, 10) + "</td>"
+                    let row1_5 = `<td colspan =${z}>` + b[se1].weatherElement[0].time[29].dataTime.toString().substring(0, 10) + "</td>"
+                    let col = `<colgroup><col span=${y + 1} style='background-color:white;'><col span=8 style='background-color:rgb(201, 238, 252);'>
+                            <col span=8 style='background-color:white;'><col span=8 style='background-color:rgb(201, 238, 252);'></colgroup>`
+
+                    for (let i = 0; i < 30; i++) {
+                        row2 += "<td>" + b[se1].weatherElement[0].time[i].dataTime.toString().substring(11, 16) + "</td>"
+                        row3 += "<td>" + b[se1].weatherElement[0].time[i].elementValue.value + "°C</td>"
+                        row5 += "<td>" + b[se1].weatherElement[5].time[i].elementValue.value + "</td>"
+                        row6 += "<td>" + b[se1].weatherElement[6].time[i].elementValue[0].value + "<span style='font-size:14px;'>m/s</span></td>"
+                        row7 += "<td>" + b[se1].weatherElement[9].time[i].elementValue[0].value + "</td>"
+                        var time = b[se1].weatherElement[0].time[i].dataTime.toString().substring(11, 16)
+                        var wx2 = b[se1].weatherElement[9].time[i].elementValue[1].value
+                        if (time == "00:00" || time == "03:00" || time == "21:00" || time == "18:00") {
+                            row8 += "<td>" + `<img src="{{ asset('img/weathericon/${wx2}00-removebg-preview.png') }}">` + "</td>"
+                        } else {
+                            row8 += "<td>" + `<img src="{{ asset('img/weathericon/${wx2}-removebg-preview.png') }}">` + "</td>"
+                        }
+                    }
+
+                    for (let i = 0; i < 15; i++) {
+                        row4 += "<td colspan=2>" + b[se1].weatherElement[3].time[i].elementValue.value + "%</td>"
+                    }
+
+                    if (z <= 0) {
+                        table1 = row1 + row1_2 + row1_3 + row1_4 + "</tr></thead>" + row2 + "</tr>" + row3 + "</tr>" +
+                            row4 + row6 + row5 + row7 + row8 + "</tr></tbody>" + col + "</table>"
+                    } else {
+                        table1 = row1 + row1_2 + row1_3 + row1_4 + row1_5 + "</tr></thead>" + row2 + "</tr>" + row3 + "</tr>" +
+                            row4 + row6 + row5 + row7 + row8 + "</tr></tbody>" + col + "</table>"
+                    }
+
+                    document.getElementById("table1").innerHTML = table1
+                }
+
+                getTable()
+            }
+        })
+    </script>
 
 
 </body>

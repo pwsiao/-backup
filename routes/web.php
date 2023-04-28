@@ -8,6 +8,7 @@ use App\Http\Controllers\CarpoolController;
 
 // 首頁
 Route::get('/',[IndexController::class,'Index'])->name('home');
+Route::get('/weather',[IndexController::class,'getweather']);
 
 
 
